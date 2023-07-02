@@ -9,10 +9,10 @@ jobs:
   build:
     docker:
     - image: cimg/ruby:2.7-node
-    working_directory: ~/xplorenow-ny
+    working_directory: ~/xplorenow/src
     steps:
       - checkout:
-        path: ~/install-deps
+        path: ~/xplorenow-ny
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
