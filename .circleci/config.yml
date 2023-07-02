@@ -9,7 +9,7 @@ jobs:
   build:
     docker:
     - image: cimg/ruby:2.7-node
-    working_directory: ~/xplorenow/src
+    working_directory: ~/xplorenow-ny/src
     steps:
       - checkout
       - ruby/install-deps
@@ -49,7 +49,7 @@ jobs:
       BUNDLE_RETRY: "3"
       APP_DATABASE_HOST: "127.0.0.1"
       RAILS_ENV: test
-    working_directory: ~/xplorenow-ny/src
+    working_directory: ~/xplorenow/src
     steps:
       - browser-tools/install-browser-tools
       - checkout
