@@ -1,4 +1,4 @@
-vversion: 2.1
+version: 2.1
 orbs:
   ruby: circleci/ruby@1.1.2
   node: circleci/node@2
@@ -12,7 +12,7 @@ jobs:
     steps:
       - checkout:
         path: ~/xplorenow-ny
-      - ruby/install-deps
+      - ruby/install-packages
       - node/install-packages:
           pkg-manager: yarn
           cache-key: "yarn.lock"
@@ -28,8 +28,8 @@ jobs:
     working_directory: ~/xplorenow/src
     steps:
       - checkout:
-        path: ~/xplorenow-ny
-      - ruby/install-deps
+          path: ~/xplorenow-ny
+      - ruby/install-packages
       - node/install-packages:
           pkg-manager: yarn
           cache-key: "yarn.lock"
@@ -54,8 +54,8 @@ jobs:
     steps:
       - browser-tools/install-browser-tools
       - checkout:
-        path: ~/xplorenow-ny
-      - ruby/install-deps
+          path: ~/xplorenow-ny
+      - ruby/install-packages
       - node/install-packages:
           pkg-manager: yarn
           cache-key: "yarn.lock"
@@ -94,11 +94,12 @@ workflows:
   build_and_rubocop_and_test:
     jobs:
       - build
-      - rubocop
+      - rubocop:
+          requires:
+            - build
       - test:
           requires:
             - build
-            - rubocop
   deploy:
     jobs:
       - deploy:
