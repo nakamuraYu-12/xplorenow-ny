@@ -12,6 +12,12 @@ jobs:
     working_directory: ~/xplorenow/src
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - yarn-{{ checksum "yarn.lock" }}
+      - run:
+          name: Install Bundler
+          command: gem install bundler
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
@@ -28,6 +34,9 @@ jobs:
     working_directory: ~/xplorenow/src
     steps:
       - checkout
+      - run:
+          name: Install Bundler
+          command: gem install bundler
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
@@ -53,6 +62,9 @@ jobs:
     steps:
       - browser-tools/install-browser-tools
       - checkout
+      - run:
+          name: Install Bundler
+          command: gem install bundler
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
