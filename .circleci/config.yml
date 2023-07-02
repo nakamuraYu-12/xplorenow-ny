@@ -11,8 +11,7 @@ jobs:
     - image: cimg/ruby:2.7-node
     working_directory: ~/xplorenow/src
     steps:
-      - checkout:
-        path: ~/xplorenow-ny
+      - checkout
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
@@ -28,8 +27,7 @@ jobs:
           MYSQL_USER: root
     working_directory: ~/xplorenow/src
     steps:
-      - checkout:
-          path: ~/xplorenow-ny
+      - checkout
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
@@ -54,8 +52,7 @@ jobs:
     working_directory: ~/xplorenow/src
     steps:
       - browser-tools/install-browser-tools
-      - checkout:
-          path: ~/xplorenow-ny
+      - checkout
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
