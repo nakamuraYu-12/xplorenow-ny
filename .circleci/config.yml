@@ -49,7 +49,7 @@ jobs:
       BUNDLE_RETRY: "3"
       APP_DATABASE_HOST: "127.0.0.1"
       RAILS_ENV: test
-    working_directory: ~/xplorenow/src
+    working_directory: ~/xplorenow-ny/src
     steps:
       - browser-tools/install-browser-tools
       - checkout
@@ -92,11 +92,12 @@ workflows:
   build_and_rubocop_and_test:
     jobs:
       - build
-      - rubocop
+      - rubocop:
+          requires:
+            - build
       - test:
           requires:
             - build
-            - rubocop
   deploy:
     jobs:
       - deploy:
