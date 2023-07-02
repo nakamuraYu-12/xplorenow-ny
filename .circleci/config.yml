@@ -11,11 +11,11 @@ jobs:
     working_directory: ~/xplorenow-ny
     steps:
       - checkout:
-          path: ~/xplorenow-ny
-      - ruby/install-packages:
-          bundler: true
-          ruby-version: 2.7
-
+        path: ~/install-deps
+      - ruby/install-packages
+      - node/install-packages:
+          pkg-manager: yarn
+          cache-key: "yarn.lock"
   rubocop:
     parallelism: 3
     docker:
@@ -29,16 +29,13 @@ jobs:
     steps:
       - checkout:
           path: ~/xplorenow-ny
-      - ruby/install-packages:
-          bundler: true
-          ruby-version: 2.7
+      - ruby/install-packages
       - node/install-packages:
           pkg-manager: yarn
           cache-key: "yarn.lock"
       - run:
           name: run rubocop
           command: bundle exec rubocop
-
   test:
     parallelism: 3
     docker:
@@ -58,9 +55,7 @@ jobs:
       - browser-tools/install-browser-tools
       - checkout:
           path: ~/xplorenow-ny
-      - ruby/install-packages:
-          bundler: true
-          ruby-version: 2.7
+      - ruby/install-packages
       - node/install-packages:
           pkg-manager: yarn
           cache-key: "yarn.lock"
@@ -73,7 +68,6 @@ jobs:
       - run:
           name: Rspec
           command: bundle exec rspec
-
   deploy:
     docker:
       - image: circleci/ruby:2.7
@@ -95,7 +89,6 @@ jobs:
           name: db migration
           command: |
             heroku run rails db:migrate --app ${HEROKU_APP_NAME_PRD}
-
 workflows:
   version: 2
   build_and_rubocop_and_test:
@@ -107,11 +100,10 @@ workflows:
       - test:
           requires:
             - build
-            - rubocop
   deploy:
     jobs:
       - deploy:
           filters:
-            branches:
-              only:
-                - main
+              branches:
+                  only:
+                  - main
