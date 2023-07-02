@@ -56,7 +56,7 @@ jobs:
     working_directory: ~/xplorenow/src
     steps:
       - browser-tools/install-browser-tools
-      - checkout:
+      - checkout
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
