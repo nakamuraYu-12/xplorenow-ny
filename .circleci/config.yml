@@ -19,7 +19,7 @@ jobs:
       - restore_cache:
               keys:
                 # "composer.lock" can be used if it is committed to the repo
-                - v1-dependencies-{{ checksum "src/tmp/ruby-project-lockfile" }}
+                - v1-dependencies-{{ checksum "src/ruby-project-lockfile" }}
   rubocop:
     parallelism: 3
     docker:
