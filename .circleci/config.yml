@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  ruby: circleci/ruby@2.0.1
+  ruby: circleci/ruby@1.1.0
   node: circleci/node@2
   heroku: circleci/heroku@1.2.3
   browser-tools: circleci/browser-tools@1.4.1
@@ -16,14 +16,10 @@ jobs:
       - node/install-packages:
           pkg-manager: yarn
           cache-key: "yarn.lock"
-      - restore_cache:
-              keys:
-                # "composer.lock" can be used if it is committed to the repo
-                - v1-dependencies-{{ checksum "src/ruby-project-lockfile" }}
   rubocop:
     parallelism: 3
     docker:
-      - image: cimg/ruby:2.7-node
+      - image: circleci/ruby:2.7
       - image: circleci/mysql:5.5
         environment:
           PMYSQL_ROOT_PASSWORD: password
@@ -42,7 +38,7 @@ jobs:
   test:
     parallelism: 3
     docker:
-      - image: cimg/ruby:2.7-node
+      - image: cimg/ruby:3.1-browsers
       - image: circleci/mysql:5.5
         environment:
           MYSQL_ROOT_PASSWORD: password
@@ -96,12 +92,11 @@ workflows:
   build_and_rubocop_and_test:
     jobs:
       - build
-      - rubocop:
-          requires:
-            - build
+      - rubocop
       - test:
           requires:
             - build
+            - rubocop
   deploy:
     jobs:
       - deploy:
