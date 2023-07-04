@@ -9,7 +9,7 @@ jobs:
   build:
     docker:
       - image: cimg/ruby:2.7-node
-    working_directory: ~/src/src/
+    working_directory: /home/circleci/project/src
     steps:
       - checkout
       - run:
