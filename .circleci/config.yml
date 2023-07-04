@@ -9,7 +9,7 @@ jobs:
   build:
     docker:
       - image: cimg/ruby:2.7-node
-    working_directory: ~/xplorenow-ny/src
+    working_directory: /home/circleci/xplorenow-ny/src
     steps:
       - checkout:
           path: ~/xplorenow-ny
@@ -26,7 +26,7 @@ jobs:
           PMYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: app_test
           MYSQL_USER: root
-    working_directory: ~/xplorenow-ny/src
+    working_directory: /home/circleci/xplorenow-ny/src
     steps:
       - checkout:
           path: ~/xplorenow-ny
@@ -51,7 +51,7 @@ jobs:
       BUNDLE_RETRY: "3"
       APP_DATABASE_HOST: "127.0.0.1"
       RAILS_ENV: test
-    working_directory: ~/xplorenow-ny/src
+    working_directory: /home/circleci/xplorenow-ny/src
     steps:
       - browser-tools/install-browser-tools
       - checkout:
