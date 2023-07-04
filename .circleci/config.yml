@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   ruby: circleci/ruby@1.1.0
-  node: circleci/node@2
+  node: circleci/node@3.0.1
   heroku: circleci/heroku@1.2.3
   browser-tools: circleci/browser-tools@1.4.1
 
@@ -19,7 +19,6 @@ jobs:
           ls
       - node/install-packages:
           pkg-manager: yarn
-          cache-key: "~/xplorenow-ny/src/yarn.lock"
   rubocop:
     parallelism: 3
     docker:
