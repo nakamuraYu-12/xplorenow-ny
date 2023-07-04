@@ -19,7 +19,7 @@ jobs:
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
-          cache-key: "/home/circleci/xplorenow-ny/src/yarn.lock"
+          cache-key: "src/yarn.lock"
   rubocop:
     parallelism: 3
     docker:
