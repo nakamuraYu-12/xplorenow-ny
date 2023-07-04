@@ -12,6 +12,9 @@ jobs:
     working_directory: ~/src
     steps:
       - checkout
+      - run:
+          name: Update RubyGems
+          command: gem update --system
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
