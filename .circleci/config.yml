@@ -13,11 +13,6 @@ jobs:
     steps:
       - checkout:
           path: ~/xplorenow-ny
-      - run:
-          name: confirmation
-          command: |
-            pwd
-            ls
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
@@ -31,8 +26,10 @@ jobs:
           PMYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: app_test
           MYSQL_USER: root
+    working_directory: ~/xplorenow-ny/src
     steps:
-      - checkout
+      - checkout:
+          path: ~/xplorenow-ny
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
@@ -54,9 +51,11 @@ jobs:
       BUNDLE_RETRY: "3"
       APP_DATABASE_HOST: "127.0.0.1"
       RAILS_ENV: test
+    working_directory: ~/xplorenow-ny/src
     steps:
       - browser-tools/install-browser-tools
-      - checkout
+      - checkout:
+          path: ~/xplorenow-ny
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
