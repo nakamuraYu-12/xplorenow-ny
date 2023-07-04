@@ -12,9 +12,6 @@ jobs:
     working_directory: ~/src
     steps:
       - checkout
-      - run:
-          name: Update RubyGems
-          command: gem update --system
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
@@ -41,7 +38,7 @@ jobs:
   test:
     parallelism: 3
     docker:
-      - image: cimg/ruby:3.1-browsers
+      - image: circleci/ruby:2.7
       - image: circleci/mysql:5.5
         environment:
           MYSQL_ROOT_PASSWORD: password
