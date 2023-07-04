@@ -9,7 +9,7 @@ jobs:
   build:
     docker:
       - image: cimg/ruby:2.7-node
-      working_directory: ~/src
+    working_directory: ~/src
     steps:
       - checkout
       - run:
