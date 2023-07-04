@@ -16,7 +16,7 @@ jobs:
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
-          cache-key: "~/xplorenow-ny/src/yarn.lock"
+          cache-key: "/home/circleci/xplorenow-ny/src/yarn.lock"
   rubocop:
     parallelism: 3
     docker:
@@ -33,7 +33,7 @@ jobs:
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
-          cache-key: "~/xplorenow-ny/src/yarn.lock"
+          cache-key: "/home/circleci/xplorenow-ny/src/yarn.lock"
       - run:
           name: run rubocop
           command: bundle exec rubocop
@@ -59,7 +59,7 @@ jobs:
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
-          cache-key: "~/xplorenow-ny/src/yarn.lock"
+          cache-key: "/home/circleci/xplorenow-ny/src/yarn.lock"
       - run:
           name: rails db:migrate
           command: bundle exec rails db:migrate
