@@ -8,7 +8,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: cimg/ruby:2.7-node
+      - image: cimg/ruby:2.7.8-node
     working_directory: ~/xplorenow-ny/src
     steps:
       - checkout:
@@ -23,7 +23,7 @@ jobs:
   rubocop:
     parallelism: 3
     docker:
-      - image: cimg/ruby2.7.8
+      - image: cimg/ruby:2.7.8
       - image: circleci/mysql:5.5
         environment:
           PMYSQL_ROOT_PASSWORD: password
@@ -43,7 +43,7 @@ jobs:
   test:
     parallelism: 3
     docker:
-      - image: cimg/ruby2.7.8
+      - image: cimg/ruby:2.7.8
       - image: circleci/mysql:5.5
         environment:
           MYSQL_ROOT_PASSWORD: password
