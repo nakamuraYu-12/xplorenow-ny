@@ -9,10 +9,10 @@ jobs:
   build:
     docker:
       - image: cimg/ruby:2.7-node
-    working_directory: /xplorenow-ny/src/
+    working_directory: /xplorenow-ny/
     steps:
       - checkout
-          path: /xplorenow-ny
+          path: ~/src
       - run:
           name: confirmation
           command: |
