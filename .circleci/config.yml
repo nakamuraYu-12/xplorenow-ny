@@ -13,10 +13,10 @@ jobs:
     steps:
       - checkout
       - run:
-        name: confirmation
-        command: |
-          pwd
-          ls
+          name: confirmation
+          command: |
+            pwd
+            ls
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
