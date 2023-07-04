@@ -12,7 +12,7 @@ jobs:
     working_directory: src
     steps:
       - checkout
-    - run:
+      - run:
         name: 実験
         command: |
           pwd
