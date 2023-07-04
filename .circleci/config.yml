@@ -36,6 +36,7 @@ jobs:
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
+          app-dir: ~/xplorenow-ny/src
       - run:
           name: run rubocop
           command: bundle exec rubocop
@@ -61,6 +62,7 @@ jobs:
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
+          app-dir: ~/xplorenow-ny/src
       - run:
           name: rails db:migrate
           command: bundle exec rails db:migrate
