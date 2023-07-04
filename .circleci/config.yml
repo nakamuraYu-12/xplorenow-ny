@@ -13,13 +13,13 @@ jobs:
     steps:
       - checkout:
           path: ~/xplorenow-ny
+      - ruby/install-deps
       - run: |
           pwd
           ls
-      - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
-          cache-key: "yarn.lock"
+          cache-key: "~/xplorenow-ny/src/yarn.lock"
   rubocop:
     parallelism: 3
     docker:
