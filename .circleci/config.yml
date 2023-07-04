@@ -12,7 +12,7 @@ jobs:
     working_directory: /xplorenow-ny/
     steps:
       - checkout
-          path: ~/src
+          -path: ~/src
       - run:
           name: confirmation
           command: |
