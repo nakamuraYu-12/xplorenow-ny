@@ -9,13 +9,14 @@ jobs:
   build:
     docker:
       - image: cimg/ruby:2.7-node
+    working_directory: ./src
     steps:
       - checkout
       - run:
           name: confirmation
           command: |
             pwd
-            ls -R
+            ls
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
