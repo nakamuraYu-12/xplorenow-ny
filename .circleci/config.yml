@@ -11,7 +11,7 @@ jobs:
       - image: cimg/ruby:2.7-node
     working_directory: ~/xplorenow-ny/src
       - checkout
-        path: ~/xplorenow
+          path: ~/xplorenow
       - run:
           name: confirmation
           command: |
