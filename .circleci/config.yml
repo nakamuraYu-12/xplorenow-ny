@@ -9,14 +9,13 @@ jobs:
   build:
     docker:
       - image: cimg/ruby:2.7-node
+    working_directory: /home/circleci/src
     steps:
       - checkout
       - run:
           name: confirmation
           command: |
             pwd
-            ls
-            cd ./src
             ls
       - ruby/install-deps
       - node/install-packages:
