@@ -13,7 +13,7 @@ jobs:
     steps:
       - checkout
       - run:
-        name: 実験
+        name: confirmation
         command: |
           pwd
           ls
