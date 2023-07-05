@@ -56,13 +56,8 @@ jobs:
       RAILS_ENV: test
     working_directory: ~/xplorenow-ny/src
     steps:
-      - run:
-          name: run command1
-          command: |
-            pwd
-            ls
       - checkout:
-          path: ~/xplorenow-ny/src
+          path: ~/xplorenow-ny
       - browser-tools/install-browser-tools
       - run:
           name: run command2
