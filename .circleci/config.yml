@@ -53,14 +53,18 @@ jobs:
       RAILS_ENV: test
     working_directory: ~/xplorenow-ny/src
     steps:
-      - command: |
-          pwd
-          ls
+      - run:
+          name: run command1
+          command: |
+            pwd
+            ls
       - browser-tools/install-browser-tools
       - checkout
-      - command: |
-          pwd
-          ls
+      - run:
+          name: run command2
+          command: |
+            pwd
+            ls
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
