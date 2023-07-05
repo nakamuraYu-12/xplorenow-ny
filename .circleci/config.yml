@@ -67,7 +67,7 @@ jobs:
           command: |
             pwd
             ls
-      - ruby/install-deps
+      - ruby/install-deps:
           app-dir: ~/xplorenow-ny/src
       - node/install-packages:
           pkg-manager: yarn
