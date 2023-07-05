@@ -37,7 +37,8 @@ jobs:
       - run:
           name: run rubocop
           command: |
-            cd ./src
+            pwd
+            ls
             bundle exec rubocop
   test:
     parallelism: 3
@@ -69,7 +70,11 @@ jobs:
             pwd
             ls
       - ruby/install-deps:
-          app-dir: ~/xplorenow-ny/src
+      - run:
+          name: run command3
+          command: |
+            pwd
+            ls
       - node/install-packages:
           pkg-manager: yarn
           app-dir: ~/xplorenow-ny/src
