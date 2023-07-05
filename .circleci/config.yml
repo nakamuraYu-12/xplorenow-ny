@@ -29,13 +29,14 @@ jobs:
     working_directory: ~/xplorenow-ny/src
     steps:
       - checkout:
-          path: ~/xplorenow-ny/src
+          path: ~/xplorenow-ny
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
           app-dir: ~/xplorenow-ny/src
       - run:
           name: run rubocop
+          command: cd ./src
           command: bundle exec rubocop
   test:
     parallelism: 3
@@ -67,6 +68,7 @@ jobs:
             pwd
             ls
       - ruby/install-deps
+          app-dir: ~/xplorenow-ny/src
       - node/install-packages:
           pkg-manager: yarn
           app-dir: ~/xplorenow-ny/src
