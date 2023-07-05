@@ -61,9 +61,9 @@ jobs:
           command: |
             pwd
             ls
-      - browser-tools/install-browser-tools
       - checkout:
-          path: ~/xplorenow-ny/src/
+          path: ~/xplorenow-ny/
+      - browser-tools/install-browser-tools
       - run:
           name: run command2
           command: |

@@ -8,6 +8,8 @@ RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - \
 
 WORKDIR /app
 COPY ./src /app
+WORKDIR /app
+RUN mkdir -p /app/vendor/bundle
 RUN bundle config --local set path 'vendor/bundle' \
   && bundle install
 
