@@ -36,8 +36,9 @@ jobs:
           app-dir: ~/xplorenow-ny/src
       - run:
           name: run rubocop
-          command: cd ./src
-          command: bundle exec rubocop
+          command: |
+            cd ./src
+            bundle exec rubocop
   test:
     parallelism: 3
     docker:
