@@ -13,6 +13,11 @@ jobs:
     steps:
       - checkout:
           path: ~/xplorenow-ny
+      - run:
+          name: run command2
+          command: |
+            pwd
+            ls
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
