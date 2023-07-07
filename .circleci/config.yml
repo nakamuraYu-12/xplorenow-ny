@@ -1,0 +1,113 @@
+version: 2.1
+orbs:
+  ruby: circleci/ruby@2.0.1
+  node: circleci/node@3.0.1
+  heroku: circleci/heroku@1.2.3
+  browser-tools: circleci/browser-tools@1.4.1
+
+jobs:
+  build:
+    docker:
+      - image: cimg/ruby:2.7.8-node
+    working_directory: ~/xplorenow-ny/src
+    steps:
+      - checkout:
+          path: ~/xplorenow-ny
+      - ruby/install-deps
+      - node/install-packages:
+          pkg-manager: yarn
+          app-dir: ~/xplorenow-ny/src
+  rubocop:
+    parallelism: 3
+    docker:
+      - image: cimg/ruby:2.7.8-node
+      - image: circleci/mysql:5.5
+        environment:
+          PMYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: app_test
+          MYSQL_USER: root
+    working_directory: ~/xplorenow-ny/src
+    steps:
+      - checkout:
+          path: ~/xplorenow-ny
+      - ruby/install-deps
+      - node/install-packages:
+          pkg-manager: yarn
+          app-dir: ~/xplorenow-ny/src
+      - run:
+          name: run rubocop
+          command: |
+            pwd
+            ls
+            bundle exec rubocop
+  test:
+    parallelism: 3
+    docker:
+      - image: cimg/ruby:2.7.8-node
+      - image: circleci/mysql:5.5
+        environment:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: app_test
+          MYSQL_USER: root
+    environment:
+      BUNDLE_JOBS: "3"
+      BUNDLE_RETRY: "3"
+      APP_DATABASE_HOST: "127.0.0.1"
+      RAILS_ENV: test
+    working_directory: ~/xplorenow-ny/src
+    steps:
+      - checkout:
+          path: ~/xplorenow-ny
+      - browser-tools/install-browser-tools
+      - ruby/install-deps
+      - node/install-packages:
+          pkg-manager: yarn
+          app-dir: ~/xplorenow-ny/src
+      - run:
+          name: rails db:migrate
+          command: bundle exec rails db:migrate
+      - run:
+          name: Database setup
+          command: bundle exec rails db:schema:load --trace
+      - run:
+          name: Rspec
+          command: bundle exec rspec
+  deploy:
+    docker:
+      - image: circleci/ruby:2.7
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 19.03.13
+      - heroku/install
+      - run:
+          name: heroku login
+          command: heroku container:login
+      - run:
+          name: push docker image
+          command: heroku container:push web -a $HEROKU_APP_NAME
+      - run:
+          name: release docker image
+          command: heroku container:release web -a $HEROKU_APP_NAME
+      - run:
+          name: database setup
+          command: heroku run bundle exec rake db:migrate RAILS_ENV=production -a $HEROKU_APP_NAME
+
+workflows:
+  version: 2
+  build_and_rubocop_and_test:
+    jobs:
+      - build
+      - rubocop:
+          requires:
+            - build
+      - test:
+          requires:
+            - build
+  deploy:
+    jobs:
+      - deploy:
+          filters:
+              branches:
+                  only:
+                  - main
