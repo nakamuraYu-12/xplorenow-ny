@@ -13,11 +13,6 @@ jobs:
     steps:
       - checkout:
           path: ~/xplorenow-ny
-      - run:
-          name: run command2
-          command: |
-            pwd
-            ls
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
@@ -64,17 +59,7 @@ jobs:
       - checkout:
           path: ~/xplorenow-ny
       - browser-tools/install-browser-tools
-      - run:
-          name: run command2
-          command: |
-            pwd
-            ls
       - ruby/install-deps
-      - run:
-          name: run command3
-          command: |
-            pwd
-            ls
       - node/install-packages:
           pkg-manager: yarn
           app-dir: ~/xplorenow-ny/src
@@ -92,22 +77,22 @@ jobs:
       - image: circleci/ruby:2.7
     steps:
       - checkout
+      - setup_remote_docker:
+          version: 19.03.13
+      - heroku/install
       - run:
-          name: 'Install Heroku CLI, if necessary'
-          command: |
-            if [[ $(command -v heroku) == "" ]]; then
-              curl https://cli-assets.heroku.com/install.sh | sh
-            else
-              echo "Heroku is already installed. No operation was performed."
-            fi
+          name: heroku login
+          command: heroku container:login
       - run:
-          name: Deploy to Heroku_Production
-          command: |
-            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME_PRD.git main
+          name: push docker image
+          command: heroku container:push web -a $HEROKU_APP_NAME
       - run:
-          name: db migration
-          command: |
-            heroku run rails db:migrate --app ${HEROKU_APP_NAME_PRD}
+          name: release docker image
+          command: heroku container:release web -a $HEROKU_APP_NAME
+      - run:
+          name: database setup
+          command: heroku run bundle exec rake db:migrate RAILS_ENV=production -a $HEROKU_APP_NAME
+
 workflows:
   version: 2
   build_and_rubocop_and_test:
