@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - \
   && apt-get install -y nodejs \
-  && npm install -g yarn \
+  && npm install -g yarn
 
 WORKDIR /app
 COPY ./src /app
@@ -17,6 +17,8 @@ RUN bundle config --local set path 'vendor/bundle' \
   && bundle install
 
 RUN yarn add @rails/webpacker
+RUN yarn add bootstrap
+RUN yarn add @popperjs/core
 RUN bin/webpack
 
 COPY start.sh /start.sh
