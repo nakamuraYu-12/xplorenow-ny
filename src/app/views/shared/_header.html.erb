@@ -3,10 +3,10 @@
   <div class="header-container">
   <% if user_signed_in? %>
       <li class="nav-item dropdown d-block">
-        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuLink">
+        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuLink" >
           <%= current_user.name %>
         </a>
-        <div class="dropdown-menu dropdown-menu-right">
+        <div class="list-right dropdown-menu dropdown-menu-left">
           <a class="dropdown-item" href="">イベントの新規登録</a>
           <a class="dropdown-item" href="">登録済みイベント一覧</a>
           <a class="dropdown-item" href="">参加予約イベント一覧</a>
