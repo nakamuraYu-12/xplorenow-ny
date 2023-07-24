@@ -1,6 +1,6 @@
 <div class = "form-container container">
   <h4>プロフィール編集</h4>
-  <%= form_with model:@user,url: accounts_profile_update_path ,class: "row g-3" do |f|%>
+  <%= form_with model:@user,url: accounts_profile_update_path , method: "patch", class: "row g-3" do |f|%>
     <div class = "col-12">
       <%= f.label :image,"アイコン画像",class: "form-label"%>
       <%= f.file_field :image , class:"form-control "%>
@@ -17,6 +17,6 @@
       <a href = "/users/profile"><button type = "button" class="btn btn-secondary">キャンセル</button></a>
       <%= f.submit "保存", class:"btn btn-primary ml-1"%>
     </div>
-  <% end %>
+  </form>
 </div>
-
+<% end %>

@@ -6,6 +6,7 @@ class AccountsController < ApplicationController
   end
 
   def profile_edit
+    @user = User.find(current_user.id)
   end
 
   def profile_update

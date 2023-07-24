@@ -3,6 +3,7 @@
   <div class="header-container">
   <% if user_signed_in? %>
     <% if guest_user?%>
+      <%= image_tag 'default-avatar',class: "img-account img-field img-circle" %>
       <li class="nav-item dropdown d-block">
         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuLink" >
           <%= current_user.name %>
@@ -11,10 +12,11 @@
           <a class="dropdown-item" href="">イベントの新規登録</a>
           <a class="dropdown-item" href="">作成済みイベント一覧</a>
           <a class="dropdown-item" href="">ブックマークイベント一覧</a>
-          <%= link_to "ログアウト" ,destroy_user_session_path, method: :delete, class: "dropdown-item"%>
+          <%= link_to "ログアウト" ,destroy_user_session_path, method: :delete, class: "dropdown-item" %>
         </div>
       </li>
     <% else %>
+      <%= image_tag current_user.image.blank? ? 'default-avatar' : current_user.image.url, class: "img-account img-field img-circle" %>
       <li class="nav-item dropdown d-block">
         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuLink" >
           <%= current_user.name %>
@@ -24,7 +26,7 @@
           <a class="dropdown-item" href="">作成済みイベント一覧</a>
           <a class="dropdown-item" href="">ブックマークイベント一覧</a>
           <a class="dropdown-item" href="/accounts">アカウント詳細</a>
-          <%= link_to "ログアウト" ,destroy_user_session_path, method: :delete, class: "dropdown-item"%>
+          <%= link_to "ログアウト" ,destroy_user_session_path, method: :delete, class: "dropdown-item" %>
         </div>
       </li>
     <% end %>

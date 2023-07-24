@@ -11,5 +11,5 @@ Rails.application.routes.draw do
   get 'accounts', to: 'accounts#show'
   get 'accounts/profile', to: 'accounts#profile'
   get 'accounts/profile/edit', to: 'accounts#profile_edit'
-  patch 'accounts/profile/update' => 'accounts#profile_update'
+  patch '/accounts/profile/update', to: 'accounts#profile_update'
 end
