@@ -2,6 +2,7 @@
   <h4><a class="navbar-brand" href="/">XploreNow</a></h4>
   <div class="header-container">
   <% if user_signed_in? %>
+    <% if guest_user?%>
       <li class="nav-item dropdown d-block">
         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuLink" >
           <%= current_user.name %>
@@ -10,11 +11,23 @@
           <a class="dropdown-item" href="">イベントの新規登録</a>
           <a class="dropdown-item" href="">登録済みイベント一覧</a>
           <a class="dropdown-item" href="">参加予約イベント一覧</a>
-          <a class="dropdown-item" href=">アカウント設定</a>
           <%= link_to "ログアウト" ,destroy_user_session_path, method: :delete, class: "dropdown-item"%>
         </div>
       </li>
-    </div>
+    <% else %>
+      <li class="nav-item dropdown d-block">
+        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuLink" >
+          <%= current_user.name %>
+        </a>
+        <div class="list-right dropdown-menu dropdown-menu-left">
+          <a class="dropdown-item" href="">イベントの新規登録</a>
+          <a class="dropdown-item" href="">登録済みイベント一覧</a>
+          <a class="dropdown-item" href="">参加予約イベント一覧</a>
+          <a class="dropdown-item" href="/accouts">アカウント詳細</a>
+          <%= link_to "ログアウト" ,destroy_user_session_path, method: :delete, class: "dropdown-item"%>
+        </div>
+      </li>
+    <% end %>
   <% else %>
       <%= link_to "ゲストログイン",users_guest_sign_in_path, method: :post, class: "btn btn-primary mr-3" %>
       <%= link_to "ログイン",new_user_session_path, class: "btn btn-primary mr-3"%>
