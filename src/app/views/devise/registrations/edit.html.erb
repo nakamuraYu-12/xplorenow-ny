@@ -1,0 +1,29 @@
+<div class="form-container container">
+  <h2>アカウント編集</h2>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+    <div class="field">
+      <%= f.label :email,"メールアドレス",class: "form-label"%><br />
+      <%= f.email_field :email, autofocus: true, autocomplete: "email"  ,class:"form-control"%>
+    </div>
+    <div class="field">
+      <%= f.label :password,"パスワード" ,class: "form-label"%>
+      <%= f.password_field :password, autocomplete: "new-password"  ,class:"form-control"%>
+      <% if @minimum_password_length %>
+        <em class="float-right"><%= @minimum_password_length %> 文字以上で入力してください</em>
+      <% end %>
+    </div>
+    <div class="field">
+      <%= f.label :password_confirmation,"確認用パスワード" ,class: "form-label"%><br />
+      <%= f.password_field :password_confirmation, autocomplete: "new-password" ,class:"form-control" %>
+    </div>
+    <div class="field">
+      <%= f.label :current_password ,"現在のパスワード",class: "form-label"%>
+      <%= f.password_field :current_password, autocomplete: "current-password" ,class:"form-control" %>
+    </div>
+    <div class="actions">
+      <%= f.submit "変更" ,class: "btn btn-primary float-right ml-1" %>
+    </div>
+    <%= link_to "戻る", :back ,method: :get,class: "btn btn-secondary float-right"%>
+  <% end %>
+</div>

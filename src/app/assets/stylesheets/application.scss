@@ -13,3 +13,37 @@
  *= require_tree .
  *= require_self
  */
+ @import "bootstrap";
+
+ //ナビゲーションバー
+.navbar{
+  background-color:#1C1D3B;;
+}
+.navbar-brand{
+  color: white;
+  text-decoration: none;
+}
+.navbar-brand:hover{
+  color: white;
+  text-decoration: none;
+}
+.img-account{
+  max-width: 42px;
+  max-height: 42px;
+}
+.nav-link
+{
+  color: white;
+}
+.nav-link:hover{
+  color: white;
+}
+.nav-link:focus{
+  color: white;
+}
+.nav-link:active{
+  color: white;
+}
+.dropdown-menu.left {
+  right: 0px;
+}

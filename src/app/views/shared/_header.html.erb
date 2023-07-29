@@ -1,0 +1,39 @@
+<nav class="navbar p-2">
+  <h4><a class="navbar-brand" href="/">XploreNow</a></h4>
+  <div class="header-container d-flex justify-content-between align-items-center">
+    <% if user_signed_in? %>
+      <% if guest_user?%>
+        <div class="nav-item dropdown d-block">
+          <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuLink" role="button">
+            <%= image_tag 'default-avatar',class: "img-account img-field img-circle" %>
+            <%= current_user.name %>
+          </a>
+          <ul class="dropdown-menu left">
+            <li><a class="dropdown-item" href="">イベント新規登録</a></li>
+            <li><a class="dropdown-item" href="">作成済みイベント</a></li>
+            <li><a class="dropdown-item" href="">ブックマーク</a></li>
+            <li><%= link_to "ログアウト" ,destroy_user_session_path, method: :delete, class: "dropdown-item" %></li>
+          </ul>
+        </div>
+      <% else %>
+        <div class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuLink" role="button">
+            <%= image_tag 'default-avatar',class: "img-account img-field img-circle" %>
+            <%= current_user.name %>
+          </a>
+          <ul class="dropdown-menu left">
+            <li><a class="dropdown-item" href="">イベント新規登録</a></li>
+            <li><a class="dropdown-item" href="">作成済みイベント</a></li>
+            <li><a class="dropdown-item" href="">ブックマーク</a></li>
+            <li><a class="dropdown-item" href="accounts/">アカウント詳細</a></li>
+            <li><%= link_to "ログアウト" ,destroy_user_session_path, method: :delete, class: "dropdown-item" %></li>
+          </ul>
+        </div>
+      <% end %>
+    <% else %>
+      <%= link_to "ゲストログイン",users_guest_sign_in_path, method: :post, class: "btn btn-primary me-1" %>
+      <%= link_to "ログイン",new_user_session_path, class: "btn btn-primary me-1"%>
+      <%= link_to "新規登録",new_user_registration_path,class: "btn btn-secondary"%>
+  <% end %>
+  </div>
+</nav>

@@ -1,0 +1,27 @@
+<div class="container">
+  <h2>設定</h2>
+  <div class="user-container">
+    <ul class="side-navigation">
+      <li class="side-nav-item"><a href="/accounts">アカウント</a></li>
+      <li class="side-nav-item active"><a href="/accounts/profile">プロフィール</a></li>
+    </ul>
+    <div class="account-info">
+      <div class="account-title">
+        <h2>プロフィール</h2>
+        <a class="acount-edit" href="/accounts/profile/edit">編集</a>
+      </div>
+      <div class="account-info-group">
+        <label class="account-label">アイコン画像</label>
+        <p class="account-value"><%= image_tag current_user.image.blank? ? 'default-avatar' : current_user.image.url %></p>
+      </div>
+      <div class="account-info-group">
+        <label class="account-label">名前</label>
+        <p class="account-value"><%= current_user.name %></p>
+      </div>
+      <div class="account-info-group">
+        <label class="account-label">自己紹介</label>
+        <p class="account-value"><%= current_user.profile%></p>
+      </div>
+    </div>
+  </div>
+</div>

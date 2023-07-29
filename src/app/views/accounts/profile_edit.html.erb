@@ -1,0 +1,22 @@
+<div class = "form-container container">
+  <h4>プロフィール編集</h4>
+  <%= form_with model:@user,url: accounts_profile_update_path , method: "patch", class: "row g-3" do |f|%>
+    <div class = "col-12">
+      <%= f.label :image,"アイコン画像",class: "form-label"%>
+      <%= f.file_field :image , class:"form-control "%>
+    </div>
+    <div class = "col-12">
+      <%= f.label :name,"名前" ,class: "form-label"%>
+      <%= f.text_field :name, class:"form-control"%>
+    </div>
+    <div class = "col-12">
+      <%= f.label :profile,"自己紹介",class: "form-label"%>
+      <%= f.text_area :profile , class:"form-control"%>
+    </div>
+    <div class = "w-100 mt-2 pr-3 d-flex justify-content-end">
+      <a href = "/users/profile"><button type = "button" class="btn btn-secondary">キャンセル</button></a>
+      <%= f.submit "保存", class:"btn btn-primary ml-1"%>
+    </div>
+  </form>
+</div>
+<% end %>
