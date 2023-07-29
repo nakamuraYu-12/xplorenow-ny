@@ -27,9 +27,6 @@
   color: white;
   text-decoration: none;
 }
-.header-container{
-  align-items: center;
-}
 .img-account{
   max-width: 42px;
   max-height: 42px;
@@ -46,4 +43,7 @@
 }
 .nav-link:active{
   color: white;
+}
+.dropdown-menu.left {
+  right: 0px;
 }
