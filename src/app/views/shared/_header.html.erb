@@ -5,7 +5,7 @@
       <% if guest_user?%>
         <div class="nav-item dropdown d-block">
           <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuLink" role="button">
-            <%= image_tag 'default-avatar',class: "img-account img-field img-circle" %>
+            <%= image_tag 'default-avatar.png',class: "img-account img-field img-circle" %>
             <%= current_user.name %>
           </a>
           <ul class="dropdown-menu left">
@@ -18,7 +18,7 @@
       <% else %>
         <div class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuLink" role="button">
-            <%= image_tag 'default-avatar',class: "img-account img-field img-circle" %>
+            <%= image_tag current_user.image.blank? ? 'default-avatar.png' : current_user.image.url, class: "img-account img-field img-circle"%>
             <%= current_user.name %>
           </a>
           <ul class="dropdown-menu left">
