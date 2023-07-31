@@ -7,6 +7,7 @@ CarrierWave.configure do |config|
     config.storage :fog
     config.fog_provider = 'fog/aws'
     config.fog_directory  = ENV['AWS_S3_BUCKET']
+    config.asset_host = 'https://s3.amazonaws.com/xplorenow'
     config.fog_public = false
     config.fog_credentials = {
       provider: 'AWS',
