@@ -15,7 +15,7 @@ CarrierWave.configure do |config|
       region: 'AWS_DEFAULT_REGION',
       path_style: true
     }
-  else # 本番環境以外の場合はアプリケーション内にアップロード
+  else
     config.storage :file
     config.enable_processing = false if Rails.env.test?
   end
