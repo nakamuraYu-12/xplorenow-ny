@@ -12,7 +12,7 @@
       </div>
       <div class="account-info-group">
         <label class="account-label">アイコン画像</label>
-        <p class="account-value"><%= image_tag current_user.image.blank? ? 'default-avatar' : current_user.image.url %></p>
+        <p class="account-value"><%= image_tag current_user.image.blank? ? 'default-avatar' : current_user.image.url, class:"account-img img-field img-circle" %></p>
       </div>
       <div class="account-info-group">
         <label class="account-label">名前</label>
