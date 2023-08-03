@@ -10,16 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_01_174548) do
+ActiveRecord::Schema.define(version: 2023_08_03_173358) do
+
+  create_table "event_dates", charset: "utf8mb4", force: :cascade do |t|
+    t.integer "event_id"
+    t.time "start_time"
+    t.time "end_time"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.date "event_day"
+  end
 
   create_table "events", charset: "utf8mb4", force: :cascade do |t|
     t.string "name"
-    t.string "introduction"
+    t.text "introduction"
     t.string "address"
-    t.date "start_day"
-    t.date "end_day"
-    t.time "start_time"
-    t.time "end_time"
     t.string "image"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

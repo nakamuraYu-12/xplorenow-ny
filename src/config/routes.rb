@@ -12,4 +12,5 @@ Rails.application.routes.draw do
   get 'accounts/profile', to: 'accounts#profile'
   get 'accounts/profile/edit', to: 'accounts#profile_edit'
   patch '/accounts/profile/update', to: 'accounts#profile_update'
+  resource :events
 end

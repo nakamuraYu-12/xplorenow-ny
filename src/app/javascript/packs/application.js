@@ -13,3 +13,10 @@ import 'bootstrap/dist/css/bootstrap'
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+
+$(document).ready(function() {
+  $('[data-behavior="datepicker"]').datepicker({
+    format: "yyyy-mm-dd",
+    language: "ja",
+    });
+});
