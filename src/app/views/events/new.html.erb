@@ -6,42 +6,47 @@
       <%= f.text_field :name, class:"form-control" %>
     </div>
 
-<button type="button" id="add-date">日付を追加</button>
-<div id="dates-container">
-  <%= f.fields_for :event_dates do |date| %>
-    <div class="date-row">
-      <div class="field">
-        <%= date.label :event_date, '開催日', class: "form-label" %>
-        <%= date.date_field :event_date, data: { behavior: "datepicker" }, class: "form-control" %>
-      </div>
-      <div class="field">
-        <%= date.label :start_time, '開始時間', class: "form-label" %>
-        <div class="input-group">
-          <%= date.time_field :start_time, class: "form-control timepicker" %>
+    <div id="dates-container">
+      <%= f.fields_for :event_dates do |date| %>
+        <div class="date-row d-flex flex-row align-items-end mb-2">
+          <div class="field me-2">
+            <%= date.label :event_date, '開催日時', class: "form-label mb-1 ps-2" %>
+            <%= date.date_field :event_date, data: { behavior: "datepicker" }, class: "form-control" %>
+          </div>
+          <div class="field me-2">
+            <%= date.label :start_time, '開始時間', class: "form-label mb-1 ps-2" %>
+            <div class="input-group">
+              <%= date.time_field :start_time, class: "form-control timepicker" %>
+            </div>
+          </div>
+          <div class="field me-4 ">
+            <%= date.label :end_time, '終了時間', class: "form-label mb-1 ps-2" %>
+            <div class="input-group">
+              <%= date.time_field :end_time, class: "form-control timepicker" %>
+            </div>
+          </div>
+          <div class="remove-date-btn">
+            <button type="button" class="remove-date btn btn-danger ">削除</button>
+          </div>
         </div>
-      </div>
-      <div class="field">
-        <%= date.label :end_time, '終了時間', class: "form-label" %>
-        <div class="input-group">
-          <%= date.time_field :end_time, class: "form-control timepicker" %>
-        </div>
-      </div>
-      <button type="button" class="remove-date">削除</button>
+      <%= javascript_pack_tag 'event_new' %>
+      <% end %>
     </div>
-    <%= javascript_pack_tag 'event_new' %>
-  <% end %>
-</div>
-    <div class = "field">
-      <%= f.label :image,"イメージ画像",class: "form-label" %>
-      <%= f.file_field :image , class:"form-control" %>
+    <div class="add-date-btn d-flex justify-content-end mb-1">
+      <button type="button" id="add-date" class="btn btn-primary">日付を追加</button>
     </div>
-    <div class = "field">
-      <%= f.label :address,"住所",class: "form-label" %>
+
+    <div class = "field mb-3">
+      <%= f.label :address,"住所",class: "form-label mb-1" %>
       <%= f.text_field :address , class:"form-control" %>
     </div>
-    <div class = "field">
-      <%= f.label :introduction,"イベント詳細",class: "form-label" %>
+    <div class = "field mb-3">
+      <%= f.label :introduction,"イベント詳細",class: "form-label mb-1" %>
       <%= f.text_area :introduction , class:"form-control" %>
+    </div>
+    <div class = "field mb-3">
+      <%= f.label :image,"イメージ画像",class: "form-label mb-1" %>
+      <%= f.file_field :image , class:"form-control" %>
     </div>
     <%= f.hidden_field :user_id, value: @user.id %>
     <div class = "w-100 mt-2 pr-3 d-flex justify-content-end">

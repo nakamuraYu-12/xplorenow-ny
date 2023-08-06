@@ -25,25 +25,27 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('add-date').addEventListener('click', function() {
     // 新しい日付フィールドを作成
     var newRow = document.createElement('div');
-    newRow.classList.add('date-row');
+    newRow.classList.add('date-row', 'd-flex', 'flex-row', 'align-items-end', 'mb-3', 'mt-1');
     newRow.innerHTML = `
-      <div class="field">
-        <label class="form-label">開催日</label>
+      <div class="field me-2">
+        <label class="form-label mb-1 ps-2">開催日時</label>
         <input type="date" name="event[event_dates_attributes][new_dates][event_date]" class="form-control" data-behavior="datepicker">
       </div>
-      <div class="field">
-        <label class="form-label">開始時間</label>
+      <div class="field me-2">
+        <label class="form-label mb-1 ps-2">開始時間</label>
         <div class="input-group">
           <input type="time" name="event[event_dates_attributes][new_dates][start_time]" class="form-control timepicker">
         </div>
       </div>
-      <div class="field">
-        <label class="form-label">終了時間</label>
+      <div class="field me-4">
+        <label class="form-label mb-1 ps-2">終了時間</label>
         <div class="input-group">
           <input type="time" name="event[event_dates_attributes][new_dates][end_time]" class="form-control timepicker">
         </div>
       </div>
-      <button type="button" class="remove-date">削除</button>
+      <div class="remove-date-btn">
+        <button type="button" class="remove-date btn btn-danger">削除</button>
+      </div>
     `;
 
     // 新しい日付フィールドをフォームのコンテナに追加
