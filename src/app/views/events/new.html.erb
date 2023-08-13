@@ -1,39 +1,18 @@
 <div class = "form-container container w-75">
   <h2>イベントの新規追加</h2>
-  <%= form_with model:@event do |f| %>
+  <%= form_with(model: @event, class: "event-main-form", local: true) do |f| %>
     <div class = "field mt-3 mb-3">
       <%= f.label :name, "イベント名",class: "form-label" %>
       <%= f.text_field :name, class:"form-control" %>
     </div>
-
-    <div id="dates-container">
+    <div id="event-dates">
       <%= f.fields_for :event_dates do |date| %>
-        <div class="date-row d-flex flex-row align-items-end mb-2">
-          <div class="field me-2">
-            <%= date.label :event_date, '開催日時', class: "form-label mb-1 ps-2" %>
-            <%= date.date_field :event_date, data: { behavior: "datepicker" }, class: "form-control" %>
-          </div>
-          <div class="field me-2">
-            <%= date.label :start_time, '開始時間', class: "form-label mb-1 ps-2" %>
-            <div class="input-group">
-              <%= date.time_field :start_time, class: "form-control timepicker" %>
-            </div>
-          </div>
-          <div class="field me-4 ">
-            <%= date.label :end_time, '終了時間', class: "form-label mb-1 ps-2" %>
-            <div class="input-group">
-              <%= date.time_field :end_time, class: "form-control timepicker" %>
-            </div>
-          </div>
-          <div class="remove-date-btn">
-            <button type="button" class="remove-date btn btn-danger ">削除</button>
-          </div>
-        </div>
-      <%= javascript_pack_tag 'event_new' %>
+        <%= render "event_date_fields", f: date %>
       <% end %>
     </div>
+    <div id="detail-association-insertion-point"></div>
     <div class="add-date-btn d-flex justify-content-end mb-1">
-      <button type="button" id="add-date" class="btn btn-primary">日付を追加</button>
+      <%= link_to_add_association "日付追加", f, :event_dates, partial: "event_date_fields", class: "add_event_data_fields", id: "add-event-date" %>
     </div>
 
     <div class = "field mb-3">

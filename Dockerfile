@@ -14,12 +14,14 @@ WORKDIR /app
 COPY ./src /app
 WORKDIR /app
 RUN bundle config --local set path 'vendor/bundle' \
-  && bundle install
+  && bundle install \
+  && yarn install
 
 RUN yarn add @rails/webpacker
 RUN yarn add bootstrap
 RUN yarn add @popperjs/core
-RUN bin/webpack
+RUN yarn add jquery
+RUN yarn add @nathanvda/cocoon
 
 COPY start.sh /start.sh
 RUN chmod 744 /start.sh

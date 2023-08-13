@@ -1,4 +1,5 @@
 #!/bin/sh
+bin/webpack
 
 if [ "${RAILS_ENV}" = "production" ]
 then
