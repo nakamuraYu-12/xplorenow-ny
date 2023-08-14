@@ -7,7 +7,10 @@ class EventsController < ApplicationController
 
   def create
     @user = User.find(current_user.id)
-    @event = Event.new(event_params)
+    @result = MapQuery.new(params[:event]).result
+    event_params_with_coordinates = event_params.merge(latitude: @result["lat"], longitude: @result["lng"])
+    @event = Event.new(event_params_with_coordinates)
+
     if @event.save
       flash[:success] = "イベントを登録しました"
       redirect_to "/"
@@ -27,7 +30,7 @@ class EventsController < ApplicationController
 
   def event_params
     params.require(:event).permit(
-      :name, :introduction, :address, :image, :user_id,
+      :name, :introduction, :address, :image, :user_id, :latitude, :longitude,
       event_dates_attributes: [:id, :event_id, :event_day, :start_time, :end_time, :_destroy]
     ).merge(user_id: current_user.id)
   end

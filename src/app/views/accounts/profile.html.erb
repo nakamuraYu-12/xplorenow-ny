@@ -12,15 +12,15 @@
       </div>
       <div class="account-info-group">
         <label class="account-label">アイコン画像</label>
-        <p class="account-value"><%= image_tag current_user.image.blank? ? 'default-avatar.png' : current_user.image.url, class:"account-img img-field img-circle" %></p>
+        <p class="account-value ps-5"><%= image_tag current_user.image.blank? ? 'default-avatar.png' : current_user.image.url, class:"account-img img-field img-circle img-thumbnail" %></p>
       </div>
       <div class="account-info-group">
         <label class="account-label">名前</label>
-        <p class="account-value"><%= current_user.name %></p>
+        <p class="account-value ps-5"><%= current_user.name %></p>
       </div>
       <div class="account-info-group">
         <label class="account-label">自己紹介</label>
-        <p class="account-value"><%= current_user.profile%></p>
+        <p class="account-value ps-5"><%= current_user.profile%></p>
       </div>
     </div>
   </div>
