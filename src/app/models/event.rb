@@ -8,7 +8,6 @@ class Event < ApplicationRecord
   belongs_to :user
   accepts_nested_attributes_for :event_dates, reject_if: :all_blank, allow_destroy: true, limit: 3
 
-
   def event_dates_presence
     if event_dates.none?
       errors.add(:event_dates, "イベント開催日時を設定してください")
