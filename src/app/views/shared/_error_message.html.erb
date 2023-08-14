@@ -1,0 +1,12 @@
+<% if obj.errors.any? %>
+  <div class="error-message bg-warning rounded p-1 mb-3">
+    <h5>エラー内容</h5>
+    <div class="ms-3">
+      <% obj.errors.full_messages.each do |message| %>
+        <ul>
+          <li><%= message %></li>
+        </ul>
+      <% end %>
+    </div>
+  </div>
+<% end %>
