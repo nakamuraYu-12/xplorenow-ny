@@ -4,7 +4,7 @@ class MapQuery
   end
 
   def uri
-    address = URI.encode_www_form({address: @event_param})
+    address = URI.encode_www_form({ address: @event_param })
     URI.parse("https://maps.googleapis.com/maps/api/geocode/json?#{address}&key=#{ENV["GOOGLE_API_KEY"]}")
   end
 
