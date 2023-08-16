@@ -3,7 +3,14 @@ class ImageUploader < CarrierWave::Uploader::Base
   # include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
   include CarrierWave::MiniMagick
-  process resize_to_fit: [100, 100]
+  version :user do
+    process resize_to_fit: [100, 100]
+  end
+
+  version :event do
+    process resize_to_fit: [300, nil]
+  end
+
   # Choose what kind of storage to use for this uploader:
   if Rails.env.development?
     storage :file

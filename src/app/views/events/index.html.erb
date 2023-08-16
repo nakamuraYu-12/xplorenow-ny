@@ -1,8 +1,8 @@
-<div class="w-25">
+<div class="w-50">
   <h4>イベント一覧</h4>
   <% @events.each do |event| %>
     <% event.event_dates.each do |date| %>
-      <% card_class = date.event_day < Date.today ? "card mb-3 w-auto h-auto p-0 text-muted" : "card mb-3 w-auto h-auto p-0" %>
+      <% card_class = date.event_day < Date.today ? "card mb-3 w-auto h-auto p-0 text-muted border-light" : "card mb-3 w-auto h-auto p-0 border-dark" %>
       <div class="<%= card_class %>">
         <div class="card-body">
           <h5 class="card-title"><%= event.name %></h5>
@@ -13,7 +13,11 @@
               <li class="ps-2"><%= date.event_day.strftime('%Y-%m-%d') %> <%= date.start_time.strftime('%H:%M') %>〜<%= date.end_time.strftime('%H:%M') %></li>
             <% end %>
           </ul>
-          <%= link_to "詳細", event, class: "btn btn-primary float-end"%>
+          <% if date.event_day < Date.today %>
+            <p class="text-danger ps-1">※過去に開催したイベントです</p>
+          <% end %>
+          <% btn_class = date.event_day < Date.today ? "btn btn-outline-primary float-end" : "btn btn-primary float-end" %>
+          <%= link_to "詳細", event, class: btn_class %>
         </div>
       </div>
     <% end %>
