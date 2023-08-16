@@ -8,6 +8,15 @@ class EventsController < ApplicationController
   def create
     @user = User.find(current_user.id)
     @result = MapQuery.new(params[:event]).result
+
+    if @result.nil?
+      flash.now[:warning] = "イベントの登録に失敗しました"
+      @event = Event.new(event_params)
+      @event.errors.add(:address, "有効な住所を入力してください")
+      render "events/new"
+      return
+    end
+
     event_params_with_coordinates = event_params.merge(latitude: @result["lat"], longitude: @result["lng"])
     @event = Event.new(event_params_with_coordinates)
 
@@ -18,12 +27,21 @@ class EventsController < ApplicationController
       flash[:warning] = "イベントの登録に失敗しました"
       render "events/new"
     end
-  end
 
+  end
   def index
+    @events = Event.includes(:event_dates).all
   end
 
   def show
+    @event = Event.find(params[:id])
+  end
+
+  def destroy
+    @event = Event.find(params[:event_id])
+    @event.destroy
+    flash[:success] = "イベントを削除しました"
+    redirect_to "/"
   end
 
   private

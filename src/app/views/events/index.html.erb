@@ -1,0 +1,20 @@
+<div class="w-25">
+  <h4>イベント一覧</h4>
+  <% @events.each do |event| %>
+    <% event.event_dates.each do |date| %>
+      <div class="card mb-3 w-auto h-auto p-0">
+        <div class="card-body">
+          <h5 class="card-title"><%= event.name %></h5>
+          <p class="card-text mb-2"><strong>住所:</strong> <%= event.address %></p>
+          <p class="card-text mb-0"> <strong>イベント日時:</strong></p>
+          <ul class="list-group mb-1">
+            <% event.event_dates.each do |date| %>
+              <li class="ps-2"><%= date.event_day.strftime('%Y-%m-%d') %> <%= date.start_time.strftime('%H:%M') %>〜<%= date.end_time.strftime('%H:%M') %></li>
+            <% end %>
+          </ul>
+          <%= link_to "詳細", event, class: "btn btn-primary float-end"%>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>
