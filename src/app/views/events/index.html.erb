@@ -2,7 +2,8 @@
   <h4>イベント一覧</h4>
   <% @events.each do |event| %>
     <% event.event_dates.each do |date| %>
-      <div class="card mb-3 w-auto h-auto p-0">
+      <% card_class = date.event_day < Date.today ? "card mb-3 w-auto h-auto p-0 text-muted" : "card mb-3 w-auto h-auto p-0" %>
+      <div class="<%= card_class %>">
         <div class="card-body">
           <h5 class="card-title"><%= event.name %></h5>
           <p class="card-text mb-2"><strong>住所:</strong> <%= event.address %></p>

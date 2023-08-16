@@ -30,7 +30,10 @@ class EventsController < ApplicationController
 
   end
   def index
-    @events = Event.includes(:event_dates).all
+    future_event_ids = EventDate.where("event_day >= ?", Date.today).pluck(:event_id)
+    past_event_ids = EventDate.where("event_day < ?", Date.today).pluck(:event_id)
+    @events = Event.includes(:event_dates).where(id: future_event_ids).order("events.created_at DESC") +
+              Event.includes(:event_dates).where(id: past_event_ids).order("events.created_at DESC")
   end
 
   def show
