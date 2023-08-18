@@ -38,4 +38,5 @@ src/.yarn-integrity
 src/db/mysql_data
 src/.env
 src/pulic/uploads/user/image
+src/public/uploads/event/image
 .DS_Store

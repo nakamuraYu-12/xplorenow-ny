@@ -12,28 +12,29 @@
         <% end %>
       </div>
       <div id='map' class="mt-2 mb-4 card-img-top"></div>
-      <div class="card-body ps-3 pe-3">
-        <h2 class="card-title ps-2 mb-3"><%= @event.name %></h2>
+      <div class="card-body ps-4 pe-3">
+        <h2 class="card-title mb-3"><%= @event.name %></h2>
+        <p><strong>住所：</strong><%= @event.address %><p>
         <div class="mb-2">
           <% @event.event_dates.each_with_index do |date, i| %>
             <% if @event.event_dates.count <= 1 %>
               <div class="d-flex">
-                <p class="card-text ps-1">
+                <p class="card-text">
                   <strong>日付:</strong>
                   <%= date.event_day.strftime('%Y-%m-%d') %>
                 </p>
-                <p class="card-text ps-4 mb-1">
+                <p class="card-text mb-1">
                   <strong>開催時刻：</strong>
                   <%= date.start_time.strftime('%H:%M') %>〜<%= date.end_time.strftime('%H:%M') %>
                 </p>
               </div>
             <% else %>
               <div class="d-flex">
-                <p class="card-text ps-1">
+                <p class="card-text">
                   <strong><%= "#{i+1}. 開催日:" %></strong>
                   <%= date.event_day.strftime('%Y-%m-%d') %>
                 </p>
-                <p class="card-text ps-4">
+                <p class="card-text">
                   <strong>開催時刻：</strong>
                   <%= date.start_time.strftime('%H:%M') %>〜<%= date.end_time.strftime('%H:%M') %>
                 </p>
@@ -41,7 +42,7 @@
             <% end %>
           <% end %>
         </div>
-        <p class="card-text ps-1"><strong>イベント詳細：</strong><%= @event.introduction %></p>
+        <p class="card-text"><strong>イベント詳細：</strong><%= @event.introduction %></p>
         <% if @event.image.present? %>
           <div class="text-center">
             <%= image_tag @event.image.url, class: "img-thumbnail w-50" %>
@@ -60,7 +61,6 @@
 
 <script>
 function initMap(){
-  geocoder = new google.maps.Geocoder()
   var latitude = <%= @event.latitude %>;
   var longitude = <%= @event.longitude %>;
 

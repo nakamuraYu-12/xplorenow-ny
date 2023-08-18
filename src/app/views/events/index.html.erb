@@ -1,25 +1,263 @@
-<div class="w-50">
-  <h4>イベント一覧</h4>
-  <% @events.each do |event| %>
-    <% event.event_dates.each do |date| %>
-      <% card_class = date.event_day < Date.today ? "card mb-3 w-auto h-auto p-0 text-muted border-light" : "card mb-3 w-auto h-auto p-0 border-dark" %>
-      <div class="<%= card_class %>">
-        <div class="card-body">
-          <h5 class="card-title"><%= event.name %></h5>
-          <p class="card-text mb-2"><strong>住所:</strong> <%= event.address %></p>
-          <p class="card-text mb-0"> <strong>イベント日時:</strong></p>
-          <ul class="list-group mb-1">
-            <% event.event_dates.each do |date| %>
-              <li class="ps-2"><%= date.event_day.strftime('%Y-%m-%d') %> <%= date.start_time.strftime('%H:%M') %>〜<%= date.end_time.strftime('%H:%M') %></li>
-            <% end %>
-          </ul>
-          <% if date.event_day < Date.today %>
-            <p class="text-danger ps-1">※過去に開催したイベントです</p>
-          <% end %>
-          <% btn_class = date.event_day < Date.today ? "btn btn-outline-primary float-end" : "btn btn-primary float-end" %>
-          <%= link_to "詳細", event, class: btn_class %>
-        </div>
+<div class="d-flex justify-content-center mt-3">
+  <div class="w-50 mx-3">
+    <nav class="navbar navbar-light bg-light h-10" >
+      <form class="d-flex" onsubmit="return false;">
+        <input class="form-control me-1" type="search" id="searchAddress" placeholder="地域を検索" aria-label="Search" onkeydown="handleEnterKey(event)">
+        <button class="btn btn-outline-success w-auto" type="button" onclick="handleAddressSearch()">Search</button>
+      </form>
+    </nav>
+    <div id="map" class="img-thumbnail"></div>
+  </div>
+  <div class="w-auto">
+    <nav class="navbar navbar-light bg-light d-flex justify-content-between" id="events-nav">
+      <div class="container-fluid">
+        <form class="d-flex w-auto" onsubmit="return false;">
+          <input class="form-control me-1" type="search" id="searchKeyword" placeholder="イベントを検索" aria-label="Search" onkeydown="handleEnterKey(event)">
+          <button class="btn btn-outline-success w-auto" type="button" onclick="handleSearch()">Search</button>
+        </form>
+        <select id="filterSelect" class="form-select ms-2 w-auto" onchange="handleFilterChange()">
+          <option value="all">すべてのイベント</option>
+          <option value="past">過去開催</option>
+          <option value="current">現在開催</option>
+          <option value="future">開催予定</option>
+        </select>
       </div>
-    <% end %>
-  <% end %>
+      <a class="btn btn-primary w-100 mt-4 mx-2 mb-1" href="events/new"><strong>+</strong></a>
+    </nav>
+    <div style="max-height: 600px; overflow-y: auto;">
+      <% @events.each do |event| %>
+        <% event.event_dates.each do |date| %>
+          <% card_class = date.event_day < Date.today ? " text-muted" : "" %>
+          <div class="<%= card_class %> card mb-3 p-0 clickable-card"
+            data-event-id="<%= event.id %>"
+            data-event-name="<%= event.name %>"
+            data-event-address="<%= event.address%>"
+            data-event-introduction="<%= event.introduction %>"
+            data-event-lat="<%= event.latitude %>"
+            data-event-lng="<%= event.longitude %>"
+            data-event-day="<%= date.event_day%>"
+          >
+            <div class="d-flex align-items-center justify-content-between p-2 card-header">
+              <div>
+                <%= image_tag(event.user.image.presence || 'default-avatar.png', class: "nav-account-img img-field img-circle") %>
+                <strong><%= event.user.name %></strong>
+              </div>
+              <% btn_class = date.event_day < Date.today ? "btn btn-outline-primary float-end" : "btn btn-primary float-end" %>
+              <%= link_to "詳細", event, class: btn_class %>
+            </div>
+            <div class="card-body pt-1">
+              <h5 class="card-title event-title"><%= event.name %></h5>
+              <div class="ps-2">
+                <p class="card-text mb-2 event-address"><strong>住所:</strong> <%= event.address %></p>
+                <p class="card-text mb-0"><strong>イベント日時:</strong></p>
+                <ul class="list-group mb-1">
+                  <% event.event_dates.each do |date| %>
+                    <li class="ps-2"><%= date.event_day.strftime('%Y-%m-%d') %> <%= date.start_time.strftime('%H:%M') %>〜<%= date.end_time.strftime('%H:%M') %></li>
+                  <% end %>
+                </ul>
+                <% if date.event_day < Date.today %>
+                  <p class="text-danger ps-1">※過去に開催したイベントです</p>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
 </div>
+
+<style>
+  #map {
+    width: 100%;
+    height: 600px; /* 固定の高さを指定 */
+  }
+
+  @media (max-width: 768px) {
+    /* 768px以下の画面サイズに対するスタイル設定 */
+    #map {
+      height: 800px; /* 小さな画面の場合の高さを調整 */
+    }
+  }
+</style>
+
+<script>
+  let map;
+  let markers = [];
+
+  // ページの読み込みが完了した際に実行される初期化関数
+  function initMap() {
+    const mapElement = document.getElementById('map');
+    const clickableCards = document.querySelectorAll(".clickable-card");
+    const latestCard = clickableCards[0];
+    const latestEventLat = parseFloat(latestCard.getAttribute("data-event-lat"));
+    const latestEventLng = parseFloat(latestCard.getAttribute("data-event-lng"));
+
+    // Google Mapsのマップを初期化
+    map = new google.maps.Map(mapElement, {
+      center: { lat: latestEventLat, lng: latestEventLng },
+      zoom: 15,
+    });
+
+    // 各カードとマーカーの関連付けとイベントリスナーの設定
+    clickableCards.forEach(function (card, index) {
+      const eventLat = parseFloat(card.getAttribute("data-event-lat"));
+      const eventLng = parseFloat(card.getAttribute("data-event-lng"));
+
+      const eventMarker = new google.maps.Marker({
+        position: { lat: eventLat, lng: eventLng },
+        map: map,
+      });
+
+      markers.push(eventMarker);
+
+      // カードをクリックした際の動作を定義
+      card.addEventListener("click", function () {
+        handleCardClick(card, eventMarker, eventLat, eventLng);
+      });
+
+      // マーカーをクリックした際の動作を定義
+      eventMarker.addListener("click", function () {
+        handleMarkerClick(card);
+      });
+    });
+
+    // 初期表示時のカードのスタイル設定
+    latestCard.classList.add("border-primary");
+  }
+
+  // カードがクリックされた時の動作
+  function handleCardClick(card, marker, lat, lng) {
+    const activeCard = document.querySelector(".card.border-primary");
+    if (activeCard) {
+      activeCard.classList.remove("border-primary");
+    }
+
+    card.classList.add("border-primary");
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
+
+    markers.forEach(function (m) {
+      m.setAnimation(null);
+    });
+
+    marker.setAnimation(google.maps.Animation.BOUNCE);
+    setTimeout(function () {
+      marker.setAnimation(null);
+    }, 1500);
+
+    map.panTo({ lat: lat, lng: lng });
+  }
+
+  // マーカーがクリックされた時の動作
+  function handleMarkerClick(card) {
+    const activeCard = document.querySelector(".card.border-primary");
+    if (activeCard) {
+      activeCard.classList.remove("border-primary");
+    }
+
+    card.classList.add("border-primary");
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  // フィルターが変更された時の動作
+  function handleFilterChange() {
+  const selectedFilter = document.getElementById("filterSelect").value;
+  const eventCards = document.querySelectorAll(".clickable-card");
+  const currentDate = getCurrentDate()
+  eventCards.forEach(function (card, index) {
+    const eventDate = new Date(card.getAttribute("data-event-day"));
+    const eventMarker = markers[index];
+
+    if (
+      selectedFilter === "all" ||
+      (selectedFilter === "current" && isSameDay(eventDate, new Date())) ||
+      (selectedFilter === "past" && eventDate <= currentDate ) ||
+      (selectedFilter === "future" && eventDate > currentDate )
+    ) {
+      card.style.display = "block";
+      eventMarker.setVisible(true);
+    } else {
+      card.style.display = "none";
+      eventMarker.setVisible(false);
+    }
+  });
+}
+  //地域・キーワード検索欄入力後エンターキーで処理
+  function handleEnterKey(event) {
+    if (event.key === "Enter") {
+    const searchAddressInput = document.getElementById("searchAddress");
+    const searchKeywordInput = document.getElementById("searchKeyword");
+
+    if (document.activeElement === searchAddressInput) {
+      handleAddressSearch();
+    } else if (document.activeElement === searchKeywordInput) {
+      handleSearch();
+    }
+  }
+}
+
+  function handleSearch() {
+  const searchKeyword = document.getElementById("searchKeyword").value.toLowerCase();
+  const selectedFilter = document.getElementById("filterSelect").value;
+  const eventCards = document.querySelectorAll(".clickable-card");
+  const currentDate = getCurrentDate();
+
+  eventCards.forEach(function (card) {
+    const eventName = card.getAttribute("data-event-name").toLowerCase();
+    const eventAddress = card.getAttribute("data-event-address").toLowerCase();
+    const eventIntroduction = card.getAttribute("data-event-introduction").toLowerCase();
+    const eventDate = new Date(card.getAttribute("data-event-day"));
+    eventDate.setHours(0, 0, 0, 0);
+    console.log(eventDate)
+    console.log(currentDate)
+    console.log(isSameDay(eventDate, currentDate))
+    if (
+      (eventName.includes(searchKeyword) || eventAddress.includes(searchKeyword) || eventIntroduction.includes(searchKeyword)) &&
+      (selectedFilter === "all" ||
+        (selectedFilter === "current" && isSameDay(eventDate, new Date())) ||
+        (selectedFilter === "past" && eventDate <= currentDate) ||
+        (selectedFilter === "future" && eventDate > currentDate))
+    ) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
+}
+
+// 同じ日付かどうかを比較する関数
+function isSameDay(date1, date2) {
+  return (
+    date1.getDate() === date2.getDate() &&
+    date1.getMonth() === date2.getMonth() &&
+    date1.getFullYear() === date2.getFullYear()
+  );
+}
+
+function getCurrentDate() {
+  const now = new Date();
+  const currentDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  currentDate.setHours(0, 0, 0, 0); // 時間を 00:00:00 に設定
+  return currentDate;
+}
+
+  //地域検索機能
+  function handleAddressSearch() {
+  const searchAddress = document.getElementById("searchAddress").value;
+  if (searchAddress) {
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ address: searchAddress }, function (results, status) {
+      if (status === google.maps.GeocoderStatus.OK) {
+        const location = results[0].geometry.location;
+        map.setCenter(location);
+      } else {
+        alert("住所を見つけることができませんでした。");
+      }
+    });
+    }
+  }
+  // ページの読み込みが完了した時にinitMap関数を実行
+  document.addEventListener("DOMContentLoaded", initMap);
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_KEY'] %>&libraries=places&callback=initMap"></script>
