@@ -1,5 +1,5 @@
-<div class="d-flex justify-content-center mt-3">
-  <div class="w-50 mx-3">
+<div class="d-flex justify-content-center mt-3 w-100 event-main-container">
+  <div class="mx-3 w-50 map-container">
     <nav class="navbar navbar-light bg-light h-10" >
       <form class="d-flex" onsubmit="return false;">
         <input class="form-control me-1" type="search" id="searchAddress" placeholder="地域を検索" aria-label="Search" onkeydown="handleEnterKey(event)">
@@ -8,23 +8,23 @@
     </nav>
     <div id="map" class="img-thumbnail"></div>
   </div>
-  <div class="w-auto">
+  <div>
     <nav class="navbar navbar-light bg-light d-flex justify-content-between" id="events-nav">
       <div class="container-fluid">
         <form class="d-flex w-auto" onsubmit="return false;">
           <input class="form-control me-1" type="search" id="searchKeyword" placeholder="イベントを検索" aria-label="Search" onkeydown="handleEnterKey(event)">
           <button class="btn btn-outline-success w-auto" type="button" onclick="handleSearch()">Search</button>
         </form>
-        <select id="filterSelect" class="form-select ms-2 w-auto" onchange="handleFilterChange()">
+        <select id="filterSelect" class="even-form-selecter form-select w-auto" onchange="handleFilterChange()">
           <option value="all">すべてのイベント</option>
           <option value="past">過去開催</option>
           <option value="current">現在開催</option>
           <option value="future">開催予定</option>
         </select>
       </div>
-      <a class="btn btn-primary w-100 mt-4 mx-2 mb-1" href="events/new"><strong>+</strong></a>
+      <a class="btn btn-primary w-100 m-2" href="events/new"><strong>+</strong></a>
     </nav>
-    <div style="max-height: 600px; overflow-y: auto;">
+    <div class="event-scroll">
       <% @events.each do |event| %>
         <% event.event_dates.each do |date| %>
           <% card_class = date.event_day < Date.today ? " text-muted" : "" %>
@@ -70,13 +70,19 @@
 <style>
   #map {
     width: 100%;
-    height: 600px; /* 固定の高さを指定 */
+    height: 650px;
+  }
+  @media (max-width: 1024px) {
+    #map {
+    width: 100%;
+    height: 550px;
+  }
   }
 
   @media (max-width: 768px) {
-    /* 768px以下の画面サイズに対するスタイル設定 */
     #map {
-      height: 800px; /* 小さな画面の場合の高さを調整 */
+      width: 100%;
+      height: 300px;
     }
   }
 </style>
@@ -84,6 +90,8 @@
 <script>
   let map;
   let markers = [];
+
+  const screenSize = window.innerWidth;
 
   // ページの読み込みが完了した際に実行される初期化関数
   function initMap() {
@@ -207,7 +215,7 @@
     const eventAddress = card.getAttribute("data-event-address").toLowerCase();
     const eventIntroduction = card.getAttribute("data-event-introduction").toLowerCase();
     const eventDate = new Date(card.getAttribute("data-event-day"));
-    eventDate.setHours(0, 0, 0, 0);
+    eventDate.setHours(0, 0, 0, 0); // 時間を 00:00:00 に設定
     console.log(eventDate)
     console.log(currentDate)
     console.log(isSameDay(eventDate, currentDate))

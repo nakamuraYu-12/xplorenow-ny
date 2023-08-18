@@ -1,4 +1,4 @@
-<div class="nested-fields d-flex flex-row align-items-end mb-2" id="event-date-fields">
+<div class="nested-fields d-flex  align-items-end mb-2" id="event-date-fields">
   <div class="field me-2">
     <%= f.label :event_day, '開催日時', class: "form-label mb-1 ps-2" %>
     <%= f.date_field :event_day, data: { behavior: "datepicker" }, class: "form-control" %>
@@ -9,12 +9,12 @@
       <%= f.time_field :start_time, class: "form-control timepicker" %>
     </div>
   </div>
-  <div class="field me-4 ">
+  <div class="field me-4">
     <%= f.label :end_time, '終了時間', class: "form-label mb-1 ps-2" %>
     <div class="input-group">
       <%= f.time_field :end_time, class: "form-control timepicker" %>
     </div>
   </div>
     <% f.hidden_field :event_id, value: @event.id %>
-    <%= link_to_remove_association "削除", f , class: "btn btn-danger remove_event_date_fields" %>
+    <%= link_to_remove_association "削除", f , class: "btn btn-danger remove-event-date" %>
 </div>

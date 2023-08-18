@@ -124,3 +124,41 @@ li{
   max-width: 30%;
   max-height: auto;
 }
+
+//event/index.html
+.event-scroll{
+  max-height: 650px;
+  overflow-y: auto;
+}
+@media(max-width:1024px){
+  .event-scroll{
+    max-height: 500px;
+    overflow-y: auto;
+  }
+}
+@media (max-width:768px) {
+  .event-main-container{
+    flex-flow: column;
+  }
+  .map-container{
+    width: 100%!important;
+    margin: 0px!important;
+  }
+  .container-field{
+    display: flex;
+    flex-flow: column;
+  }
+  .event-scroll{
+    max-height: 300px;
+    overflow-y: auto;
+  }
+}
+@media (max-width:425px){
+  .nested-fields {
+    flex-flow: column;
+    align-items: start!important;
+  }
+  .nested-fields>div{
+    width: 100%;
+  }
+}
