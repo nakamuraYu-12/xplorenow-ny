@@ -27,7 +27,6 @@ class EventsController < ApplicationController
       flash[:warning] = "イベントの登録に失敗しました"
       render "events/new"
     end
-
   end
 
   def index
