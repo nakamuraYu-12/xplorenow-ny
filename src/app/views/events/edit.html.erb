@@ -1,0 +1,73 @@
+<div class = "form-container container w-75">
+  <h2>イベント編集</h2>
+  <%= render "shared/error_message", obj: @event %>
+  <%= form_with(model: @event, class: "event-main-form", local: true) do |f| %>
+    <div class = "field mt-3 mb-3">
+      <%= f.label :name, "イベント名",class: "form-label" %>
+      <%= f.text_field :name, class:"form-control", id:"validationDefault01" %>
+    </div>
+    <%= f.fields_for :event_dates do |date| %>
+      <%= render "event_date_fields", f: date %>
+    <% end %>
+    <div id="detail-association-insertion-point"></div>
+    <div class="add-date-btn d-flex justify-content-end mb-1">
+      <%= link_to_add_association "日付追加", f, :event_dates, partial: "event_date_fields", class: "add_event_data_fields btn btn-primary", id: "add-event-date" %>
+    </div>
+
+    <div class = "field mb-3">
+      <%= f.label :address,"住所",class: "form-label mb-1" %>
+      <%= f.text_field :address , class:"form-control" %>
+    </div>
+    <div class = "field mb-3">
+      <%= f.label :introduction,"イベント詳細",class: "form-label mb-1" %>
+      <%= f.text_area :introduction , class:"form-control" %>
+    </div>
+    <div class = "field mb-3">
+      <%= f.label :image,"イメージ画像",class: "form-label mb-1" %>
+      <%= f.file_field :image , class:"form-control" %>
+      <% if @event.image.present?%>
+        <p class="image-info text-primary mt-3" data-toggle="modal" data-target="#imageModal" data-image-url="<%= @event.image.url %>" data-image-description="<%= @event.name %>の画像">
+          現在の画像を表示する
+        </p>
+        <label class="form-check-label mt-1 text-danger">
+          現在の画像を削除
+          <%= f.check_box :remove_image, class: "form-check-input ms-1" %>
+        </label>
+      <% end %>
+    </div>
+    <%= f.hidden_field :user_id, value: @user.id %>
+    <div class = "w-100 mt-2 pr-3 d-flex justify-content-end">
+      <a href = "/"><button type = "button" class="btn btn-secondary me-1">キャンセル</button></a>
+      <%= f.submit "保存", class: "btn btn-primary ml-1", style: "width: 200px; height: auto;" %>
+    </div>
+  <% end %>
+</div>
+
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header justify-content-end">
+        <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <img id="modalImage" class="img-fluid" src="" alt="画像" style="max-width: 100%; max-height: 80vh;">
+        <p id="imageDescription"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $('.image-info').click(function() {
+      var imageUrl = $(this).data('image-url');
+      var imageDescription = $(this).data('image-description');
+
+      $('#modalImage').attr('src', imageUrl);
+      $('#imageDescription').text(imageDescription);
+      $('#imageModal').modal('show');
+    });
+  });
+</script>

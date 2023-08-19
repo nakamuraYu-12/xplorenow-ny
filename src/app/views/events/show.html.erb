@@ -6,7 +6,7 @@
         <% if current_user && @event.user_id == current_user.id%>
           <a class="btn btn-primary dropdown-toggle float-end" href="#" data-toggle="dropdown"></a>
           <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item text-primary" href="/">編集</a>
+            <%= link_to "編集",edit_event_path(@event.id),class: "dropdown-item text-primary" %>
             <%= link_to "削除",@event, method: :delete, data: { confirm: "本当に削除しますか？" },class: "dropdown-item text-danger" %>
           </div>
         <% end %>
@@ -45,7 +45,7 @@
         <p class="card-text"><strong>イベント詳細：</strong><%= @event.introduction %></p>
         <% if @event.image.present? %>
           <div class="text-center">
-            <%= image_tag @event.image.url, class: "img-thumbnail w-50" %>
+            <%= image_tag @event.image.url, class: "img-fluid rounded w-50" %>
           </div>
         <% end %>
       </div>
