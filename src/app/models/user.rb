@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  has_many :bookmarks, dependent: :destroy
+  has_many :bookmarks_events, through: :bookmarks, source: :event
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
   mount_uploader :image, ImageUploader
   validates :name, length: { minimum: 1, maximum: 30 }
@@ -10,5 +12,17 @@ class User < ApplicationRecord
       user.password = SecureRandom.urlsafe_base64
       user.name = "ゲストユーザー"
     end
+  end
+
+  def bookmark(event)
+    bookmarks_events << event
+  end
+
+  def unbookmark(event)
+    bookmarks_events.delete(event)
+  end
+
+  def bookmark?(event)
+    bookmarks_events.include?(event)
   end
 end

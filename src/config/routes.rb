@@ -7,8 +7,10 @@ Rails.application.routes.draw do
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   resources :events do
+    resource :bookmarks, only: [:create, :destroy]
     collection do
       get 'history'
+      get 'bookmarks'
     end
   end
   root to: 'events#index'

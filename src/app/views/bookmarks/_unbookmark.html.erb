@@ -1,0 +1,3 @@
+<%= link_to event_bookmarks_path(current_user.bookmarks.find_by(event_id: event.id)), id: "js-bookmark-button-for-board-#{event.id}", method: :delete do  %>
+  <i class="bi bi-bookmark-check-fill mx-2" style="font-size:25px"></i>
+<% end%>
