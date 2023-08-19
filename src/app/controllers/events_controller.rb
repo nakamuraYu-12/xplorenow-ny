@@ -34,7 +34,7 @@ class EventsController < ApplicationController
   def edit
     puts "params[:id] = #{params[:id]}"
     @user = User.find(current_user.id)
-    @event= Event.includes(:event_dates).find(params[:id])
+    @event = Event.includes(:event_dates).find(params[:id])
   end
 
   def update
@@ -47,6 +47,7 @@ class EventsController < ApplicationController
       render :edit
     end
   end
+
   def index
     @events = Event.includes(:event_dates).order("events.created_at DESC")
   end
@@ -75,8 +76,9 @@ class EventsController < ApplicationController
 
   private
 
-def event_params
-  params.require(:event).permit(:name, :introduction, :address, :image, :remove_image, event_dates_attributes: [:id, :start_time, :end_time, :event_day, :_destroy])
-end
-
+  def event_params
+    params.require(:event).permit(
+      :name, :introduction, :address, :image, :remove_image,
+      event_dates_attributes: [:id, :start_time, :end_time, :event_day, :_destroy])
+  end
 end
