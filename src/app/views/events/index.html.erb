@@ -54,11 +54,11 @@
       data-event-start-time="<%= event.event_dates.first.start_time %>"
       data-event-end-time="<%= event.event_dates.first.end_time %>"
     >
-      <div class="d-flex align-items-center justify-content-between p-2 card-header">
-        <div class="user-field">
+      <div class="d-flex align-items-center justify-content-between p-2 card-header ">
+        <%= link_to user_account_path(event.user.id) do %>
           <%= image_tag(event.user.image.presence || 'default-avatar.png', class: "nav-account-img img-field img-circle") %>
-          <strong><%= event.user.name %></strong>
-        </div>
+          <strong class="text-primary"><%= event.user.name %></strong>
+        <% end %>
 
         <div class="btn-field d-flex">
           <%= link_to "詳細", event, class: btn_class %>

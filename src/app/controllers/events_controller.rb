@@ -88,6 +88,32 @@ class EventsController < ApplicationController
 
   def history
     @events = Event.includes(:event_dates).where(user_id: current_user.id).order("events.created_at DESC")
+
+    if current_user
+      @bookmark_events = current_user.bookmarks_events.includes(:user).order(created_at: :desc)
+    else
+      @bookmark_events = []
+    end
+    @current_date = Date.current.in_time_zone('Asia/Tokyo').to_date
+    @current_time = Time.current.in_time_zone('Asia/Tokyo')
+
+    @events.each do |event|
+      event_day = event.event_dates.last.event_day.in_time_zone('Asia/Tokyo').to_date
+      end_time = event.event_dates.last.end_time.in_time_zone('Asia/Tokyo')
+
+      if event_day == @current_date
+        @event_date_match = true
+      else
+        @event_date_match = false
+      end
+
+      if end_time.hour < @current_time.hour ||
+        (end_time.hour == @current_time.hour && end_time.min < @current_time.min)
+        @event_time_past = true
+      else
+        @event_time_past = false
+      end
+    end
   end
 
   def delete_image
