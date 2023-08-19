@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_14_161721) do
+ActiveRecord::Schema.define(version: 2023_08_19_163706) do
+
+  create_table "bookmarks", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "event_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["event_id"], name: "index_bookmarks_on_event_id"
+    t.index ["user_id", "event_id"], name: "index_bookmarks_on_user_id_and_event_id", unique: true
+    t.index ["user_id"], name: "index_bookmarks_on_user_id"
+  end
 
   create_table "event_dates", charset: "utf8mb4", force: :cascade do |t|
     t.integer "event_id"
@@ -48,4 +58,6 @@ ActiveRecord::Schema.define(version: 2023_08_14_161721) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "bookmarks", "events"
+  add_foreign_key "bookmarks", "users"
 end

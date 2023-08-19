@@ -21,6 +21,7 @@
             <option value="past">過去開催</option>
             <option value="current">本日開催</option>
             <option value="future">開催予定</option>
+            <option value="bookmarked">ブックマーク済み</option>
           </select>
           <select id="sortSelect" class="even-form-selecter form-select w-auto froat-end" onchange="handleSortChange()">
             <option value="newest">最新投稿順</option>
@@ -32,11 +33,16 @@
     </nav>
     <div class="event-scroll">
   <% @events.each do |event| %>
-    <% card_class = ""
-    if event.event_dates.last.event_day < Date.today ||
-    (event.event_dates.last.event_day == Date.today && event.event_dates.last.end_time < Time.now)
-      card_class = "text-muted"
-    end %>
+    <% event_day = event.event_dates.last.event_day %>
+    <% end_time = event.event_dates.last.end_time %>
+    <% card_class = "" %>
+    <% btn_class = "btn btn-primary float-end" %>
+
+    <% if event_day < @current_date || (event_day == @current_date && end_time < @current_time) %>
+      <% card_class = "text-muted" %>
+      <% btn_class = "btn btn-outline-primary float-end" %>
+    <% end %>
+
     <div class="<%= card_class %> card mb-3 p-0 clickable-card"
       data-event-id="<%= event.id %>"
       data-event-name="<%= event.name %>"
@@ -48,19 +54,21 @@
       data-event-start-time="<%= event.event_dates.first.start_time %>"
       data-event-end-time="<%= event.event_dates.first.end_time %>"
     >
-      <div class="d-flex align-items-center justify-content-between p-2 card-header">
-        <div class="user-field">
+      <div class="d-flex align-items-center justify-content-between p-2 card-header ">
+        <%= link_to user_account_path(event.user.id) do %>
           <%= image_tag(event.user.image.presence || 'default-avatar.png', class: "nav-account-img img-field img-circle") %>
-          <strong><%= event.user.name %></strong>
-        </div>
+          <strong class="text-primary"><%= event.user.name %></strong>
+        <% end %>
+
         <div class="btn-field d-flex">
-          <% btn_class = "btn btn-primary float-end"
-          if event.event_dates.last.event_day < Date.today ||
-          (event.event_dates.last.event_day == Date.today && event.event_dates.last.end_time < Time.now)
-            btn_class = "btn btn-outline-primary float-end"
-          end %>
           <%= link_to "詳細", event, class: btn_class %>
-          <a><i class="bi bi-bookmark mx-2" style="font-size:25px"></i></a>
+          <% if user_signed_in? %>
+            <% if current_user.bookmark?(event) %>
+              <%= render 'bookmarks/unbookmark', event: event %>
+            <% else %>
+              <%= render 'bookmarks/bookmark', event: event %>
+            <% end %>
+          <% end %>
         </div>
       </div>
       <div class="card-body pt-1">
@@ -73,8 +81,7 @@
               <li class="ps-2"><%= date.event_day.strftime('%Y-%m-%d') %> <%= date.start_time.strftime('%H:%M') %>〜<%= date.end_time.strftime('%H:%M') %></li>
             <% end %>
           </ul>
-          <% if event.event_dates.last.event_day < Date.today ||
-            (event.event_dates.last.event_day == Date.today && event.event_dates.last.end_time < Time.now) %>
+          <% if event_day < @current_date || (event_day == @current_date && end_time < @current_time) %>
             <p class="text-danger ps-1">※開催済みのイベントです</p>
           <% end %>
         </div>
@@ -224,7 +231,7 @@ function handleSortChange() {
 }
 
   //地域・キーワード検索欄入力後エンターキーで処理
-  function handleEnterKey(event) {
+function handleEnterKey(event) {
     if (event.key === "Enter") {
     const searchAddressInput = document.getElementById("searchAddress");
     const searchKeywordInput = document.getElementById("searchKeyword");
@@ -241,7 +248,8 @@ function handleCombinedFilterAndSearch() {
   const searchKeyword = document.getElementById("searchKeyword").value.toLowerCase();
   const selectedFilter = document.getElementById("filterSelect").value;
   const eventCards = document.querySelectorAll(".clickable-card");
-  const currentDate = new Date(); // 現在の日時を取得
+  const currentDate = new Date();
+  const bookmarkedEventIds = <%= raw @bookmark_events.pluck(:event_id).to_json %>;
   markers.forEach(marker => marker.setMap(null));
 
   eventCards.forEach(function (card, index) {
@@ -251,10 +259,8 @@ function handleCombinedFilterAndSearch() {
     const eventDate = new Date(card.getAttribute("data-event-day"));
     const startTime = new Date(card.getAttribute("data-event-start-time"));
     const endTime = new Date(card.getAttribute("data-event-end-time"));
-    console.log(card.getAttribute("data-event-day"))
-    console.log(card.getAttribute("data-event-start-time"))
-    console.log(card.getAttribute("data-event-end-time"))
-    console.log(currentDate)
+    const eventId = card.getAttribute("data-event-id");
+    const isBookmarked = bookmarkedEventIds.includes(Number(eventId));
     // イベントの開始日時と終了日時を作成
     const eventStartDateTime = new Date(
       eventDate.getFullYear(),
@@ -271,16 +277,25 @@ function handleCombinedFilterAndSearch() {
       endTime.getHours(),
       endTime.getMinutes()
     );
+
     searchKeyword.length = 0 ? isKeywordEmpty = true : isKeywordEmpty = false;
-    if ((isKeywordEmpty || (eventName.includes(searchKeyword) || eventAddress.includes(searchKeyword) || eventIntroduction.includes(searchKeyword))) &&
-        ((selectedFilter === "all") ||
-        (selectedFilter === "current" && isSameDay(eventDate, currentDate)) || // 現在の日付と比較
+
+    const shouldDisplay = isKeywordEmpty || (
+      (eventName.includes(searchKeyword) || eventAddress.includes(searchKeyword) || eventIntroduction.includes(searchKeyword)) &&
+      (selectedFilter === "all" ||
+        (selectedFilter === "current" && isSameDay(eventDate, currentDate)) ||
         (selectedFilter === "past" && eventEndDateTime < currentDate) ||
-        (selectedFilter === "future" && eventStartDateTime > currentDate))) {
-      card.style.display = "block";
-      const marker = markers.find(m => m.eventId === card.getAttribute("data-event-id"));
-      marker.setMap(map);
-    } else {
+        (selectedFilter === "future" && eventStartDateTime > currentDate) ||
+        (selectedFilter === "bookmarked" && isBookmarked))
+    );
+
+    const marker = markers.find(m => m.eventId === card.getAttribute("data-event-id"));
+
+    if (shouldDisplay) {
+        card.style.display = "block";
+        const marker = markers.find(m => m.eventId === eventId);
+        marker.setMap(map);
+    }else{
       card.style.display = "none";
     }
   });
@@ -295,9 +310,8 @@ function isSameDay(date1, date2) {
   );
 }
 
-
   //地域検索機能
-  function handleAddressSearch() {
+function handleAddressSearch() {
   const searchAddress = document.getElementById("searchAddress").value;
   if (searchAddress) {
     const geocoder = new google.maps.Geocoder();

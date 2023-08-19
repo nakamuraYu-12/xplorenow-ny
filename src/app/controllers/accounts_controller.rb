@@ -28,6 +28,11 @@ class AccountsController < ApplicationController
     @user = User.find(current_user.id)
   end
 
+  def user
+    @user = User.includes(:events).find(params[:id])
+    @events = @user.events
+  end
+
   def check_guest_user
     if @user.email == "guest@example.com"
       flash[:alert] = "ゲストユーザーはプロフィール詳細は閲覧できません"

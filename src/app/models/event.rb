@@ -5,6 +5,7 @@ class Event < ApplicationRecord
   validate :event_dates_presence
   mount_uploader :image, ImageUploader
   has_many :event_dates, dependent: :destroy
+  has_many :bookmarks, dependent: :destroy
   belongs_to :user
   accepts_nested_attributes_for :event_dates, reject_if: :all_blank, allow_destroy: true, limit: 3
   attr_accessor :remove_image

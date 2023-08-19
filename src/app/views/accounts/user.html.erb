@@ -1,8 +1,18 @@
-<div class="container mb-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <h4 class="text-center my-4">作成済みイベント</h4>
-      <div class="card-container" style="max-height: 600px; overflow-y: auto;">
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-4 w-50">
+      <div class="card w-75">
+        <%= image_tag current_user.image.blank? ? 'default-avatar.png' : current_user.image.url, class:"account-img img-field img-circle img-thumbnail" %>
+        <div class="card-body">
+          <h5 class="card-title"><%= @user.name %></h5>
+          <p class="card-text"><%= @user.profile %></p>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center mt-3 mb-0">
+      <strong><h5>作成したイベント</h5></strong>
+    </div>
+    <div class="card-container" style="max-height: 600px; overflow-y: auto;">
         <% @events.each do |event| %>
           <% card_class = ""
             if event.event_dates.last.event_day < Date.today ||
@@ -16,26 +26,22 @@
                   <h5><%= event.name %></h5>
                   <strong>住所：</strong><p class="ms-5"><%= event.address %></p>
                 </div>
-                <div>
-                  <div class="dropdown d-inline">
-                    <a class="btn btn-primary dropdown-toggle float-end" href="#" data-toggle="dropdown"></a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <%= link_to "詳細", event, class: "dropdown-item text-primary" %>
-                      <a class="dropdown-item text-primary" href="/">編集</a>
-                    <%= link_to "削除",@event, method: :delete, data: { confirm: "本当に削除しますか？" },class: "dropdown-item text-danger" %>
+                <% if @user.id == current_user.id %>
+                  <div>
+                    <div class="dropdown d-inline">
+                      <a class="btn btn-primary dropdown-toggle float-end" href="#" data-toggle="dropdown"></a>
+                      <div class="dropdown-menu dropdown-menu-right">
+                        <%= link_to "詳細", event, class: "dropdown-item text-primary" %>
+                        <a class="dropdown-item text-primary" href="/">編集</a>
+                        <%= link_to "削除",@event, method: :delete, data: { confirm: "本当に削除しますか？" },class: "dropdown-item text-danger" %>
+                      </div>
                     </div>
                   </div>
-                </div>
+                <% end %>
               </div>
             </div>
             <div class="card-body">
               <ul class="list-group">
-                <% event_day = event.event_dates.last.event_day %>
-                <% end_time = event.event_dates.last.end_time %>
-                <% card_class = "" %>
-                <% if event_day < @current_date || (event_day == @current_date && end_time < @current_time) %>
-                  <% card_class = "text-muted" %>
-                <% end %>
                 <% event.event_dates.each_with_index do |date, i| %>
                   <li class="list-group-item <%= card_class %>">
                     <strong><%= event.event_dates.count <= 1 ? "日付：" : "#{i + 1}. 開催日：" %></strong>
@@ -53,16 +59,15 @@
               <% end %>
               <p class="card-text mt-3"><strong>イベント詳細：</strong><%= event.introduction %></p>
             </div>
-            <% if event_day < @current_date || (event_day == @current_date && end_time < @current_time) %>
-              <p class="text-danger ps-1">※開催済みのイベントです</p>
+            <% if event.event_dates.last.event_day < Date.today ||
+              (event.event_dates.last.event_day == Date.today && event.event_dates.last.end_time < Time.now) %>
+              <p class="text-danger ms-3">※開催済みのイベントです</p>
             <% end %>
           </div>
         <% end %>
       </div>
-    </div>
   </div>
 </div>
-
 <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -78,11 +83,9 @@
     </div>
   </div>
 </div>
-
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     const imageInfoElements = document.querySelectorAll(".image-info");
-
     imageInfoElements.forEach(element => {
       element.addEventListener("click", function() {
         const imageUrl = element.getAttribute("data-image-url");
