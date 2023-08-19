@@ -115,19 +115,27 @@
 
   // ページの読み込みが完了した際に実行される初期化関数
   function initMap() {
-    const mapElement = document.getElementById('map');
-    const clickableCards = document.querySelectorAll(".clickable-card");
+  const mapElement = document.getElementById('map');
+  const clickableCards = document.querySelectorAll(".clickable-card");
+
+  if (clickableCards.length === 0) {
+    const defaultLat = 35.681236;
+    const defaultLng = 139.767125;
+
+    map = new google.maps.Map(mapElement, {
+      center: { lat: defaultLat, lng: defaultLng },
+      zoom: 10,
+    });
+  } else {
     const latestCard = clickableCards[0];
     const latestEventLat = parseFloat(latestCard.getAttribute("data-event-lat"));
     const latestEventLng = parseFloat(latestCard.getAttribute("data-event-lng"));
 
-    // Google Mapsのマップを初期化
     map = new google.maps.Map(mapElement, {
       center: { lat: latestEventLat, lng: latestEventLng },
       zoom: 15,
     });
 
-    // 各カードとマーカーの関連付けとイベントリスナーの設定
     clickableCards.forEach(function (card, index) {
       const eventLat = parseFloat(card.getAttribute("data-event-lat"));
       const eventLng = parseFloat(card.getAttribute("data-event-lng"));
@@ -140,20 +148,19 @@
 
       markers.push(eventMarker);
 
-      // カードをクリックした際の動作を定義
       card.addEventListener("click", function () {
         handleCardClick(card, eventMarker, eventLat, eventLng);
       });
 
-      // マーカーをクリックした際の動作を定義
       eventMarker.addListener("click", function () {
         handleMarkerClick(card);
       });
     });
 
-    // 初期表示時のカードのスタイル設定
     latestCard.classList.add("border-primary");
   }
+}
+
 
   // カードがクリックされた時の動作
   function handleCardClick(card, marker, lat, lng) {
@@ -235,18 +242,19 @@ function handleCombinedFilterAndSearch() {
   const selectedFilter = document.getElementById("filterSelect").value;
   const eventCards = document.querySelectorAll(".clickable-card");
   const currentDate = new Date(); // 現在の日時を取得
-  currentDate.setHours(0, 0, 0, 0); // 時間を 00:00:00 に設定
   markers.forEach(marker => marker.setMap(null));
 
   eventCards.forEach(function (card, index) {
     const eventName = card.getAttribute("data-event-name").toLowerCase();
     const eventAddress = card.getAttribute("data-event-address").toLowerCase();
     const eventIntroduction = card.getAttribute("data-event-introduction").toLowerCase();
-    
     const eventDate = new Date(card.getAttribute("data-event-day"));
     const startTime = new Date(card.getAttribute("data-event-start-time"));
     const endTime = new Date(card.getAttribute("data-event-end-time"));
-
+    console.log(card.getAttribute("data-event-day"))
+    console.log(card.getAttribute("data-event-start-time"))
+    console.log(card.getAttribute("data-event-end-time"))
+    console.log(currentDate)
     // イベントの開始日時と終了日時を作成
     const eventStartDateTime = new Date(
       eventDate.getFullYear(),
@@ -264,12 +272,11 @@ function handleCombinedFilterAndSearch() {
       endTime.getMinutes()
     );
     searchKeyword.length = 0 ? isKeywordEmpty = true : isKeywordEmpty = false;
-    if (isKeywordEmpty || (eventName.includes(searchKeyword) || eventAddress.includes(searchKeyword) || eventIntroduction.includes(searchKeyword)) &&
+    if ((isKeywordEmpty || (eventName.includes(searchKeyword) || eventAddress.includes(searchKeyword) || eventIntroduction.includes(searchKeyword))) &&
         ((selectedFilter === "all") ||
-         (selectedFilter === "current" && isSameDay(eventDate, currentDate)) || // 現在の日付と比較
-         (selectedFilter === "past" && eventEndDateTime < currentDate) ||
-         (selectedFilter === "future" && eventStartDateTime >= currentDate))) {
-      
+        (selectedFilter === "current" && isSameDay(eventDate, currentDate)) || // 現在の日付と比較
+        (selectedFilter === "past" && eventEndDateTime < currentDate) ||
+        (selectedFilter === "future" && eventStartDateTime > currentDate))) {
       card.style.display = "block";
       const marker = markers.find(m => m.eventId === card.getAttribute("data-event-id"));
       marker.setMap(map);

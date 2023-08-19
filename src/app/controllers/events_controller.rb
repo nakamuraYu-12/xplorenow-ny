@@ -1,4 +1,6 @@
 class EventsController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :history, :create, :update]
+
   def new
     @user = User.find(current_user.id)
     @event = Event.new
