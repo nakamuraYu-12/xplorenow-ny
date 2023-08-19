@@ -1,22 +1,22 @@
 <div class = "form-container container w-75">
   <h2>プロフィール編集</h2>
-  <%= form_with model:@user,url: accounts_profile_update_path , method: "patch" do |f|%>
+  <%= form_with model:@user,url: accounts_profile_update_path , method: "patch" do |f| %>
     <div class = "field mt-3 mb-3">
-      <%= f.label :image,"アイコン画像",class: "form-label"%>
-      <%= f.file_field :image , class:"form-control "%>
+      <%= f.label :image,"アイコン画像",class: "form-label" %>
+      <%= f.file_field :image , class:"form-control " %>
     </div>
     <div class = "field mb-3">
-      <%= f.label :name,"名前" ,class: "form-label"%>
-      <%= f.text_field :name, class:"form-control"%>
+      <%= f.label :name,"名前" ,class: "form-label" %>
+      <%= f.text_field :name, class:"form-control" %>
     </div>
     <div class = "field mb-3">
-      <%= f.label :profile,"自己紹介",class: "form-label"%>
-      <%= f.text_area :profile , class:"form-control"%>
+      <%= f.label :profile,"自己紹介",class: "form-label" %>
+      <%= f.text_area :profile , class:"form-control" %>
     </div>
     <div class = "actions mt-1">
-      <%= f.submit "保存", class:"btn btn-primary float-end me-1"%>
+      <%= f.submit "保存", class:"btn btn-primary float-end me-1" %>
     </div>
-    <%= link_to "戻る", :back ,method: :get,class: "btn btn-secondary float-end"%>
+    <%= link_to "戻る", :back ,method: :get,class: "btn btn-secondary float-end" %>
   </form>
 </div>
 <% end %>

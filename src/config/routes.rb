@@ -6,8 +6,12 @@ Rails.application.routes.draw do
     get 'users/sign_out', to: 'devise/sessions#destroy'
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  root to: 'top#index'
-  get '/', to: 'top#index'
+  resources :events do
+    collection do
+      get 'history'
+    end
+  end
+  root to: 'events#index'
   get 'accounts', to: 'accounts#show'
   get 'accounts/profile', to: 'accounts#profile'
   get 'accounts/profile/edit', to: 'accounts#profile_edit'

@@ -1,0 +1,94 @@
+<div class="container mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h4 class="text-center my-4">作成済みイベント</h4>
+      <div class="card-container" style="max-height: 600px; overflow-y: auto;">
+        <% @events.each do |event| %>
+          <% card_class = ""
+            if event.event_dates.last.event_day < Date.today ||
+            (event.event_dates.last.event_day == Date.today && event.event_dates.last.end_time < Time.now)
+              card_class = "text-muted"
+          end %>
+          <div class="card mt-4 <%= card_class %>">
+            <div class="card-header">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <h5><%= event.name %></h5>
+                  <strong>住所：</strong><p class="ms-5"><%= event.address %></p>
+                </div>
+                <div>
+                  <div class="dropdown d-inline">
+                    <a class="btn btn-primary dropdown-toggle float-end" href="#" data-toggle="dropdown"></a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <%= link_to "詳細", event, class: "dropdown-item text-primary" %>
+                      <a class="dropdown-item text-primary" href="/">編集</a>
+                    <%= link_to "削除",@event, method: :delete, data: { confirm: "本当に削除しますか？" },class: "dropdown-item text-danger" %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <ul class="list-group">
+                <% event.event_dates.each_with_index do |date, i| %>
+                  <li class="list-group-item <%= card_class %>">
+                    <strong><%= event.event_dates.count <= 1 ? "日付：" : "#{i + 1}. 開催日：" %></strong>
+                    <%= date.event_day.strftime('%Y-%m-%d') %>
+                    <br>
+                    <strong>開催時刻：</strong>
+                    <%= date.start_time.strftime('%H:%M') %>〜<%= date.end_time.strftime('%H:%M') %>
+                  </li>
+                <% end %>
+              </ul>
+              <% if event.image.present?%>
+                <p class="image-info text-primary mt-3" data-toggle="modal" data-target="#imageModal" data-image-url="<%= event.image.url %>" data-image-description="<%= event.name %>の画像">
+                  画像を表示する
+                </p>
+              <% end %>
+              <p class="card-text mt-3"><strong>イベント詳細：</strong><%= event.introduction %></p>
+            </div>
+            <% if event.event_dates.last.event_day < Date.today ||
+              (event.event_dates.last.event_day == Date.today && event.event_dates.last.end_time < Time.now) %>
+              <p class="text-danger ms-3">※開催済みのイベントです</p>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header justify-content-end">
+        <button type="button" class="close btn btn-danger" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <img id="modalImage" class="img-fluid" src="" alt="画像" style="max-width: 100%; max-height: 80vh;">
+        <p id="imageDescription"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const imageInfoElements = document.querySelectorAll(".image-info");
+
+    imageInfoElements.forEach(element => {
+      element.addEventListener("click", function() {
+        const imageUrl = element.getAttribute("data-image-url");
+        const imageDescription = element.getAttribute("data-image-description");
+
+        const modalImage = document.getElementById("modalImage");
+        const imageDescriptionElement = document.getElementById("imageDescription");
+
+        modalImage.src = imageUrl;
+        imageDescriptionElement.textContent = imageDescription;
+      });
+    });
+  });
+</script>

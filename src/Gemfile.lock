@@ -107,6 +107,7 @@ GEM
       image_processing (~> 1.1)
       marcel (~> 1.0.0)
       ssrf_filter (~> 1.0)
+    cocoon (1.2.15)
     concurrent-ruby (1.2.2)
     crass (1.0.6)
     date (3.3.3)
@@ -359,6 +360,7 @@ DEPENDENCIES
   byebug
   capybara (>= 3.26)
   carrierwave
+  cocoon
   devise
   devise-i18n
   dotenv-rails

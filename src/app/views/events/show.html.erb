@@ -1,0 +1,79 @@
+<div class="container mb-5">
+  <div class="row justify-content-center">
+    <div class="card mt-5 p-2 w-75">
+      <div class="card-header">
+        <%= link_to "戻る", :back, class: "btn btn-secondary" %>
+        <% if current_user && @event.user_id == current_user.id%>
+          <a class="btn btn-primary dropdown-toggle float-end" href="#" data-toggle="dropdown"></a>
+          <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item text-primary" href="/">編集</a>
+            <%= link_to "削除",@event, method: :delete, data: { confirm: "本当に削除しますか？" },class: "dropdown-item text-danger" %>
+          </div>
+        <% end %>
+      </div>
+      <div id='map' class="mt-2 mb-4 card-img-top"></div>
+      <div class="card-body ps-4 pe-3">
+        <h2 class="card-title mb-3"><%= @event.name %></h2>
+        <p><strong>住所：</strong><%= @event.address %><p>
+        <div class="mb-2">
+          <% @event.event_dates.each_with_index do |date, i| %>
+            <% if @event.event_dates.count <= 1 %>
+              <div class="d-flex">
+                <p class="card-text">
+                  <strong>日付:</strong>
+                  <%= date.event_day.strftime('%Y-%m-%d') %>
+                </p>
+                <p class="card-text mb-1">
+                  <strong>開催時刻：</strong>
+                  <%= date.start_time.strftime('%H:%M') %>〜<%= date.end_time.strftime('%H:%M') %>
+                </p>
+              </div>
+            <% else %>
+              <div class="d-flex">
+                <p class="card-text">
+                  <strong><%= "#{i+1}. 開催日:" %></strong>
+                  <%= date.event_day.strftime('%Y-%m-%d') %>
+                </p>
+                <p class="card-text">
+                  <strong>開催時刻：</strong>
+                  <%= date.start_time.strftime('%H:%M') %>〜<%= date.end_time.strftime('%H:%M') %>
+                </p>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+        <p class="card-text"><strong>イベント詳細：</strong><%= @event.introduction %></p>
+        <% if @event.image.present? %>
+          <div class="text-center">
+            <%= image_tag @event.image.url, class: "img-thumbnail w-50" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+<style>
+#map {
+  aspect-ratio: 2/1;
+  width: 100%;
+}
+</style>
+
+<script>
+function initMap(){
+  var latitude = <%= @event.latitude %>;
+  var longitude = <%= @event.longitude %>;
+
+  map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: latitude, lng: longitude},
+    zoom: 15,
+  });
+
+  marker = new google.maps.Marker({
+    position:  {lat: latitude, lng: longitude},
+    map: map
+  });
+}
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=<%="#{ENV['GOOGLE_API_KEY']}"%>&callback=initMap" async defer></script>
