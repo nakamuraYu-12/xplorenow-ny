@@ -3,7 +3,7 @@
     <div class="card mt-5 p-2 w-75">
       <div class="card-header">
         <%= link_to "戻る", :back, class: "btn btn-secondary" %>
-        <% if @event.user_id == current_user.id %>
+        <% if current_user && @event.user_id == current_user.id%>
           <a class="btn btn-primary dropdown-toggle float-end" href="#" data-toggle="dropdown"></a>
           <div class="dropdown-menu dropdown-menu-right">
             <a class="dropdown-item text-primary" href="/">編集</a>

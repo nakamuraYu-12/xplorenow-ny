@@ -44,6 +44,10 @@ class EventsController < ApplicationController
     redirect_to "/"
   end
 
+  def history
+    @events = Event.includes(:event_dates).where(user_id: current_user.id).order("events.created_at DESC")
+  end
+
   private
 
   def event_params

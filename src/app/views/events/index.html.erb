@@ -23,9 +23,9 @@
             <option value="future">開催予定</option>
           </select>
           <select id="sortSelect" class="even-form-selecter form-select w-auto froat-end" onchange="handleSortChange()">
+            <option value="newest">最新投稿順</option>
             <option value="asc">開催日昇順</option>
             <option value="desc">開催日降順</option>
-            <option value="newest">最新投稿順</option>
           </select>
       </div>
       <a class="btn btn-primary w-100 m-2" href="/events/new"><strong>+</strong></a>
@@ -49,12 +49,19 @@
       data-event-end-time="<%= event.event_dates.first.end_time %>"
     >
       <div class="d-flex align-items-center justify-content-between p-2 card-header">
-        <div>
+        <div class="user-field">
           <%= image_tag(event.user.image.presence || 'default-avatar.png', class: "nav-account-img img-field img-circle") %>
           <strong><%= event.user.name %></strong>
         </div>
-        <% btn_class = event.event_dates.first.event_day < Date.today ? "btn btn-outline-primary float-end" : "btn btn-primary float-end" %>
-        <%= link_to "詳細", event, class: btn_class %>
+        <div class="btn-field d-flex">
+          <% btn_class = "btn btn-primary float-end"
+          if event.event_dates.last.event_day < Date.today ||
+          (event.event_dates.last.event_day == Date.today && event.event_dates.last.end_time < Time.now)
+            btn_class = "btn btn-outline-primary float-end"
+          end %>
+          <%= link_to "詳細", event, class: btn_class %>
+          <a><i class="bi bi-bookmark mx-2" style="font-size:25px"></i></a>
+        </div>
       </div>
       <div class="card-body pt-1">
         <h5 class="card-title event-title"><%= event.name %></h5>
@@ -68,7 +75,7 @@
           </ul>
           <% if event.event_dates.last.event_day < Date.today ||
             (event.event_dates.last.event_day == Date.today && event.event_dates.last.end_time < Time.now) %>
-            <p class="text-danger ps-1">※過去に開催したイベントです</p>
+            <p class="text-danger ps-1">※開催済みのイベントです</p>
           <% end %>
         </div>
       </div>
@@ -198,7 +205,7 @@ function handleSortChange() {
       const bDate = new Date(b.getAttribute("data-event-day"));
       return bDate - aDate;
     });
-  }　else if (selectedSort === "newest") {
+  } else if (selectedSort === "newest") {
     eventCards.sort((a, b) => {
       const aCreateDate = new Date(a.getAttribute("data-create-day"));
       const bCreateDate = new Date(b.getAttribute("data-create-day"));
@@ -298,7 +305,7 @@ function isSameDay(date1, date2) {
     });
     }
   }
-  // ページの読み込みが完了した時にinitMap関数を実行
+
   document.addEventListener("DOMContentLoaded", initMap);
 </script>
 
