@@ -1,4 +1,6 @@
 class EventsController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :history, :create, :edit, :update]
+
   def new
     @user = User.find(current_user.id)
     @event = Event.new
@@ -29,6 +31,23 @@ class EventsController < ApplicationController
     end
   end
 
+  def edit
+    puts "params[:id] = #{params[:id]}"
+    @user = User.find(current_user.id)
+    @event = Event.includes(:event_dates).find(params[:id])
+  end
+
+  def update
+    @event = Event.includes(:event_dates).find(params[:id])
+    if @event.update(event_params)
+      flash[:success] = "イベントを編集しました"
+      redirect_to @event
+    else
+      flash[:warning] = "イベントの編集に失敗しました"
+      render :edit
+    end
+  end
+
   def index
     @events = Event.includes(:event_dates).order("events.created_at DESC")
   end
@@ -48,12 +67,19 @@ class EventsController < ApplicationController
     @events = Event.includes(:event_dates).where(user_id: current_user.id).order("events.created_at DESC")
   end
 
+  def delete_image
+    @event = Event.find(params[:id])
+    @event.remove_image = '1'
+    @event.save
+    redirect_to edit_event_path(@event), notice: '画像が削除されました。'
+  end
+
   private
 
   def event_params
     params.require(:event).permit(
-      :name, :introduction, :address, :image, :user_id, :latitude, :longitude,
-      event_dates_attributes: [:id, :event_id, :event_day, :start_time, :end_time, :_destroy]
-    ).merge(user_id: current_user.id)
+      :name, :introduction, :address, :image, :remove_image,
+      event_dates_attributes: [:id, :start_time, :end_time, :event_day, :_destroy]
+    )
   end
 end

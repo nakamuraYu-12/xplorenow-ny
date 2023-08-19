@@ -77,12 +77,10 @@
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     const imageInfoElements = document.querySelectorAll(".image-info");
-
     imageInfoElements.forEach(element => {
       element.addEventListener("click", function() {
         const imageUrl = element.getAttribute("data-image-url");
         const imageDescription = element.getAttribute("data-image-description");
-
         const modalImage = document.getElementById("modalImage");
         const imageDescriptionElement = document.getElementById("imageDescription");
 
