@@ -48,7 +48,11 @@ class EventsController < ApplicationController
 
   def index
     @events = Event.includes(:event_dates).order("events.created_at DESC")
-    @bookmark_events = current_user.bookmarks_events.includes(:user).order(created_at: :desc)
+    if current_user
+      @bookmark_events = current_user.bookmarks_events.includes(:user).order(created_at: :desc)
+    else
+      @bookmark_events = []
+    end
     @current_date = Date.current.in_time_zone('Asia/Tokyo').to_date
     @current_time = Time.current.in_time_zone('Asia/Tokyo')
 
