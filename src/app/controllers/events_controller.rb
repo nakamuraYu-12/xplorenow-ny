@@ -10,7 +10,7 @@ class EventsController < ApplicationController
   def create
     @user = User.find(current_user.id)
     @result = MapQuery.new(params[:event][:address]).result
-
+    puts @user.id
     if @result.nil?
       flash.now[:warning] = "イベントの登録に失敗しました"
       @event = Event.new(event_params)
@@ -78,7 +78,7 @@ class EventsController < ApplicationController
 
   def event_params
     params.require(:event).permit(
-      :name, :introduction, :address, :image, :remove_image,
+      :name, :introduction, :address, :image, :remove_image, :user_id,
       event_dates_attributes: [:id, :start_time, :end_time, :event_day, :_destroy]
     )
   end
