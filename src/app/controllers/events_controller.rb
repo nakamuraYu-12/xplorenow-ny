@@ -7,7 +7,7 @@ class EventsController < ApplicationController
 
   def create
     @user = User.find(current_user.id)
-    @result = MapQuery.new(params[:event]).result
+    @result = MapQuery.new(params[:event][:address]).result
 
     if @result.nil?
       flash.now[:warning] = "イベントの登録に失敗しました"
@@ -30,10 +30,7 @@ class EventsController < ApplicationController
   end
 
   def index
-    future_event_ids = EventDate.where("event_day >= ?", Date.today).pluck(:event_id)
-    past_event_ids = EventDate.where("event_day < ?", Date.today).pluck(:event_id)
-    @events = Event.includes(:event_dates, :user).where(id: future_event_ids).order("events.created_at DESC") +
-              Event.includes(:event_dates, :user).where(id: past_event_ids).order("events.created_at DESC")
+    @events = Event.includes(:event_dates).order("events.created_at DESC")
   end
 
   def show
