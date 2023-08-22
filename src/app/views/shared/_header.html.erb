@@ -1,4 +1,4 @@
-<nav class="navbar p-2">
+<nav class="navbar p-2 header-bar">
   <h4><a class="navbar-brand" href="/">XploreNow</a></h4>
   <div class="header-container d-flex justify-content-between align-items-center">
     <% if user_signed_in? %>
@@ -17,7 +17,7 @@
       <% else %>
         <div class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuLink" role="button">
-            <%= image_tag current_user.image.blank? ? 'default-avatar.png' : current_user.image.url, class: "nav-account-img img-field img-circle" %>
+            <%= image_tag current_user.image.blank? ? 'default-avatar.png' : current_user.image.url, class: "nav-account-img img-field rounded-circle" %>
             <%= current_user.name %>
           </a>
           <ul class="dropdown-menu left">

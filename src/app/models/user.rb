@@ -15,6 +15,10 @@ class User < ApplicationRecord
     end
   end
 
+  def active_for_authentication?
+    super && (is_deleted == false)
+  end
+
   def bookmark(event)
     bookmarks_events << event
   end

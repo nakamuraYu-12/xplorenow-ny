@@ -30,7 +30,7 @@ class AccountsController < ApplicationController
 
   def user
     @user = User.includes(:events).find(params[:id])
-    @events = @user.events
+    @events = @user.events.includes(:event_dates).order("events.created_at DESC")
   end
 
   def check_guest_user

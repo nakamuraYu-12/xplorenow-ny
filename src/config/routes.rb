@@ -4,6 +4,8 @@ Rails.application.routes.draw do
     post 'users/guest_sign_in', to: 'users/sessions#guest_sign_in'
     get 'users/guest_sign_in', to: 'users/sessions#guest_sign_in'
     get 'users/sign_out', to: 'devise/sessions#destroy'
+    get 'users/:id/unsubscribe', to: 'users#unsubscribe', as: 'unsubscribe'
+    patch 'users/:id/withdrawal', to: 'users#withdrawal', as: 'withdrawal'
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   resources :events do

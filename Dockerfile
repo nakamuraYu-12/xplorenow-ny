@@ -1,6 +1,7 @@
 FROM ruby:2.7
 
 ENV RAILS_ENV=production
+ENV TZ Asia/Tokyo
 
 RUN apt-get update && apt-get install -y \
     imagemagick \

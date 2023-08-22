@@ -23,6 +23,35 @@ li{
 a{
   text-decoration:none;
 }
+
+.btn {
+  font-size: 12px;
+}
+
+.btn-primary {
+  font-size: 14px;
+}
+.btn-outline-primary {
+  font-size: 14px;
+}
+
+.form-control {
+  font-size: 12px;
+  padding: 0.25rem 0.5rem;
+}
+
+.btn-secondary{
+  font-size: 14px;
+}
+body{
+  padding-top: 60px;
+  font-size: 13px;
+}
+@media (max-width:425px) {
+  body{
+    font-size: 10px !important;
+  }
+}
  //ナビゲーションバー
 .navbar{
   background-color:#1C1D3B;;
@@ -36,8 +65,9 @@ a{
   text-decoration: none;
 }
 .nav-account-img{
-  max-width: 42px;
-  max-height: 42px;
+  width: 35px;
+  height: 35px;
+  object-fit: cover;
 }
 .nav-link
 {
@@ -56,84 +86,102 @@ a{
   right: 0px;
 }
 
-
-//accouts,accounts/profile
-.container>h2{
-  margin-top: 40px;
+.header-bar{
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 200;
 }
 
-.user-container{
+//フッター
+.footer {
+  position: absolute;
+  width: 100%;
+  font-size: 12px;
+  bottom: 0;
+  z-index: 300;
+  margin: auto;
+}
+@media (max-width: 768px) {
+  .footer {
+    position: relative ;
+  }
+}
+@media (max-width:768px) {
+  .footer{
+    margin-top: 50px;
+  }
+}
+//フラッシュメッセージ
+#flash-message-container {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  width: 100%;
   display: flex;
-  gap: 20px;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-.side-navigation{
-  background-color: #fff;
-  border: 1px solid #dfe2e6;
-  width: 350px;
-  height: fit-content;
-  padding:0 0;
-}
-
-.side-nav-item:first-of-type{
-  border-bottom: 1px solid #dfe2e6;
-}
-.side-nav-item{
-  padding:20px 25px;
-}
-.side-nav-item>a{
-  color: black;
-}
-.side-nav-item.active>a{
-  color:#ff7757;
-}
-
-.side-nav-item.active>a:hover{
-  color: #ff7757;
-}
-.account-info{
-  width:95%;
-}
-.account-title{
-  display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
-  border-bottom: 1px solid #dfe2e6;
+  z-index: 400;
+  pointer-events: none;
 }
-.account-title>a{
-  color:#0071c1;
-}
-
-.account-info-group{
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
-.account-label{
-  width:30%;
-  padding: 0 0;
+#flash-message {
+  width: 100%;
+  max-width: 200px;
   margin: 0 auto;
-  color: #333;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 26px;
 }
-.account-value{
-  width:70%;
-  padding: 0 0;
-  margin: 0 0;
-}
+
+//accounts/profile
 .account-img{
-  max-width: 30%;
-  max-height: auto;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
 }
 
 //event/index.html
-.event-scroll{
-  max-height: 650px;
-  overflow-y: auto;
+.detail-btn{
+  text-align: center;
+  padding: auto 4px !important;
+  height: auto;
+}
+.index-card-header{
+  height: 50px;
+}
+.clickable-card{
+  font-size: 12px;
+  height: auto;
+}
+.index-map-container{
+  width: 60%;
+}
+#filterSelect {
+  font-size: 10px !important;
+  width: auto;
+}
+#sortSelect{
+  font-size: 10px !important;
+}
+.make-event-btn{
+  font-size: 12px; /* Adjust the font size as needed */
+  padding: 5px 10px;
+}
+.event-main-container{
+  width: 100%;
+  margin: auto;
+  justify-content: center;
+  display: flex;
+}
+.index-card-header{
+  padding: 0;
+}
+.index-card-body{
+  padding: 0px 40px;
+}
+@media(max-width:1440px){
+  .event-scroll{
+    max-height: 550px;
+    overflow-y: auto;
+  }
 }
 @media(max-width:1024px){
   .event-scroll{
@@ -142,20 +190,46 @@ a{
   }
 }
 @media (max-width:768px) {
+  .clickable-card{
+    font-size: 10px;
+    height: auto;
+  }
+  .events-index{
+    padding-top: 430px !important;
+  }
   .event-main-container{
     flex-flow: column;
+    justify-content: center;
+    width: 100%;
   }
-  .map-container{
+  .index-map-container{
+    width: 100%;
+  }
+  .index-map-container{
     width: 100%!important;
     margin: 0px!important;
+    position: fixed;
+    top:52px;
+    z-index: 100;
   }
   .container-field{
     display: flex;
     flex-flow: column;
   }
   .event-scroll{
-    max-height: 300px;
+    max-height: 400px;
     overflow-y: auto;
+  }
+  .search-selecet-event-nav{
+    position: fixed;
+    width: 100%;
+    top:345px;
+    z-index: 100;
+    padding-bottom: 0px;
+    margin-bottom:  0px;
+  }
+  .make-event-btn{
+    height: 30px;
   }
 }
 @media (max-width:425px){
@@ -167,3 +241,17 @@ a{
     width: 100%;
   }
 }
+
+//events/show
+
+@media (max-width:425px) {
+  .day-time-container{
+    flex-flow: column;
+    margin-bottom: 5px;
+  }
+  .show-card-text{
+    margin-bottom: 0;
+  }
+}
+
+//acounts show

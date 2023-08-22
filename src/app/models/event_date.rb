@@ -15,10 +15,7 @@ class EventDate < ApplicationRecord
   end
 
   def date_in_future
-    if event_day.nil? || end_time.nil?
-      return
-    end
-    if event_day < Date.today || (event_day == Date.today && end_time < Time.now)
+    if event_day < Date.today || (event_day == Date.today && end_time > Time.now)
       errors.add(:event_day, "は過去の日時は選択できません。")
     end
   end
