@@ -100,7 +100,7 @@ body{
   width: 100%;
   font-size: 12px;
   bottom: 0;
-  z-index: 200;
+  z-index: 300;
   margin: auto;
 }
 @media (max-width: 768px) {
@@ -122,12 +122,12 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 100;
+  z-index: 400;
   pointer-events: none;
 }
 #flash-message {
   width: 100%;
-  max-width: 500px;
+  max-width: 200px;
   margin: 0 auto;
 }
 

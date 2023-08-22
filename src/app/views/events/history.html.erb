@@ -3,30 +3,31 @@
     <div class="col-md-8">
       <h4 class="text-center my-4">作成済みイベント</h4>
       <div class="card-container" style="max-height: 600px; overflow-y: auto;">
-        <% @events.each do |event| %>
-          <div class="card mt-4 clickable-card"
-          data-event-day="<%= event.event_dates.last.event_day %>"
-          data-event-end-time="<%= event.event_dates.last.end_time %>"
-          >
-            <div class="card-header">
-              <div class="d-flex justify-content-between">
-                <div>
-                  <h5><%= event.name %></h5>
-                  <strong>住所：</strong><p class="ms-5"><%= event.address %></p>
-                </div>
-                <div>
-                  <div class="dropdown d-inline">
-                    <a class="btn btn-primary dropdown-toggle float-end" href="#" data-toggle="dropdown"></a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <%= link_to "詳細", event, class: "dropdown-item text-primary" %>
-                      <%= link_to "編集",edit_event_path(event.id),class: "dropdown-item text-primary" %>
-                    <%= link_to "削除",event, method: :delete, data: { confirm: "本当に削除しますか？" },class: "dropdown-item text-danger" %>
+        <% if @events.any? %>
+          <% @events.each do |event| %>
+            <div class="card mt-4 clickable-card"
+            data-event-day="<%= event.event_dates.last.event_day %>"
+            data-event-end-time="<%= event.event_dates.last.end_time %>"
+            >
+              <div class="card-header">
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <h5><%= event.name %></h5>
+                    <strong>住所：</strong><p class="ms-5"><%= event.address %></p>
+                  </div>
+                  <div>
+                    <div class="dropdown d-inline">
+                      <a class="btn btn-primary dropdown-toggle float-end" href="#" data-toggle="dropdown"></a>
+                      <div class="dropdown-menu dropdown-menu-right">
+                        <%= link_to "詳細", event, class: "dropdown-item text-primary" %>
+                        <%= link_to "編集",edit_event_path(event.id),class: "dropdown-item text-primary" %>
+                      <%= link_to "削除",event, method: :delete, data: { confirm: "本当に削除しますか？" },class: "dropdown-item text-danger" %>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="card-body">
+              <div class="card-body">
               <ul class="list-group">
                 <% event.event_dates.each_with_index do |date, i| %>
                   <li class="list-group-item event-date-container">
@@ -36,7 +37,7 @@
                     <strong>開催時刻：</strong>
                     <%= date.start_time.strftime('%H:%M') %>〜<%= date.end_time.strftime('%H:%M') %>
                   </li>
-                <% end %>
+                  <% end %>
               </ul>
               <% if event.image.present?%>
                 <p class="image-info text-primary mt-3" data-toggle="modal" data-target="#imageModal" data-image-url="<%= event.image.url %>" data-image-description="<%= event.name %>の画像">
@@ -48,6 +49,9 @@
               <p class="text-danger ps-2 event-past-message">※開催済みのイベントです</p>
           </div>
         <% end %>
+      <% else %>
+        <p class="text-center">作成済みのイベントはありません。</p>
+      <% end %>
       </div>
     </div>
   </div>
