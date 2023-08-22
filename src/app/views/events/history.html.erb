@@ -4,12 +4,10 @@
       <h4 class="text-center my-4">作成済みイベント</h4>
       <div class="card-container" style="max-height: 600px; overflow-y: auto;">
         <% @events.each do |event| %>
-          <% card_class = ""
-            if event.event_dates.last.event_day < Date.today ||
-            (event.event_dates.last.event_day == Date.today && event.event_dates.last.end_time < Time.now)
-              card_class = "text-muted"
-          end %>
-          <div class="card mt-4 <%= card_class %>">
+          <div class="card mt-4 clickable-card"
+          data-event-day="<%= event.event_dates.last.event_day %>"
+          data-event-end-time="<%= event.event_dates.last.end_time %>"
+          >
             <div class="card-header">
               <div class="d-flex justify-content-between">
                 <div>
@@ -21,8 +19,8 @@
                     <a class="btn btn-primary dropdown-toggle float-end" href="#" data-toggle="dropdown"></a>
                     <div class="dropdown-menu dropdown-menu-right">
                       <%= link_to "詳細", event, class: "dropdown-item text-primary" %>
-                      <a class="dropdown-item text-primary" href="/">編集</a>
-                    <%= link_to "削除",@event, method: :delete, data: { confirm: "本当に削除しますか？" },class: "dropdown-item text-danger" %>
+                      <%= link_to "編集",edit_event_path(event.id),class: "dropdown-item text-primary" %>
+                    <%= link_to "削除",event, method: :delete, data: { confirm: "本当に削除しますか？" },class: "dropdown-item text-danger" %>
                     </div>
                   </div>
                 </div>
@@ -30,14 +28,8 @@
             </div>
             <div class="card-body">
               <ul class="list-group">
-                <% event_day = event.event_dates.last.event_day %>
-                <% end_time = event.event_dates.last.end_time %>
-                <% card_class = "" %>
-                <% if event_day < @current_date || (event_day == @current_date && end_time < @current_time) %>
-                  <% card_class = "text-muted" %>
-                <% end %>
                 <% event.event_dates.each_with_index do |date, i| %>
-                  <li class="list-group-item <%= card_class %>">
+                  <li class="list-group-item event-date-container">
                     <strong><%= event.event_dates.count <= 1 ? "日付：" : "#{i + 1}. 開催日：" %></strong>
                     <%= date.event_day.strftime('%Y-%m-%d') %>
                     <br>
@@ -53,9 +45,7 @@
               <% end %>
               <p class="card-text mt-3"><strong>イベント詳細：</strong><%= event.introduction %></p>
             </div>
-            <% if event_day < @current_date || (event_day == @current_date && end_time < @current_time) %>
-              <p class="text-danger ps-1">※開催済みのイベントです</p>
-            <% end %>
+              <p class="text-danger ps-2 event-past-message">※開催済みのイベントです</p>
           </div>
         <% end %>
       </div>
@@ -80,6 +70,43 @@
 </div>
 
 <script>
+  const currentDateTime = new Date();
+  document.addEventListener("turbolinks:load", function() {
+    updateEventMessages()
+  });
+  function updateEventMessages() {
+    const clickableCards = document.querySelectorAll(".clickable-card");
+
+    clickableCards.forEach(function(card){
+      const pastEventMessage = card.querySelector(".event-past-message");
+      const pastEventList = card.querySelectorAll(".event-date-container");
+      const eventDate = new Date(card.getAttribute("data-event-day"));
+      const startTime = new Date(card.getAttribute("data-event-start-time"));
+      const endTime = new Date(card.getAttribute("data-event-end-time"));
+
+      if(pastEvent(eventDate, currentDateTime, endTime)){
+        card.classList.add("text-muted");
+        pastEventMessage.classList.add("visible");
+        pastEventList.forEach(item => item.classList.add("text-muted"));
+      } else {
+        pastEventMessage.classList.add("invisible");
+      }
+    });
+  }
+  function pastEvent(eventDate, currentDateTime, endTime) {
+    return eventDate < currentDateTime || isSameDay(eventDate, currentDateTime) && isTimePast(endTime, currentDateTime);
+  }
+  function isSameDay(date1, date2) {
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+  }
+  function isTimePast(time1, time2) {
+    return time1.getHours() < time2.getHours() || (time1.getHours() === time2.getHours() && time1.getMinutes() < time2.getMinutes());
+  }
+
   document.addEventListener("DOMContentLoaded", function() {
     const imageInfoElements = document.querySelectorAll(".image-info");
 

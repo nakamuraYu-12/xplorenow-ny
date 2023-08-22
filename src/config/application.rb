@@ -20,5 +20,6 @@ module App
     # config.eager_load_paths << Rails.root.join("extras")
     config.action_view.field_error_proc = Proc.new { |html_tag, instance| html_tag }
     config.time_zone = 'Asia/Tokyo'
+    config.active_record.default_timezone= :local
   end
 end

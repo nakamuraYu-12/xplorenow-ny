@@ -53,26 +53,7 @@ class EventsController < ApplicationController
     else
       @bookmark_events = []
     end
-    @current_date = Date.current.in_time_zone('Asia/Tokyo').to_date
-    @current_time = Time.current.in_time_zone('Asia/Tokyo')
 
-    @events.each do |event|
-      event_day = event.event_dates.last.event_day.in_time_zone('Asia/Tokyo').to_date
-      end_time = event.event_dates.last.end_time.in_time_zone('Asia/Tokyo')
-
-      if event_day == @current_date
-        @event_date_match = true
-      else
-        @event_date_match = false
-      end
-
-      if end_time.hour < @current_time.hour ||
-        (end_time.hour == @current_time.hour && end_time.min < @current_time.min)
-        @event_time_past = true
-      else
-        @event_time_past = false
-      end
-    end
   end
 
   def show
@@ -94,26 +75,7 @@ class EventsController < ApplicationController
     else
       @bookmark_events = []
     end
-    @current_date = Date.current.in_time_zone('Asia/Tokyo').to_date
-    @current_time = Time.current.in_time_zone('Asia/Tokyo')
 
-    @events.each do |event|
-      event_day = event.event_dates.last.event_day.in_time_zone('Asia/Tokyo').to_date
-      end_time = event.event_dates.last.end_time.in_time_zone('Asia/Tokyo')
-
-      if event_day == @current_date
-        @event_date_match = true
-      else
-        @event_date_match = false
-      end
-
-      if end_time.hour < @current_time.hour ||
-        (end_time.hour == @current_time.hour && end_time.min < @current_time.min)
-        @event_time_past = true
-      else
-        @event_time_past = false
-      end
-    end
   end
 
   def delete_image
@@ -123,6 +85,21 @@ class EventsController < ApplicationController
     redirect_to edit_event_path(@event), notice: '画像が削除されました。'
   end
 
+  def is_same_date (date1, date2)
+    return (
+      date1.year === date2.year &&
+      date1.month === date2.month &&
+      date1.day === date2.day
+    );
+  end
+
+  def is_time_after(time1, time2)
+    return time1.hour > time2.hour || (time1.hour === time2.hour && time1.min > time2.min);
+  end
+
+  def is_day_after(day1, day2)
+    return day1 < day2
+  end
   private
 
   def event_params

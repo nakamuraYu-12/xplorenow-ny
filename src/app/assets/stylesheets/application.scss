@@ -23,6 +23,33 @@ li{
 a{
   text-decoration:none;
 }
+
+.btn {
+  padding: 0.25rem 0.5rem;
+  font-size: 12px;
+}
+
+.btn-primary {
+  font-size: 14px;
+  padding: 0.5rem 1rem;
+}
+.btn-outline-primary {
+  font-size: 14px;
+  padding: 0.5rem 1rem;
+}
+
+.form-control {
+  font-size: 12px;
+  padding: 0.25rem 0.5rem;
+}
+
+.btn-secondary{
+  font-size: 14px;
+  padding: 0.5rem 1rem;
+}
+body{
+  padding-top: 45px;
+}
  //ナビゲーションバー
 .navbar{
   background-color:#1C1D3B;;
@@ -56,6 +83,47 @@ a{
   right: 0px;
 }
 
+.header-bar{
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 200;
+}
+//フッター
+.footer {
+  font-size: 12px;
+}
+@media screen and (min-width: 768px) {
+  .footer {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 200;
+  }
+}
+
+.footer{
+
+}
+//フラッシュメッセージ
+#flash-message-container {
+  position: fixed;
+  top: 20px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  pointer-events: none;
+}
+#flash-message {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
 
 //accouts,accounts/profile
 .container>h2{
@@ -131,9 +199,42 @@ a{
 }
 
 //event/index.html
-.event-scroll{
-  max-height: 650px;
-  overflow-y: auto;
+.detail-btn{
+  text-align: center;
+  padding-bottom: 0px !important;
+  height: auto;
+}
+.index-card-header{
+  height: 50px;
+}
+.clickable-card{
+  font-size: 12px;
+  height: auto;
+}
+.index-map-container{
+  width: 60%;
+}
+#filterSelect {
+  font-size: 10px !important;
+}
+#sortSelect{
+  font-size: 10px !important;
+}
+.make-event-btn{
+  font-size: 12px; /* Adjust the font size as needed */
+  padding: 5px 10px; 
+}
+.event-main-container{
+  width: 100%;
+  margin: auto;
+  justify-content: center;
+  display: flex;
+}
+@media(max-width:1440px){
+  .event-scroll{
+    max-height: 550px;
+    overflow-y: auto;
+  }
 }
 @media(max-width:1024px){
   .event-scroll{
@@ -142,20 +243,46 @@ a{
   }
 }
 @media (max-width:768px) {
+  .clickable-card{
+    font-size: 10px;
+    height: auto;
+  }
+  .events-index{
+    padding-top: 430px !important;
+  }
   .event-main-container{
     flex-flow: column;
+    justify-content: center;
+    width: 100%;
   }
-  .map-container{
+  .index-map-container{
+    width: 100%;
+  }
+  .index-map-container{
     width: 100%!important;
     margin: 0px!important;
+    position: fixed;
+    top:52px;
+    z-index: 100;
   }
   .container-field{
     display: flex;
     flex-flow: column;
   }
   .event-scroll{
-    max-height: 300px;
+    max-height: 400px;
     overflow-y: auto;
+  }
+  .search-selecet-event-nav{
+    position: fixed;
+    width: 100%;
+    top:345px;
+    z-index: 100;
+    padding-bottom: 0px;
+    margin-bottom:  0px;
+  }
+  .make-event-btn{
+    height: 30px;
   }
 }
 @media (max-width:425px){

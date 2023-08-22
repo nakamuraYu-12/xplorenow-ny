@@ -1,9 +1,17 @@
-<% flash.each do |key, value| %>
-  <div class="alert alert-primary alert-dismissible fade show">
-    <strong>
-      <%= value %>
-    </strong>
-    <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">
-    </button>
-  </div>
-<% end %>
+<div id="flash-message-container">
+  <% flash.each do |key, value| %>
+    <div class="alert alert-primary alert-dismissible fade show" id="flash-message">
+      <strong>
+        <%= value %>
+      </strong>
+      <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close"></button>
+    </div>
+  <% end %>
+</div>
+<script>
+    $(document).ready(function() {
+      setTimeout(function() {
+        $('.alert').alert('close');
+      }, 4000);
+    });
+</script>

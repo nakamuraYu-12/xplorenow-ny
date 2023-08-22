@@ -16,9 +16,10 @@
     <script src="https://cdn.jsdelivr.net/npm/@chenfengyuan/datepicker/dist/datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-timepicker/0.5.2/js/bootstrap-timepicker.min.js"></script>
   </head>
-  <body>
+  <body class="<%= body_class %>">
     <%= render "shared/header" %>
     <%= render "shared/flashes"%>
     <%= yield %>
+    <%= render "shared/footer" %>
   </body>
 </html>
