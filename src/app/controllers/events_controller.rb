@@ -53,7 +53,6 @@ class EventsController < ApplicationController
     else
       @bookmark_events = []
     end
-
   end
 
   def show
@@ -75,7 +74,6 @@ class EventsController < ApplicationController
     else
       @bookmark_events = []
     end
-
   end
 
   def delete_image
@@ -85,21 +83,20 @@ class EventsController < ApplicationController
     redirect_to edit_event_path(@event), notice: '画像が削除されました。'
   end
 
-  def is_same_date (date1, date2)
-    return (
-      date1.year === date2.year &&
-      date1.month === date2.month &&
-      date1.day === date2.day
-    );
+  def is_same_date(date1, date2)
+    date1.year === date2.year &&
+    date1.month === date2.month &&
+    date1.day === date2.day
   end
 
   def is_time_after(time1, time2)
-    return time1.hour > time2.hour || (time1.hour === time2.hour && time1.min > time2.min);
+    time1.hour > time2.hour || (time1.hour === time2.hour && time1.min > time2.min)
   end
 
   def is_day_after(day1, day2)
-    return day1 < day2
+    day1 < day2
   end
+
   private
 
   def event_params

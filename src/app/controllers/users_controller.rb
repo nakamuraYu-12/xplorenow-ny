@@ -11,5 +11,4 @@ class UsersController < ApplicationController
     flash[:notice] = "アカウント削除を実行いたしました"
     redirect_to root_path
   end
-
 end
