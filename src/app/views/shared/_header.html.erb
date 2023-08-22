@@ -17,7 +17,7 @@
       <% else %>
         <div class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuLink" role="button">
-            <%= image_tag current_user.image.blank? ? 'default-avatar.png' : current_user.image.url, class: "nav-account-img img-field img-circle" %>
+            <%= image_tag current_user.image.blank? ? 'default-avatar.png' : current_user.image.url, class: "nav-account-img img-field rounded-circle" %>
             <%= current_user.name %>
           </a>
           <ul class="dropdown-menu left">

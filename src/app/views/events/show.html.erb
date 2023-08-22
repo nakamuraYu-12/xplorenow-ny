@@ -1,6 +1,6 @@
-<div class="show-container mb-5 w-75">
-  <div class="d-flex justify-content-center">
-    <div class="card w-100 mh-100">
+<div class="container show-container mb-5">
+  <div class="d-flex justify-content-center mt-4">
+    <div class="card w-100 mh-90">
       <div class="card-header">
         <%= link_to "戻る", :back, class: "btn btn-secondary" %>
         <% if current_user && @event.user_id == current_user.id%>
@@ -18,12 +18,12 @@
           <p><strong>住所：</strong><%= @event.address %><p>
             <% @event.event_dates.each_with_index do |date, i| %>
               <% if @event.event_dates.count <= 1 %>
-                <div class="d-flex">
-                  <p class="card-text">
+                <div class="d-flex day-time-container">
+                  <p class="show-card-text">
                     <strong>日付:</strong>
                     <%= date.event_day.strftime('%Y-%m-%d') %>
                   </p>
-                  <p class="card-text mb-1 ms-1">
+                  <p class="show-card-text mb-1 ms-1">
                     <strong>開催時刻：</strong>
                     <%= date.start_time.strftime('%H:%M') %>〜<%= date.end_time.strftime('%H:%M') %>
                   </p>
@@ -55,25 +55,26 @@
   </div>
 </div>
 <style>
-
-@media (max-width: 1440px) {
-  #map {
-  width: 100%;
-  height: 0px;
-  }
-}
-@media (max-width: 1024px) {
-  #map {
-  width: 100%;
-    height: 550px;
-  }
-}
-
-  @media (max-width: 768px) {
-    #map {
-      height: 100px;
+#map {
+      width: 100%;
+      height: 400px;
     }
-  }
+    @media (max-width: 1024px) {
+      #map {
+        height: 350px !important;
+      }
+    }
+    @media (max-width: 768px) {
+      #map {
+        width: auto;
+        height: 250px !important;
+      }
+    }
+    @media (max-width: 1440px) {
+      #map {
+        height: 600px;
+      }
+    }
 </style>
 
 <script>
