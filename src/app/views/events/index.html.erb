@@ -51,9 +51,16 @@
       data-event-end-time="<%= selected_date.end_time %>"
     >
       <div class="d-flex align-items-center justify-content-between card-header index-card-header mb-1">
-        <%= link_to user_account_path(event.user.id) do %>
-          <%= image_tag(event.user.image.blank? ? 'default-avatar.png' : current_user.image.url, class: "nav-account-img img-field rounded-circle") %>
-          <strong class="text-primary"><%= event.user.name %></strong>
+        <% if event.user.present? && event.user.image.present? %>
+          <%= link_to user_account_path(event.user.id) do %>
+            <%= image_tag(event.user.image.url, class: "nav-account-img img-field rounded-circle") %>
+            <strong class="text-primary"><%= event.user.name %></strong>
+          <% end %>
+        <% else %>
+          <%= link_to user_account_path(event.user.id) do %>
+            <%= image_tag('default-avatar.png', class: "nav-account-img img-field rounded-circle") %>
+            <strong class="text-primary"><%= event.user.name %></strong>
+          <% end %>
         <% end %>
         <div class="btn-field d-flex">
           <%= link_to "詳細", event, class: "detail-btn btn btn-primary" %>
