@@ -44,9 +44,11 @@
       data-event-introduction="<%= event.introduction %>"
       data-event-lat="<%= event.latitude %>"
       data-event-lng="<%= event.longitude %>"
-      data-event-day="<%= event.event_dates.last.event_day %>"
-      data-event-start-time="<%= event.event_dates.last.start_time %>"
-      data-event-end-time="<%= event.event_dates.last.end_time %>"
+      <% selected_event = @event_dates.find { |ed| ed[:event_id] == event.id }%>
+      <% selected_date = selected_event[:selected_date] %>
+      data-event-day="<%= selected_date.event_day %>"
+      data-event-start-time="<%= selected_date.start_time %>"
+      data-event-end-time="<%= selected_date.end_time %>"
     >
       <div class="d-flex align-items-center justify-content-between card-header index-card-header mb-1">
         <%= link_to user_account_path(event.user.id) do %>
