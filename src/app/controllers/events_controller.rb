@@ -56,8 +56,10 @@ class EventsController < ApplicationController
       event_dates = event.event_dates.order(:event_day)
       current_date = event_dates.find { |ed| ed.event_day == current_day && is_time_feature(ed.end_time, current_time) }
       feature_date = event_dates.find { |ed| ed.event_day > current_day  }
-      past_date = event_dates.reverse.find { |ed| ed.event_day < current_day ||
-                                              ed.event_day == current_day && is_time_past(ed.end_time, current_time) }
+      past_date = event_dates.reverse.find do |ed|
+        ed.event_day < current_day ||
+          ed.event_day == current_day && is_time_past(ed.end_time, current_time)
+      end
       selected_date = current_date || feature_date || past_date
       @event_dates << {
         event_id: event.id,
