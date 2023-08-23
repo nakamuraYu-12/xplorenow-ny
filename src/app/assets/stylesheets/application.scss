@@ -96,23 +96,13 @@ body{
 
 //フッター
 .footer {
-  position: absolute;
   width: 100%;
   font-size: 12px;
-  bottom: 0;
   z-index: 300;
-  margin: auto;
+  margin-top:60px;
 }
-@media (max-width: 768px) {
-  .footer {
-    position: relative ;
-  }
-}
-@media (max-width:768px) {
-  .footer{
-    margin-top: 50px;
-  }
-}
+
+
 //フラッシュメッセージ
 #flash-message-container {
   position: fixed;
@@ -217,7 +207,8 @@ body{
     flex-flow: column;
   }
   .event-scroll{
-    max-height: 400px;
+    margin-top: 10px;
+    max-height: 200px;
     overflow-y: auto;
   }
   .search-selecet-event-nav{
@@ -243,8 +234,15 @@ body{
 }
 
 //events/show
-
-@media (max-width:425px) {
+.img-fluid{
+  max-width: 500px;
+  max-height: 500px;
+  object-fit: cover;
+}
+.event-show-container{
+  width: 70%;
+}
+@media (max-width:768px) {
   .day-time-container{
     flex-flow: column;
     margin-bottom: 5px;
@@ -252,6 +250,17 @@ body{
   .show-card-text{
     margin-bottom: 0;
   }
+  .event-show-container{
+    width: 100% ;
+  }
 }
 
-//acounts show
+//user show
+.user-profile-container{
+  width: 55%;
+}
+@media (max-width:768px) {
+  .user-profile-container{
+    width: 100%;
+  }
+}

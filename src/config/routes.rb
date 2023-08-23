@@ -21,4 +21,5 @@ Rails.application.routes.draw do
   get 'accounts/user/:id', to: 'accounts#user', as: 'user_account'
   get 'accounts/profile/edit', to: 'accounts#profile_edit'
   patch '/accounts/profile/update', to: 'accounts#profile_update'
+  
 end

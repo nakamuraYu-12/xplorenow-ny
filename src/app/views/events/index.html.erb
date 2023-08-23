@@ -115,7 +115,8 @@ const currentDateTime = new Date();
 
 
 document.addEventListener("turbolinks:load", function() {
-  updateEventMessages()
+  updateEventMessages();
+  initMap();
 });
 function updateEventMessages() {
   const clickableCards = document.querySelectorAll(".clickable-card");
@@ -129,10 +130,10 @@ function updateEventMessages() {
 
     if(pastEvent(eventDate, currentDateTime, endTime)){
       pastEventBtn.classList.add("btn-outline-primary");
+      pastEventBtn.classList.remove("btn-primary");
       card.classList.add("text-muted");
       pastEventMessage.classList.add("visible");
     } else {
-      pastEventBtn.classList.add("btn-primary");
       pastEventMessage.classList.add("invisible");
     }
   });
@@ -351,9 +352,6 @@ function handleAddressSearch() {
     });
   }
 }
-
-// ドキュメントの読み込みが完了したときに初期化を行う
-document.addEventListener("DOMContentLoaded", initMap);
 
 </script>
 
