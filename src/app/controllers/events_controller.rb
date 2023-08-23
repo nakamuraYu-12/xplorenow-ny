@@ -37,7 +37,17 @@ class EventsController < ApplicationController
 
   def update
     @event = Event.includes(:event_dates).find(params[:id])
-    if @event.update(event_params)
+    @result = MapQuery.new(params[:event][:address]).result
+
+    if @result.nil?
+      flash.now[:warning] = "イベントの更新に失敗しました"
+      @event.errors.add(:address, "有効な住所を入力してください")
+      render "events/edit"
+      return
+    end
+    event_params_with_coordinates = event_params.merge(latitude: @result["lat"], longitude: @result["lng"])
+
+    if @event.update(event_params_with_coordinates)
       flash[:success] = "イベントを編集しました"
       redirect_to @event
     else
