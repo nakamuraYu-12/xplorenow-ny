@@ -48,7 +48,7 @@ class EventsController < ApplicationController
 
   def index
     @events = Event.includes(:event_dates).order("events.created_at DESC")
-    @event_dates =[]
+    @event_dates = []
     current_day = Date.today
     current_time = Time.now
 
@@ -56,11 +56,12 @@ class EventsController < ApplicationController
       event_dates = event.event_dates.order(:event_day)
       current_date = event_dates.find { |ed| ed.event_day == current_day && is_time_feature(ed.end_time, current_time) }
       feature_date = event_dates.find { |ed| ed.event_day > current_day  }
-      past_date = event_dates.reverse.find { |ed| ed.event_day < current_day ||  ed.event_day == current_day && is_time_past(ed.end_time, current_time)}
+      past_date = event_dates.reverse.find { |ed| ed.event_day < current_day ||
+                                              ed.event_day == current_day && is_time_past(ed.end_time, current_time) }
       selected_date = current_date || feature_date || past_date
       @event_dates << {
         event_id: event.id,
-        selected_date: selected_date
+        selected_date: selected_date,
       }
     end
 
@@ -112,6 +113,7 @@ class EventsController < ApplicationController
   def is_time_past(time1, time2)
     time1.hour < time2.hour || (time1.hour == time2.hour && time1.min < time2.min)
   end
+
   private
 
   def event_params
