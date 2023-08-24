@@ -27,7 +27,7 @@
                 <% if @user.id == current_user.id %>
                   <div>
                     <div class="dropdown d-inline">
-                      <a class="btn btn-primary dropdown-toggle float-end" href="#" data-toggle="dropdown"></a>
+                      <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuLink" role="button"><i class="bi bi-list" style="font-size: 20px; color: blue;"></i></a>
                       <div class="dropdown-menu dropdown-menu-right">
                         <%= link_to "詳細", event, class: "dropdown-item text-primary" %>
                         <a class="dropdown-item text-primary" href="/">編集</a>
