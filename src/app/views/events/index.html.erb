@@ -34,62 +34,61 @@
         <a class="btn btn-primary w-100 m-2 make-event-btn" href="/events/new"><strong>+</strong></a>
       </div>
     </nav>
-
     <div class="event-scroll d-flex flex-column align-items-center pt-3 px-3">
-  <% @events.each do |event| %>
-    <div class="card  px-2 py-1 clickable-card w-100 mb-2"
-      data-event-id="<%= event.id %>"
-      data-event-name="<%= event.name %>"
-      data-event-address="<%= event.address%>"
-      data-event-introduction="<%= event.introduction %>"
-      data-event-lat="<%= event.latitude %>"
-      data-event-lng="<%= event.longitude %>"
-      <% selected_event = @event_dates.find { |ed| ed[:event_id] == event.id }%>
-      <% selected_date = selected_event[:selected_date] %>
-      data-event-day="<%= selected_date.event_day %>"
-      data-event-start-time="<%= selected_date.start_time %>"
-      data-event-end-time="<%= selected_date.end_time %>"
-    >
-      <div class="d-flex align-items-center justify-content-between card-header index-card-header mb-1">
-        <% if event.user.present? && event.user.image.present? %>
-          <%= link_to user_account_path(event.user.id) do %>
-            <%= image_tag(event.user.image.url, class: "nav-account-img img-field rounded-circle") %>
-            <strong class="text-primary"><%= event.user.name %></strong>
-          <% end %>
-        <% else %>
-          <%= link_to user_account_path(event.user.id) do %>
-            <%= image_tag('default-avatar.png', class: "nav-account-img img-field rounded-circle") %>
-            <strong class="text-primary"><%= event.user.name %></strong>
-          <% end %>
-        <% end %>
-        <div class="btn-field d-flex">
-          <%= link_to "詳細", event, class: "detail-btn btn btn-primary" %>
-          <% if user_signed_in? %>
-            <% if current_user.bookmark?(event) %>
-              <%= render 'bookmarks/unbookmark', event: event %>
+      <% @events.each do |event| %>
+        <div class="card  px-2 py-1 clickable-card w-100 mb-2"
+          data-event-id="<%= event.id %>"
+          data-event-name="<%= event.name %>"
+          data-event-address="<%= event.address%>"
+          data-event-introduction="<%= event.introduction %>"
+          data-event-lat="<%= event.latitude %>"
+          data-event-lng="<%= event.longitude %>"
+          <% selected_event = @event_dates.find { |ed| ed[:event_id] == event.id }%>
+          <% selected_date = selected_event[:selected_date] %>
+          data-event-day="<%= selected_date.event_day %>"
+          data-event-start-time="<%= selected_date.start_time %>"
+          data-event-end-time="<%= selected_date.end_time %>"
+        >
+          <div class="d-flex align-items-center justify-content-between card-header index-card-header mb-1">
+            <% if event.user.present? && event.user.image.present? %>
+              <%= link_to user_account_path(event.user.id) do %>
+                <%= image_tag(event.user.image.url, class: "nav-account-img img-field rounded-circle") %>
+                <strong class="text-primary"><%= event.user.name %></strong>
+              <% end %>
             <% else %>
-              <%= render 'bookmarks/bookmark', event: event %>
+              <%= link_to user_account_path(event.user.id) do %>
+                <%= image_tag('default-avatar.png', class: "nav-account-img img-field rounded-circle") %>
+                <strong class="text-primary"><%= event.user.name %></strong>
+              <% end %>
             <% end %>
-          <% end %>
+            <div class="btn-field d-flex">
+              <%= link_to "詳細", event, class: "detail-btn btn btn-primary" %>
+              <% if user_signed_in? %>
+                <% if current_user.bookmark?(event) %>
+                  <%= render 'bookmarks/unbookmark', event: event %>
+                <% else %>
+                  <%= render 'bookmarks/bookmark', event: event %>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+          <div class="card-body event-card index-card-body">
+            <h5 class="card-title event-title"><%= event.name %></h5>
+            <div>
+              <p class="card-text mb-1 event-address"><strong>住所:</strong> <%= event.address %></p>
+              <p class="card-text mb-0"><strong>イベント日時:</strong></p>
+              <ul class="list-group mb-1">
+                <% event.event_dates.each do |date| %>
+                  <li class="ps-2"><%= date.event_day.strftime('%Y-%m-%d') %> <%= date.start_time.strftime('%H:%M') %>〜<%= date.end_time.strftime('%H:%M') %></li>
+                <% end %>
+              </ul>
+              <p class="event-past-message text-danger ps-1">※開催済みのイベントです</p>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="card-body event-card index-card-body">
-        <h5 class="card-title event-title"><%= event.name %></h5>
-        <div>
-          <p class="card-text mb-1 event-address"><strong>住所:</strong> <%= event.address %></p>
-          <p class="card-text mb-0"><strong>イベント日時:</strong></p>
-          <ul class="list-group mb-1">
-            <% event.event_dates.each do |date| %>
-              <li class="ps-2"><%= date.event_day.strftime('%Y-%m-%d') %> <%= date.start_time.strftime('%H:%M') %>〜<%= date.end_time.strftime('%H:%M') %></li>
-            <% end %>
-          </ul>
-            <p class="event-past-message text-danger ps-1">※開催済みのイベントです</p>
-        </div>
-      </div>
+      <% end %>
     </div>
-  <% end %>
-</div>
-</div>
+  </div>
 </div>
 <style>
   #map {
