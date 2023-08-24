@@ -1,14 +1,16 @@
 <div class="container event-show-container mb-5">
   <div class="d-flex justify-content-center">
     <div class="card w-100">
-      <div class="card-header">
+      <div class="card-header d-flex justify-content-between align-items-center">
         <%= link_to "戻る", :back, data: { turbolinks: false },class: "btn btn-secondary" %>
         <% if current_user && @event.user_id == current_user.id%>
-          <a class="btn btn-primary dropdown-toggle float-end" href="#" data-toggle="dropdown"></a>
+        <div class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuLink" role="button"><i class="bi bi-list" style="font-size: 25px; color: blue;"></i></a>
           <div class="dropdown-menu dropdown-menu-right">
             <%= link_to "編集",edit_event_path(@event.id),class: "dropdown-item text-primary" %>
             <%= link_to "削除",@event, method: :delete, data: { confirm: "本当に削除しますか？" },class: "dropdown-item text-danger" %>
           </div>
+        </div>
         <% end %>
       </div>
       <div id='map' class="mt-2 card-img-top"></div>
