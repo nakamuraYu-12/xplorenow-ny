@@ -160,7 +160,7 @@ body{
   font-size: 10px !important;
 }
 .make-event-btn{
-  font-size: 12px; /* Adjust the font size as needed */
+  font-size: 12px;
   padding: 5px 10px;
 }
 .event-main-container{
@@ -175,12 +175,12 @@ body{
 .index-card-body{
   padding: 0px 40px;
 }
-@media(max-width:1440px){
-  .event-scroll{
-    max-height: 550px;
-    overflow-y: auto;
+
+.event-scroll{
+  max-height: 550px;
+  overflow-y: auto;
   }
-}
+
 @media(max-width:1024px){
   .event-scroll{
     max-height: 500px;
@@ -214,11 +214,7 @@ body{
     display: flex;
     flex-flow: column;
   }
-  .event-scroll{
-    margin-top: 10px;
-    max-height: 200px;
-    overflow-y: auto;
-  }
+
   .search-selecet-event-nav{
     position: fixed;
     width: 100%;
