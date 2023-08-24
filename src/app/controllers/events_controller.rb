@@ -77,6 +77,11 @@ class EventsController < ApplicationController
       }
     end
 
+    # 初めに
+    # @bookmark_events = []
+    # を用意しておいて
+    # @bookmark_events = current_user.bookmarks_events.includes(:user).order(created_at: :desc) if current_user
+    # の方がスッキリしそうです！
     if current_user
       @bookmark_events = current_user.bookmarks_events.includes(:user).order(created_at: :desc)
     else

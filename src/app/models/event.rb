@@ -12,6 +12,8 @@ class Event < ApplicationRecord
   before_save :remove_image_if_flagged
 
   def event_dates_presence
+    # errors.add(:event_dates, "イベント開催日時を設定してください") if event_dates.none?
+    # のようにif文は1行で書けたりします！
     if event_dates.none?
       errors.add(:event_dates, "イベント開催日時を設定してください")
     end
@@ -20,6 +22,11 @@ class Event < ApplicationRecord
   private
 
   def remove_image_if_flagged
+    # '1'が何の数字か分からないので書き換えたいですね・・・
+
+    # メソッド名にifがつくのはあまり見ない気が・・・
+    # before_save :remove_image_if_flagged, if: :hoge
+    # みたいな書き方もあるので、調べて見てください！
     self.image = nil if remove_image == '1'
   end
 end

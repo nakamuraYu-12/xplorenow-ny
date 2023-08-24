@@ -19,6 +19,7 @@ class User < ApplicationRecord
     super && (is_deleted == false)
   end
 
+  # bookmarkだとbelongs_toと勘違いしやすくなるので、メソッド名にテーブル名のみは使用しない方がおすすめです
   def bookmark(event)
     bookmarks_events << event
   end

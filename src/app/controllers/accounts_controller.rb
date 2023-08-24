@@ -10,6 +10,7 @@ class AccountsController < ApplicationController
   end
 
   def profile_edit
+    # @user = current_userにしていない理由ってありますか？？
     @user = User.find(current_user.id)
   end
 
@@ -20,6 +21,10 @@ class AccountsController < ApplicationController
       redirect_to "/accounts/profile"
     else
       flash[:error] = "プロフィール編集に失敗しました"
+      # renderを使用するなら
+      # render :profile_edit
+      # の方が良さそうです。
+      # render は同じアクション内でビューを表示するために使用し、redirect_to は異なるURLにユーザーをリダイレクトするために使用します。
       render "/accounts/profile_edit"
     end
   end
@@ -29,6 +34,10 @@ class AccountsController < ApplicationController
   end
 
   def user
+    # @user = User.includes(events:[:event_dates]).find(params[:id])
+    # にすると
+    # @events = @user.events.order(:created_at)
+    # とincludesを2回書かずに済みます
     @user = User.includes(:events).find(params[:id])
     @events = @user.events.includes(:event_dates).order("events.created_at DESC")
   end
