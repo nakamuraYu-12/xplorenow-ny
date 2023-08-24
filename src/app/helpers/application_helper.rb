@@ -4,6 +4,7 @@ module ApplicationHelper
   end
 
   def body_class
+    # "#{ controller_name }-#{ action_name }"でも書けたりします
     controller_name + "-" + action_name
   end
 end
