@@ -127,6 +127,11 @@ GEM
     erubi (1.12.0)
     excon (0.100.0)
     execjs (2.8.1)
+    factory_bot (6.2.1)
+      activesupport (>= 5.0.0)
+    factory_bot_rails (6.2.0)
+      factory_bot (~> 6.2.0)
+      railties (>= 5.0.0)
     ffi (1.15.5)
     fog-aws (3.19.0)
       fog-core (~> 2.1)
@@ -261,6 +266,14 @@ GEM
     rspec-mocks (3.12.6)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.12.0)
+    rspec-rails (6.0.3)
+      actionpack (>= 6.1)
+      activesupport (>= 6.1)
+      railties (>= 6.1)
+      rspec-core (~> 3.12)
+      rspec-expectations (~> 3.12)
+      rspec-mocks (~> 3.12)
+      rspec-support (~> 3.12)
     rspec-support (3.12.1)
     rubocop (1.32.0)
       json (~> 2.3)
@@ -364,6 +377,7 @@ DEPENDENCIES
   devise
   devise-i18n
   dotenv-rails
+  factory_bot_rails
   fog-aws
   jbuilder (~> 2.7)
   listen (~> 3.3)
@@ -374,6 +388,7 @@ DEPENDENCIES
   rails (~> 6.1.7, >= 6.1.7.4)
   rails-i18n
   rspec
+  rspec-rails
   rubocop
   rubocop-airbnb
   sass-rails (>= 6)
