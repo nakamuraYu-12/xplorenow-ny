@@ -19,15 +19,15 @@ class User < ApplicationRecord
     super && (is_deleted == false)
   end
 
-  def bookmark(event)
+  def event_bookmark(event)
     bookmarks_events << event
   end
 
-  def unbookmark(event)
+  def event_unbookmark(event)
     bookmarks_events.delete(event)
   end
 
-  def bookmark?(event)
+  def event_bookmarked?(event)
     bookmarks_events.include?(event)
   end
 end

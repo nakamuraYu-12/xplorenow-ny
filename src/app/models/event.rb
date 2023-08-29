@@ -10,7 +10,7 @@ class Event < ApplicationRecord
   belongs_to :user
   accepts_nested_attributes_for :event_dates, reject_if: :all_blank, allow_destroy: true
   attr_accessor :remove_image
-  before_save :remove_image_if_flagged
+  before_save :remove_image_flagged, if: :remove_image_flagged
 
   def event_dates_presence
     errors.add(:base, "イベント開催日時を設定してください") if event_dates.none?
@@ -22,7 +22,7 @@ class Event < ApplicationRecord
 
   private
 
-  def remove_image_if_flagged
-    self.image = nil if remove_image == '1'
+  def remove_image_flagged
+    self.image = nil if remove_image
   end
 end

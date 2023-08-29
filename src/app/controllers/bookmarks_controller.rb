@@ -1,13 +1,13 @@
 class BookmarksController < ApplicationController
   def create
     event = Event.find(params[:event_id])
-    current_user.bookmark(event)
+    current_user.event_bookmark(event)
     redirect_back fallback_location: root_path, success: 'ブックマークしました'
   end
 
   def destroy
     event = current_user.bookmarks.find_by(params[:event_id]).event
-    current_user.unbookmark(event)
+    current_user.event_unbookmark(event)
     redirect_back fallback_location: root_path, success: 'ブックマークを外しました'
   end
 

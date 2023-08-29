@@ -64,7 +64,7 @@
             <div class="btn-field d-flex">
               <%= link_to "詳細", event, class: "detail-btn btn btn-primary" %>
               <% if user_signed_in? %>
-                <% if current_user.bookmark?(event) %>
+                <% if current_user.event_bookmarked?(event) %>
                   <%= render 'bookmarks/unbookmark', event: event %>
                 <% else %>
                   <%= render 'bookmarks/bookmark', event: event %>
