@@ -10,26 +10,22 @@ class AccountsController < ApplicationController
   end
 
   def profile_edit
-    @user = User.find(current_user.id)
   end
 
   def profile_update
-    @user = User.find(current_user.id)
     if @user.update(params.require(:user).permit(:name, :profile, :image))
       flash[:success] = "プロフィールを編集しました"
       redirect_to "/accounts/profile"
     else
       flash[:error] = "プロフィール編集に失敗しました"
-      render "/accounts/profile_edit"
+      render :profile_edit
     end
   end
 
   def set_user
-    @user = User.find(current_user.id)
   end
 
   def user
-    @user = User.includes(:events).find(params[:id])
     @events = @user.events.includes(:event_dates).order("events.created_at DESC")
   end
 
