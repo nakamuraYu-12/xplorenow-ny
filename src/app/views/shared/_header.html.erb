@@ -32,9 +32,9 @@
       <div class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuLink" role="button"><i class="bi bi-list" style="font-size: 25px"></i></a>
         <ul class="dropdown-menu left">
-          <li><%= link_to "ゲストログイン",users_guest_sign_in_path, method: :post, class: "drop-item text-primary" %></li>
-          <li><%= link_to "ログイン",new_user_session_path, class: "drop-item text-primary"%></li>
-          <li><%= link_to "新規登録",new_user_registration_path,class: "drop-item text-secondary" %></li>
+          <li><%= link_to "ゲストログイン",users_guest_sign_in_path, method: :post, class: "dropdown-item text-primary" %></li>
+          <li><%= link_to "ログイン",new_user_session_path, class: "dropdown-item text-primary"%></li>
+          <li><%= link_to "新規登録",new_user_registration_path,class: "dropdown-item text-secondary" %></li>
         </ul>
       </div>
   <% end %>

@@ -203,7 +203,11 @@ function handleCardClick(card, marker, lat, lng) {
   }
 
   card.classList.add("border-primary");
-  card.scrollIntoView({ behavior: "smooth", block: "center" });
+  if (window.matchMedia("(max-width: 768px)").matches) {
+    card.scrollIntoView({ behavior: "smooth", block: "end" });
+  } else {
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
 
   markers.forEach(function (m) {
     m.setAnimation(null);
@@ -225,7 +229,11 @@ function handleMarkerClick(card) {
   }
 
   card.classList.add("border-primary");
-  card.scrollIntoView({ behavior: "smooth", block: "center" });
+  if (window.matchMedia("(max-width: 768px)").matches) {
+    card.scrollIntoView({ behavior: "smooth", block: "end" });
+  } else {
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
 }
 
 // ソートの変更に対応する処理

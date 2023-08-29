@@ -230,6 +230,11 @@ body{
   .make-event-btn{
     height: 30px;
   }
+  .event-scroll{
+    margin-top: 345px;
+    max-height: 300px;
+    overflow-y: auto;
+  }
 }
 @media (max-width:425px){
   .nested-fields {
@@ -238,6 +243,11 @@ body{
   }
   .nested-fields>div{
     width: 100%;
+  }
+  .event-scroll{
+    margin-top: 375px;
+    max-height: 250px;
+    overflow-y: auto;
   }
 }
 
