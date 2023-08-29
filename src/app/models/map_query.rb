@@ -16,7 +16,7 @@ class MapQuery
         response_body["results"][0].present? &&
         response_body["results"][0]["geometry"].present? &&
         response_body["results"][0]["geometry"]["location"].present?
-      response_body["results"][0]["geometry"]["location"]
+      response_body.dig("results", 0, "geometry", "location")
     else
       nil
     end

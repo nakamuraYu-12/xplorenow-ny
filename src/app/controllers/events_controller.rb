@@ -2,18 +2,17 @@ class EventsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :history, :create, :edit, :update]
 
   def new
-    @user = User.find(current_user.id)
     @event = Event.new
     @event_dates = @event.event_dates.build
   end
 
   def create
-    @user = User.find(current_user.id)
     @result = MapQuery.new(params[:event][:address]).result
     if @result.nil?
       flash.now[:warning] = "イベントの登録に失敗しました"
       @event = Event.new(event_params)
-      @event.errors.add(:address, "有効な住所を入力してください")
+      @event.validate
+      @event.errors.add(:base, "有効な住所を入力してください")
       render "events/new"
       return
     end
@@ -31,7 +30,6 @@ class EventsController < ApplicationController
   end
 
   def edit
-    @user = User.find(current_user.id)
     @event = Event.includes(:event_dates).find(params[:id])
   end
 

@@ -4,8 +4,7 @@
     <div class="ms-3">
       <% obj.errors.full_messages.each do |message| %>
         <ul>
-          <!-- 一部エラーで Event datesが消えないため以下の処置 -->
-          <li><%= message.gsub('Event datesイベント開催日時を設定してください', 'イベント開催日時を設定してください') %></li>
+          <li><%= message %></li>
         </ul>
       <% end %>
     </div>

@@ -64,7 +64,7 @@
             <div class="btn-field d-flex">
               <%= link_to "詳細", event, class: "detail-btn btn btn-primary" %>
               <% if user_signed_in? %>
-                <% if current_user.bookmark?(event) %>
+                <% if current_user.event_bookmarked?(event) %>
                   <%= render 'bookmarks/unbookmark', event: event %>
                 <% else %>
                   <%= render 'bookmarks/bookmark', event: event %>
@@ -203,7 +203,11 @@ function handleCardClick(card, marker, lat, lng) {
   }
 
   card.classList.add("border-primary");
-  card.scrollIntoView({ behavior: "smooth", block: "center" });
+  if (window.matchMedia("(max-width: 768px)").matches) {
+    card.scrollIntoView({ behavior: "smooth", block: "end" });
+  } else {
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
 
   markers.forEach(function (m) {
     m.setAnimation(null);
@@ -225,7 +229,11 @@ function handleMarkerClick(card) {
   }
 
   card.classList.add("border-primary");
-  card.scrollIntoView({ behavior: "smooth", block: "center" });
+  if (window.matchMedia("(max-width: 768px)").matches) {
+    card.scrollIntoView({ behavior: "smooth", block: "end" });
+  } else {
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
 }
 
 // ソートの変更に対応する処理
