@@ -61,10 +61,6 @@ jobs:
       - node/install-packages:
           pkg-manager: yarn
           app-dir: ~/xplorenow-ny/src
-      - run:
-          name: Install Yarn
-          command: |
-            npm install -g yarn
       - run: bundle exec bin/webpack
       - run:
           name: rails db:migrate
