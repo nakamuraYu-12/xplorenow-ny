@@ -3,7 +3,6 @@ orbs:
   ruby: circleci/ruby@2.0.1
   node: circleci/node@3.0.1
   heroku: circleci/heroku@1.2.3
-  browser-tools: circleci/browser-tools@1.4.3
 
 jobs:
   build:
@@ -58,7 +57,6 @@ jobs:
     steps:
       - checkout:
           path: ~/xplorenow-ny
-      - browser-tools/install-browser-tools
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
