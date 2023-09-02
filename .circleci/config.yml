@@ -66,12 +66,12 @@ jobs:
             nvm install 14.17.5
             nvm use 14.17.5
             node -v
-      - node/install-packages:
-          pkg-manager: yarn
-          app-dir: ~/xplorenow-ny/src
       - run:
           name: yarn Install
           command: yarn install
+      - node/install-packages:
+          pkg-manager: yarn
+          app-dir: ~/xplorenow-ny/src
       - run: bundle exec bin/webpack
       - run:
           name: rails db:migrate
