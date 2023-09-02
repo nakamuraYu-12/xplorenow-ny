@@ -36,5 +36,4 @@ RSpec.describe 'Google Mapsの機能', type: :system do
     find_button('Search', id: 'searchKeywordButton').click
     expect(page).to have_content('イベント名2')
   end
-
 end

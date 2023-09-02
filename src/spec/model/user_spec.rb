@@ -9,7 +9,7 @@ RSpec.describe User, type: :model do
 
   it "イベントのブックマーク操作ができるか" do
     user = User.create(name: "text1", email: "test1@example.com", password: "password")
-    event_start_time = Time.new(2000, 1, 1,13, 30, 0, "+09:00")
+    event_start_time = Time.new(2000, 1, 1, 13, 30, 0, "+09:00")
     bookmarks_event = Event.new(
       user: create(:user),
       name: "イベント名",
@@ -25,7 +25,7 @@ RSpec.describe User, type: :model do
 
   it "イベントのブックマークを解除できるか" do
     user = User.create(name: "text2", email: "text2@example.com", password: "password")
-    event_start_time = Time.new(2000, 1, 1,13, 30, 0, "+09:00")
+    event_start_time = Time.new(2000, 1, 1, 13, 30, 0, "+09:00")
     bookmarks_event = Event.new(
       user: create(:user),
       name: "イベント名",
