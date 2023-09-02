@@ -58,22 +58,7 @@ jobs:
       - checkout:
           path: ~/xplorenow-ny
       - ruby/install-deps
-      - run:
-          name: Install Node.js and npm
-          command: |
-            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
-            source ~/.nvm/nvm.sh
-            nvm install 14.17.5
-            nvm use 14.17.5
-            node -v
-            npm -v
-      - run:
-          name: Check Node.js version and path
-          command: |
-            echo "Node.js version:"
-            node -v
-            echo "npm path:"
-            which npm
+      - node/install
       - run:
           name: Install Yarn
           command: |
