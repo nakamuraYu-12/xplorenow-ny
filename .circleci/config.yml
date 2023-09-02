@@ -11,18 +11,25 @@ jobs:
       - image: cimg/ruby:2.7.8-node
     working_directory: ~/xplorenow-ny/src
     steps:
-      - checkout
+      - checkout:
+          path: ~/xplorenow-ny
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
           app-dir: ~/xplorenow-ny/src
-
   rubocop:
+    parallelism: 3
     docker:
       - image: cimg/ruby:2.7.8-node
+      - image: circleci/mysql:5.5
+        environment:
+          PMYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: app_test
+          MYSQL_USER: root
     working_directory: ~/xplorenow-ny/src
     steps:
-      - checkout
+      - checkout:
+          path: ~/xplorenow-ny
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
@@ -33,10 +40,15 @@ jobs:
             pwd
             ls
             bundle exec rubocop
-
   test:
+    parallelism: 3
     docker:
       - image: cimg/ruby:2.7.8-node
+      - image: circleci/mysql:5.5
+        environment:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: app_test
+          MYSQL_USER: root
     environment:
       BUNDLE_JOBS: "3"
       BUNDLE_RETRY: "3"
@@ -44,7 +56,8 @@ jobs:
       RAILS_ENV: test
     working_directory: ~/xplorenow-ny/src
     steps:
-      - checkout
+      - checkout:
+          path: ~/xplorenow-ny
       - browser-tools/install-browser-tools
       - ruby/install-deps
       - node/install-packages:
@@ -59,7 +72,6 @@ jobs:
       - run:
           name: Rspec
           command: bundle exec rspec
-
   deploy:
     docker:
       - image: circleci/ruby:2.7
@@ -96,6 +108,6 @@ workflows:
     jobs:
       - deploy:
           filters:
-            branches:
-              only:
-                - main
+              branches:
+                  only:
+                  - main
