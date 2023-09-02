@@ -58,7 +58,6 @@ jobs:
     steps:
       - checkout:
           path: ~/xplorenow-ny
-      - browser-tools/install-browser-tools
       - run:
           name: Install ChromeDriver
           command: |
@@ -67,7 +66,7 @@ jobs:
             curl -o /tmp/chromedriver.zip "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
             unzip /tmp/chromedriver.zip -d /usr/local/bin/
             chmod +x /usr/local/bin/chromedriver
-
+      - browser-tools/install-browser-tools
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
