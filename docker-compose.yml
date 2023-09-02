@@ -26,4 +26,8 @@ services:
     env_file:
       - src/.env
 
+  chrome:
+    image: selenium/standalone-chrome-debug
+    ports:
+      - '4444:4444'
 
