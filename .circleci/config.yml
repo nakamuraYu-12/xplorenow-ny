@@ -68,6 +68,9 @@ jobs:
             node -v
             npm -v
       - run:
+          name: Check npm Path
+          command: which npm
+      - run:
           name: Install Yarn
           command: |
             npm install -g yarn
