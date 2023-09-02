@@ -58,7 +58,9 @@ jobs:
     steps:
       - checkout:
           path: ~/xplorenow-ny
-      - browser-tools/install-browser-tools
+      - browser-tools/install-chrome:
+          chrome-version: 116.0.5845.110
+      - browser-tools/install-chromedriver
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
