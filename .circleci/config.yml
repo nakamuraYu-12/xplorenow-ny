@@ -40,42 +40,38 @@ jobs:
             ls
             bundle exec rubocop
   test:
-    parallelism: 3
-    docker:
-      - image: cimg/ruby:2.7.8-node
-      - image: circleci/mysql:5.5
-        environment:
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: app_test
-          MYSQL_USER: root
-          BUNDLE_JOBS: "3"
-          BUNDLE_RETRY: "3"
-          APP_DATABASE_HOST: "127.0.0.1"
-          RAILS_ENV: test
-    working_directory: ~/xplorenow-ny/src
-    steps:
-      - checkout:
-          path: ~/xplorenow-ny
-      - ruby/install-deps
-      - run:
-        name: Update OpenSSL
-        command: |
-          sudo apt-get update
-          sudo apt-get install --only-upgrade openssl
-      - run:
-          name: Bundle Install
-          command: bundle install
-      - run: bundle exec rake assets:precompile
-      - run:
-          name: rails db:migrate
-          command: bundle exec rails db:migrate
-      - run:
-          name: Database setup
-          command: bundle exec rails db:schema:load --trace
-      - run:
-          name: Rspec
-          command: bundle exec rspec
-
+  parallelism: 3
+  docker:
+    - image: cimg/ruby:2.7.8-node
+    - image: circleci/mysql:5.5
+      environment:
+        MYSQL_ROOT_PASSWORD: password
+        MYSQL_DATABASE: app_test
+        MYSQL_USER: root
+  environment:
+    BUNDLE_JOBS: "3"
+    BUNDLE_RETRY: "3"
+    APP_DATABASE_HOST: "127.0.0.1"
+    RAILS_ENV: test
+  working_directory: ~/xplorenow-ny/src
+  steps:
+    - checkout:
+        path: ~/xplorenow-ny
+    - ruby/install-deps
+    - name: Update OpenSSL
+      command: |
+        sudo apt-get update
+        sudo apt-get install --only-upgrade openssl
+    - run: bundle exec rake assets:precompile
+    - run:
+        name: rails db:migrate
+        command: bundle exec rails db:migrate
+    - run:
+        name: Database setup
+        command: bundle exec rails db:schema:load --trace
+    - run:
+        name: Rspec
+        command: bundle exec rspec
   deploy:
     docker:
       - image: circleci/ruby:2.7
