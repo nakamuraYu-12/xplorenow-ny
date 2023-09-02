@@ -68,8 +68,12 @@ jobs:
             node -v
             npm -v
       - run:
-          name: Check npm Path
-          command: /path/to/npm
+          name: Check Node.js version and path
+          command: |
+            echo "Node.js version:"
+            node -v
+            echo "npm path:"
+            which npm
       - run:
           name: Install Yarn
           command: |
