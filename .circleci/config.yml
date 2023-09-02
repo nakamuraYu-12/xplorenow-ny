@@ -42,13 +42,12 @@ jobs:
   test:
     parallelism: 3
     docker:
-      - image: cimg/ruby:2.7.8-node
+      - image: cimg/node:14
       - image: circleci/mysql:5.5
         environment:
           MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: app_test
           MYSQL_USER: root
-          NODE_VERSION: 14
     environment:
       BUNDLE_JOBS: "3"
       BUNDLE_RETRY: "3"
