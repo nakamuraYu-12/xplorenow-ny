@@ -11,25 +11,18 @@ jobs:
       - image: cimg/ruby:2.7.8-node
     working_directory: ~/xplorenow-ny/src
     steps:
-      - checkout:
-          path: ~/xplorenow-ny
+      - checkout
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
           app-dir: ~/xplorenow-ny/src
+
   rubocop:
-    parallelism: 3
     docker:
       - image: cimg/ruby:2.7.8-node
-      - image: circleci/mysql:5.5
-        environment:
-          PMYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: app_test
-          MYSQL_USER: root
     working_directory: ~/xplorenow-ny/src
     steps:
-      - checkout:
-          path: ~/xplorenow-ny
+      - checkout
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
@@ -40,15 +33,10 @@ jobs:
             pwd
             ls
             bundle exec rubocop
+
   test:
-    parallelism: 3
     docker:
       - image: cimg/ruby:2.7.8-node
-      - image: circleci/mysql:5.5
-        environment:
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: app_test
-          MYSQL_USER: root
     environment:
       BUNDLE_JOBS: "3"
       BUNDLE_RETRY: "3"
@@ -56,17 +44,16 @@ jobs:
       RAILS_ENV: test
     working_directory: ~/xplorenow-ny/src
     steps:
-      - checkout:
-          path: ~/xplorenow-ny
+      - checkout
       - browser-tools/install-browser-tools
       - run:
-        name: Install ChromeDriver
-        command: |
-          CHROME_VERSION=$(google-chrome --version | cut -d ' ' -f 3)
-          CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
-          curl -o /tmp/chromedriver.zip "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
-          unzip /tmp/chromedriver.zip -d /usr/local/bin/
-          chmod +x /usr/local/bin/chromedriver
+          name: Install ChromeDriver
+          command: |
+            CHROME_VERSION=$(google-chrome --version | cut -d ' ' -f 3)
+            CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
+            curl -o /tmp/chromedriver.zip "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
+            unzip /tmp/chromedriver.zip -d /usr/local/bin/
+            chmod +x /usr/local/bin/chromedriver
 
       - ruby/install-deps
       - node/install-packages:
@@ -81,6 +68,7 @@ jobs:
       - run:
           name: Rspec
           command: bundle exec rspec
+
   deploy:
     docker:
       - image: circleci/ruby:2.7
@@ -117,6 +105,6 @@ workflows:
     jobs:
       - deploy:
           filters:
-              branches:
-                  only:
-                  - main
+            branches:
+              only:
+                - main
