@@ -29,7 +29,7 @@ RSpec.describe EventDate, type: :model do
     end
 
     it "過去の日時の場合は無効であること" do
-      event_date = EventDate.new(event: event, event_day: Date.yesterday, end_time: Time.now)
+      event_date = EventDate.new(event: event, event_day: Date.new(1993, 2, 24), end_time: Time.now)
       event_date.valid?
       expect(event_date.errors[:event_day]).to include("は過去の日時は選択できません。")
     end
