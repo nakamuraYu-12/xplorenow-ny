@@ -58,10 +58,14 @@ jobs:
     steps:
       - checkout:
           path: ~/xplorenow-ny
-      - ruby/install-deps
-      - node/install-packages:
-          pkg-manager: yarn
-          app-dir: ~/xplorenow-ny/src
+      - run:
+          name: Install Node.js and Yarn
+          command: |
+            curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+            sudo apt-get install -y nodejs
+            npm install -g yarn
+            cd ~/xplorenow-ny/src
+            yarn install
       - run:
           name: Re-run Webpacker
           command: bundle exec rails webpacker:compile
