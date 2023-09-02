@@ -68,8 +68,11 @@ jobs:
             node -v
             npm -v
       - run:
+          name: Clear npm cache
+          command: npm cache clean -f
+      - run:
           name: Check npm Path
-          command: which npm
+          command: /path/to/npm
       - run:
           name: Install Yarn
           command: |
