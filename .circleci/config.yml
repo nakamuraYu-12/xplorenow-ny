@@ -58,9 +58,16 @@ jobs:
       - checkout:
           path: ~/xplorenow-ny
       - ruby/install-deps
-      - node/install-packages:
-          pkg-manager: yarn
-          app-dir: ~/xplorenow-ny/src
+      - run:
+          name: Install Node.js and Yarn
+          command: |
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+            source ~/.nvm/nvm.sh
+            nvm install 14.17.5
+            nvm use 14.17.5
+            node -v
+            npm install -g yarn
+            yarn -v
       - run:
           name: rails db:migrate
           command: bundle exec rails db:migrate
