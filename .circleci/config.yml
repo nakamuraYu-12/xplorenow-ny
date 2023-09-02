@@ -44,11 +44,10 @@ jobs:
     docker:
       - image: cimg/ruby:2.7.8-node
       - image: circleci/mysql:5.5
-        environment:
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: app_test
-          MYSQL_USER: root
     environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: app_test
+      MYSQL_USER: root
       BUNDLE_JOBS: "3"
       BUNDLE_RETRY: "3"
       APP_DATABASE_HOST: "127.0.0.1"
@@ -59,10 +58,13 @@ jobs:
           path: ~/xplorenow-ny
       - ruby/install-deps
       - run:
-          name: Update OpenSSL
-          command: |
-            sudo apt-get update
-            sudo apt-get install --only-upgrade openssl
+        name: Update OpenSSL
+        command: |
+          sudo apt-get update
+          sudo apt-get install --only-upgrade openssl
+      - run:
+          name: Bundle Install
+          command: bundle install
       - run: bundle exec rake assets:precompile
       - run:
           name: rails db:migrate
@@ -73,6 +75,7 @@ jobs:
       - run:
           name: Rspec
           command: bundle exec rspec
+
   deploy:
     docker:
       - image: circleci/ruby:2.7
