@@ -58,8 +58,13 @@ jobs:
       - checkout:
           path: ~/xplorenow-ny
       - run:
-          name: Configure Bundler
-          command: bundle config --local path vendor/bundle
+          name: Create a non-root user
+          command: |
+            adduser myuser --disabled-password
+      - run:
+          name: Use the non-root user
+          command: |
+            su - myuser -c "command-to-run"
       - run:
           name: Install Ruby and Bundler
           command: |
