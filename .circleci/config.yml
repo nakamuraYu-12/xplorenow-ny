@@ -3,7 +3,6 @@ orbs:
   ruby: circleci/ruby@2.0.1
   node: circleci/node@3.0.1
   heroku: circleci/heroku@1.2.3
-  browser-tools: circleci/browser-tools@1.4.3
 
 jobs:
   build:
@@ -58,11 +57,19 @@ jobs:
     steps:
       - checkout:
           path: ~/xplorenow-ny
-      - browser-tools/install-browser-tools
       - ruby/install-deps
-      - node/install-packages:
-          pkg-manager: yarn
-          app-dir: ~/xplorenow-ny/src
+      - run:
+          name: Install Node.js and Yarn
+          command: |
+            curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+            source ~/.nvm/nvm.sh
+            nvm install 14.17.5
+            nvm use 14.17.5
+            node -v
+            npm install -g yarn
+            yarn -v
+            yarn add webpack@4.46.0 webpack-cli@4.9.2 --dev
+            bin/webpack
       - run:
           name: rails db:migrate
           command: bundle exec rails db:migrate
