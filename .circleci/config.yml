@@ -1,6 +1,5 @@
 version: 2.1
 orbs:
-  ruby: circleci/ruby@2.0.1
   node: circleci/node@5.0.2
   heroku: circleci/heroku@1.2.3
 
@@ -12,7 +11,6 @@ jobs:
     steps:
       - checkout:
           path: ~/xplorenow-ny
-      - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
           app-dir: ~/xplorenow-ny/src
@@ -29,7 +27,6 @@ jobs:
     steps:
       - checkout:
           path: ~/xplorenow-ny
-      - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
           app-dir: ~/xplorenow-ny/src
