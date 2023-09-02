@@ -61,8 +61,10 @@ jobs:
           name: Install Ruby 2.7.8
           command: |
             apt-get update
-            apt-get install -y ruby-full
-            echo "2.7.8" > .ruby-version
+            apt-get install -y ruby2.7 ruby2.7-dev
+            gem install bundler -v 2.1.4
+            update-alternatives --set ruby /usr/bin/ruby2.7
+            update-alternatives --set gem /usr/bin/gem2.7
       - run:
           name: Update OpenSSL
           command: |
@@ -71,7 +73,6 @@ jobs:
       - run:
           name: Bundle Install
           command: |
-            gem install bundler -v 2.1.4
             bundle install
       - run: bundle exec rake assets:precompile
       - run:
