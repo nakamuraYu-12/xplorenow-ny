@@ -42,8 +42,6 @@ jobs:
   test:
     parallelism: 3
     docker:
-      - setup_remote_docker:
-        docker_layer_caching: true
       - image: cimg/node:14
       - image: circleci/mysql:5.5
         environment:
@@ -78,6 +76,8 @@ jobs:
       - run:
           name: Rspec
           command: bundle exec rspec
+      - setup_remote_docker:
+          docker_layer_caching: true
   deploy:
     docker:
       - image: circleci/ruby:2.7
