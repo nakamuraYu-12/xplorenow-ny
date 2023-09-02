@@ -42,7 +42,7 @@ jobs:
   test:
     parallelism: 3
     docker:
-      - image: cimg/ruby:2.7.8
+      - image: cimg/ruby:2.7.8-node
       - image: circleci/mysql:5.5
         environment:
           MYSQL_ROOT_PASSWORD: password
@@ -58,6 +58,11 @@ jobs:
       - checkout:
           path: ~/xplorenow-ny
       - ruby/install-deps
+      - run:
+          name: Update OpenSSL
+          command: |
+            apt-get update
+            apt-get install --only-upgrade openssl
       - run: bundle exec rake assets:precompile
       - run:
           name: rails db:migrate
