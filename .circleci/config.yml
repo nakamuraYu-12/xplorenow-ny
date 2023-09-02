@@ -68,7 +68,7 @@ jobs:
             node -v
             npm install -g yarn
             yarn -v
-            yarn add webpack webpack-cli --dev
+            yarn add webpack@4.46.0 webpack-cli@4.9.2 --dev
             bin/webpack
       - run:
           name: rails db:migrate
