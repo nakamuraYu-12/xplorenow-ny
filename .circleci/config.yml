@@ -58,16 +58,20 @@ jobs:
       - checkout:
           path: ~/xplorenow-ny
       - run:
-          name: Install Ruby and Bundler
+          name: Install Ruby 2.7.8
           command: |
             apt-get update
             apt-get install -y ruby-full
-            gem install bundler -v 2.1.4
       - run:
           name: Update OpenSSL
           command: |
             apt-get update
             apt-get install --only-upgrade openssl
+      - run:
+          name: Bundle Install
+          command: |
+            gem install bundler -v 2.1.4
+            bundle install
       - run: bundle exec rake assets:precompile
       - run:
           name: rails db:migrate
