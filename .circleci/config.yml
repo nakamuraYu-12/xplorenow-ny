@@ -68,6 +68,7 @@ jobs:
             node -v
             npm install -g yarn
             yarn -v
+            yarn add webpack webpack-cli --dev
       - run:
           name: Webpack Build
           command: bin/webpack
