@@ -66,8 +66,8 @@ jobs:
       - run:
           name: Update OpenSSL
           command: |
-            sudo apt-get update
-            sudo apt-get install --only-upgrade openssl
+            apt-get update
+            apt-get install --only-upgrade openssl
       - run:
           name: Bundle Install
           command: bundle install
