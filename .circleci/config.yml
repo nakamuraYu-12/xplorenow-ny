@@ -57,7 +57,12 @@ jobs:
     steps:
       - checkout:
           path: ~/xplorenow-ny
-      - ruby/install-deps
+      - run:
+          name: Install Ruby and Bundler
+          command: |
+            apt-get update
+            apt-get install -y ruby-full
+            gem install bundler -v 2.1.4
       - run:
           name: Update OpenSSL
           command: |
