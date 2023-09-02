@@ -58,7 +58,6 @@ jobs:
       - checkout:
           path: ~/xplorenow-ny
       - ruby/install-deps
-      - node/install
       - run:
           name: Install Yarn
           command: |
