@@ -61,8 +61,8 @@ jobs:
       - run:
           name: Update OpenSSL
           command: |
-            apt-get update
-            apt-get install --only-upgrade openssl
+            sudo apt-get update
+            sudo apt-get install --only-upgrade openssl
       - run: bundle exec rake assets:precompile
       - run:
           name: rails db:migrate
