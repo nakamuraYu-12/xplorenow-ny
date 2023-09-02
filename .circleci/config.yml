@@ -58,7 +58,12 @@ jobs:
     steps:
       - checkout:
           path: ~/xplorenow-ny
-      - browser-tools/install-browser-tools
+      - run:
+        name: install chromedriver
+        command: |
+          wget --no-verbose -O /tmp/chromedriver.zip https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/116.0.5845.96/linux64/chromedriver-linux64.zip
+          unzip -d /tmp /tmp/chromedriver.zip
+          sudo mv /tmp/chromedriver-linux64/chromedriver /usr/local/bin/
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
