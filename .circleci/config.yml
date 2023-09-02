@@ -1,5 +1,6 @@
 version: 2.1
 orbs:
+  ruby: circleci/ruby@2.0.1
   node: circleci/node@5.0.2
   heroku: circleci/heroku@1.2.3
 
@@ -27,6 +28,7 @@ jobs:
     steps:
       - checkout:
           path: ~/xplorenow-ny
+      - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
           app-dir: ~/xplorenow-ny/src
@@ -39,7 +41,7 @@ jobs:
   test:
     parallelism: 3
     docker:
-      - image: node:14
+      - image: cimg/ruby:2.7.8
       - image: circleci/mysql:5.5
         environment:
           MYSQL_ROOT_PASSWORD: password
