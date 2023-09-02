@@ -58,14 +58,6 @@ jobs:
       - checkout:
           path: ~/xplorenow-ny
       - run:
-          name: Create a non-root user
-          command: |
-            adduser myuser --disabled-password
-      - run:
-          name: Use the non-root user
-          command: |
-            su - myuser -c "export PATH=$PATH:/usr/local/bin && command-to-run"
-      - run:
           name: Install Ruby and Bundler
           command: |
             apt-get update
