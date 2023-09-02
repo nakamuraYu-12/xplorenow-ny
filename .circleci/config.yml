@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   ruby: circleci/ruby@2.0.1
-  node: circleci/node@3.0.1
+  node: circleci/node@5.1.0
   heroku: circleci/heroku@1.2.3
 
 jobs:
@@ -33,7 +33,6 @@ jobs:
       - node/install-packages:
           pkg-manager: yarn
           app-dir: ~/xplorenow-ny/src
-          node-version: 16
       - run:
           name: run rubocop
           command: |
@@ -58,17 +57,11 @@ jobs:
     steps:
       - checkout:
           path: ~/xplorenow-ny
-      - run:
-          name: Install Node.js and Yarn
-          command: |
-            curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
-            sudo apt-get install -y nodejs
-            npm install -g yarn
-            cd ~/xplorenow-ny/src
-            yarn install
-      - run:
-          name: Re-run Webpacker
-          command: bundle exec rails webpacker:compile
+      - ruby/install-deps
+      - node/install-packages:
+          pkg-manager: yarn
+          app-dir: ~/xplorenow-ny/src
+      - run: bundle exec rake assets:precompile
       - run:
           name: rails db:migrate
           command: bundle exec rails db:migrate
