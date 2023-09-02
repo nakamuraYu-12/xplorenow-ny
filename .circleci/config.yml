@@ -69,6 +69,9 @@ jobs:
             npm install -g yarn
             yarn -v
       - run:
+          name: Webpack Build
+          command: bin/webpack
+      - run:
           name: rails db:migrate
           command: bundle exec rails db:migrate
       - run:
