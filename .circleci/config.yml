@@ -39,7 +39,7 @@ jobs:
             pwd
             ls
             bundle exec rubocop
-    test:
+  test:
     parallelism: 3
     docker:
       - image: cimg/ruby:2.7.8-node
