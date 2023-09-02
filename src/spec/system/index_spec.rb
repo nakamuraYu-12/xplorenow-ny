@@ -10,7 +10,7 @@ RSpec.describe 'Google Mapsの機能', type: :system do
       introduction: "イベント詳細1",
       address: "東京都墨田区押上１丁目１−２",
       event_dates_attributes: [
-        { event_day: Date.tomorrow, start_time: event_start_time, end_time: event_start_time + 1.hour }
+        { event_day: Date.tomorrow, start_time: event_start_time, end_time: event_start_time + 1.hour },
       ]
     )
     @events << Event.create!(
@@ -19,7 +19,7 @@ RSpec.describe 'Google Mapsの機能', type: :system do
       introduction: "イベント詳細2",
       address: "東京都墨田区押上２丁目２−３",
       event_dates_attributes: [
-        { event_day: Date.tomorrow + 1, start_time: event_start_time, end_time: event_start_time + 1.hour }
+        { event_day: Date.tomorrow + 1, start_time: event_start_time, end_time: event_start_time + 1.hour },
       ]
     )
     visit root_path

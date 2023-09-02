@@ -35,7 +35,7 @@ RSpec.describe Event, type: :model do
       event_dates_attributes: [
         { event_day: Date.tomorrow, start_time: event_start_time, end_time: event_start_time + 1.hour },
         { event_day: Date.tomorrow + 1, start_time: event_start_time, end_time: event_start_time + 1.hour },
-        { event_day: Date.tomorrow + 2, start_time: event_start_time, end_time: event_start_time + 1.hour }
+        { event_day: Date.tomorrow + 2, start_time: event_start_time, end_time: event_start_time + 1.hour },
       ]
     )
     expect(event).to be_valid
