@@ -69,7 +69,7 @@ jobs:
       - run:
           name: Use Ruby 2.7.8
           command: |
-          rvm use 2.7.8 --install --binary --fuzzy
+            rvm use 2.7.8 --install --binary --fuzzy
       - run:
           name: Update OpenSSL
           command: |
