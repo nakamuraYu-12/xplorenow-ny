@@ -45,6 +45,11 @@
                 </p>
               <% end %>
               <p class="card-text mt-3"><strong>イベント詳細：</strong><%= event.introduction %></p>
+              <div class="d-flex flex-wrap mt-2 justify-content-end">
+                <% event.tags.each do |tag|%>
+                  <a class="badge text-bg-primary ms-1">#<%=tag.name%></a>
+                <% end %>
+              </div>
             </div>
               <p class="text-danger ps-2 event-past-message">※開催済みのイベントです</p>
           </div>
