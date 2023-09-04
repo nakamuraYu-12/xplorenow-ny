@@ -19,7 +19,7 @@ class EventsController < ApplicationController
 
     event_params_with_coordinates = event_params.merge(latitude: @result["lat"], longitude: @result["lng"])
     @event = Event.new(event_params_with_coordinates)
-    tag_list=params[:post][:name].split(',')
+    tag_list = params[:event][:tag_name].split(',')
 
     if @event.save
       @event.save_event_tags(tag_list)
@@ -57,7 +57,8 @@ class EventsController < ApplicationController
   end
 
   def index
-    @events = Event.includes(:event_dates).order("events.created_at DESC")
+    @events = Event.includes(:event_dates, :tags).order("events.created_at DESC")
+    @all_tags = Tag.all
     @event_dates = []
     current_day = Date.today
     current_time = Time.now
@@ -85,7 +86,7 @@ class EventsController < ApplicationController
   end
 
   def show
-    @event = Event.includes(:event_dates).find(params[:id])
+    @event = Event.includes(:event_dates, :tags).find(params[:id])
   end
 
   def destroy

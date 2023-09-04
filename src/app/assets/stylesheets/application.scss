@@ -184,7 +184,9 @@ body{
   max-height: 550px;
   overflow-y: auto;
   }
-
+.badge{
+  font-size: 13px;
+}
 @media(max-width:1024px){
   .event-scroll{
     max-height: 500px;
