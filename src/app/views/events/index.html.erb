@@ -108,7 +108,7 @@
       </div>
       <div class="modal-body d-flex flex-wrap">
           <% @all_tags.each do |tag| %>
-            <a class="tag-list-item badge text-bg-primary ms-1">#<%=tag.name%></a>
+            <a class="tag-list-item badge text-bg-primary ms-1 mt-1">#<%=tag.name%></a>
           <% end %>
       </div>
     </div>
@@ -126,7 +126,7 @@
     height: 550px !important;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 820px) {
     #map {
       width: auto;
       height: 250px !important;
