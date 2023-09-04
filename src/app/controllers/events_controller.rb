@@ -39,7 +39,7 @@ class EventsController < ApplicationController
   def update
     @event = Event.includes(:event_dates).find(params[:id])
     @result = MapQuery.new(params[:event][:address]).result
-    tag_list=params[:event][:tag_name].split(',')
+    tag_list = params[:event][:tag_name].split(',')
     if @result.nil?
       flash.now[:warning] = "イベントの更新に失敗しました"
       @event.errors.add(:address, "有効な住所を入力してください")

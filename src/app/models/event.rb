@@ -28,11 +28,11 @@ class Event < ApplicationRecord
     new_tags = tags - current_tags
 
     old_tags.each do |old_name|
-      self.tags.delete Tag.find_by(name:old_name)
+      self.tags.delete Tag.find_by(name: old_name)
     end
 
     new_tags.each do |new_name|
-      workout_tag = Tag.find_or_create_by(name:new_name)
+      workout_tag = Tag.find_or_create_by(name: new_name)
       self.tags << workout_tag
     end
   end
