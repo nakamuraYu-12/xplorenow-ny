@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_08_22_132244) do
+ActiveRecord::Schema.define(version: 2023_09_04_135807) do
 
   create_table "bookmarks", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -31,6 +31,16 @@ ActiveRecord::Schema.define(version: 2023_08_22_132244) do
     t.date "event_day"
   end
 
+  create_table "event_tags", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "event_id", null: false
+    t.bigint "tag_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["event_id", "tag_id"], name: "index_event_tags_on_event_id_and_tag_id", unique: true
+    t.index ["event_id"], name: "index_event_tags_on_event_id"
+    t.index ["tag_id"], name: "index_event_tags_on_tag_id"
+  end
+
   create_table "events", charset: "utf8mb4", force: :cascade do |t|
     t.string "name"
     t.text "introduction"
@@ -41,6 +51,12 @@ ActiveRecord::Schema.define(version: 2023_08_22_132244) do
     t.integer "user_id"
     t.float "longitude"
     t.float "latitude"
+  end
+
+  create_table "tags", charset: "utf8mb4", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
@@ -61,4 +77,6 @@ ActiveRecord::Schema.define(version: 2023_08_22_132244) do
 
   add_foreign_key "bookmarks", "events"
   add_foreign_key "bookmarks", "users"
+  add_foreign_key "event_tags", "events"
+  add_foreign_key "event_tags", "tags"
 end

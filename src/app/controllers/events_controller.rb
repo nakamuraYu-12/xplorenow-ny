@@ -19,8 +19,10 @@ class EventsController < ApplicationController
 
     event_params_with_coordinates = event_params.merge(latitude: @result["lat"], longitude: @result["lng"])
     @event = Event.new(event_params_with_coordinates)
+    tag_list=params[:post][:name].split(',')
 
     if @event.save
+      @event.save_event_tags(tag_list)
       flash[:success] = "イベントを登録しました"
       redirect_to "/"
     else
@@ -128,7 +130,7 @@ class EventsController < ApplicationController
 
   def event_params
     params.require(:event).permit(
-      :name, :introduction, :address, :image, :remove_image, :user_id,
+      :name, :introduction, :address, :image, :remove_image, :user_id, :tag_list,
       event_dates_attributes: [:id, :start_time, :end_time, :event_day, :_destroy]
     )
   end
