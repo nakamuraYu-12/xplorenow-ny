@@ -44,6 +44,11 @@
             <% end %>
           <% end %>
           <p class="card-text"><strong>イベント詳細：</strong><%= @event.introduction %></p>
+          <div class="d-flex flex-wrap justify-content-end">
+            <% @event.tags.each do |tag|%>
+              <a class="badge text-bg-primary ms-1">#<%=tag.name%></a>
+            <% end %>
+          </div>
         <% if @event.image.present? %>
           <div class="text-center">
             <%= image_tag @event.image.url, class: "img-fluid rounded w-50" %>

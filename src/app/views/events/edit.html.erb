@@ -22,6 +22,10 @@
       <%= f.label :introduction,"イベント詳細",class: "form-label mb-1" %>
       <%= f.text_area :introduction , class:"form-control" %>
     </div>
+    <div class= "field mb-3">
+      <%= f.label :tag_name,"タグ(,で区切ると複数タグ登録できます)",class: "form-label mb-1"%>
+      <%= f.text_field :tag_name, value: @tag_list, class:"form-control" %>
+    </div>
     <div class = "field mb-3">
       <%= f.label :image,"イメージ画像",class: "form-label mb-1" %>
       <%= f.file_field :image , class:"form-control" %>

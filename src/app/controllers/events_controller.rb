@@ -19,8 +19,10 @@ class EventsController < ApplicationController
 
     event_params_with_coordinates = event_params.merge(latitude: @result["lat"], longitude: @result["lng"])
     @event = Event.new(event_params_with_coordinates)
+    tag_list = params[:event][:tag_name].split(',')
 
     if @event.save
+      @event.save_event_tags(tag_list)
       flash[:success] = "イベントを登録しました"
       redirect_to "/"
     else
@@ -31,12 +33,13 @@ class EventsController < ApplicationController
 
   def edit
     @event = Event.includes(:event_dates).find(params[:id])
+    @tag_list = @event.tags.pluck(:name).join(',')
   end
 
   def update
     @event = Event.includes(:event_dates).find(params[:id])
     @result = MapQuery.new(params[:event][:address]).result
-
+    tag_list = params[:event][:tag_name].split(',')
     if @result.nil?
       flash.now[:warning] = "イベントの更新に失敗しました"
       @event.errors.add(:address, "有効な住所を入力してください")
@@ -46,6 +49,7 @@ class EventsController < ApplicationController
     event_params_with_coordinates = event_params.merge(latitude: @result["lat"], longitude: @result["lng"])
 
     if @event.update(event_params_with_coordinates)
+      @event.save_event_tags(tag_list)
       flash[:success] = "イベントを編集しました"
       redirect_to @event
     else
@@ -55,7 +59,8 @@ class EventsController < ApplicationController
   end
 
   def index
-    @events = Event.includes(:event_dates).order("events.created_at DESC")
+    @events = Event.includes(:event_dates, :tags).order("events.created_at DESC")
+    @all_tags = Tag.all
     @event_dates = []
     current_day = Date.today
     current_time = Time.now
@@ -83,7 +88,7 @@ class EventsController < ApplicationController
   end
 
   def show
-    @event = Event.includes(:event_dates).find(params[:id])
+    @event = Event.includes(:event_dates, :tags).find(params[:id])
   end
 
   def destroy
@@ -128,7 +133,7 @@ class EventsController < ApplicationController
 
   def event_params
     params.require(:event).permit(
-      :name, :introduction, :address, :image, :remove_image, :user_id,
+      :name, :introduction, :address, :image, :remove_image, :user_id, :tag_list,
       event_dates_attributes: [:id, :start_time, :end_time, :event_day, :_destroy]
     )
   end
