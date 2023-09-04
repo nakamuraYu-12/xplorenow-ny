@@ -60,7 +60,7 @@ class EventsController < ApplicationController
 
   def index
     @events = Event.includes(:event_dates, :tags).order("events.created_at DESC")
-    @all_tags = Tag.all
+    @all_tags = Tag.where(id: EventTag.pluck(:tag_id).uniq)
     @event_dates = []
     current_day = Date.today
     current_time = Time.now
