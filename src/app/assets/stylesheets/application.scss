@@ -51,9 +51,12 @@ body{
   font-size: 13px;
 }
 
-@media (max-width:425px) {
+@media (max-width:500px) {
   body{
     font-size: 10px !important;
+  }
+  .btn{
+    font-size: 13px;
   }
 }
  //ナビゲーションバー
@@ -282,5 +285,12 @@ body{
 @media (max-width:820px) {
   .user-profile-container{
     width: 100%;
+  }
+}
+
+//event new and edit
+@media (max-width:500px) {
+  .event-date-container{
+    display: block !important;
   }
 }
