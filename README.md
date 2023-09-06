@@ -1,4 +1,4 @@
-# xplorenow-ny
+# xplorenow
 ## 概要
 イベントを地上にマッピングし公開することができるアプリケーションになります。
 
@@ -14,29 +14,38 @@ RPGの世界地図から着想を得て、世の中のイベントを地図上�
 そうすることで地図から視覚的に探す、リストからキーワードで探すなどイベントを双方向から探すことができ、新しいSNSのような操作感を得ることができるのではないかと考えました。
 
 ## 使用技術
+・フロントエンド
+・Ruby(2.7.3) 
 
-Ruby(2.7.3) 
+・Ruby on Rails(6.1)
 
-Ruby on Rails(6.1)
+・MySQL(5.3)
 
-MySQL(5.3)
+・AWS
 
-AWS(S3)
+　└S3
 
-Docker/Docker-compose
+・Docker/Docker-compose
 
-CircleCI/CD
+・CircleCI/CD
 
-Rspec
+・Rspec
 
-Rubocop
+・Google Maps API
 
-Google Maps API
+
 ## ER図
-<img width="888" alt="スクリーンショット 2023-09-05 11 23 36" src="https://github.com/nakamuraYu-12/xplorenow-ny/assets/66306795/8176186a-f413-446b-b374-92ebd73ddb88">
+
+![image](https://github.com/nakamuraYu-12/xplorenow-ny/assets/66306795/080e0abd-7373-4695-9e9c-5f316197fa7a)
+
+## 全体設計
+
+![image](https://github.com/nakamuraYu-12/xplorenow-ny/assets/66306795/d47c2cae-5d48-4170-9662-81801ccfecd1)
+
 
 ## CircleCI/CI
 push時にRubocop,Rspecが自動で実行され、marge時にHerokuへの自動デプロイが実行されます。
+
 
 ## 機能一覧
 
