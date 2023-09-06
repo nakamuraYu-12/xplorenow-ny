@@ -5,6 +5,7 @@ class Event < ApplicationRecord
   validates :introduction, presence: true
   validates :address, presence: true
   validate :event_dates_presence
+  validate :event_dates_update_presence
   validate :event_dates_limit3
   mount_uploader :image, ImageUploader
   has_many :event_dates, dependent: :destroy
@@ -16,6 +17,12 @@ class Event < ApplicationRecord
 
   def event_dates_presence
     errors.add(:base, "イベント開催日時を設定してください") if event_dates.none?
+  end
+
+  def event_dates_update_presence
+    if event_dates.reject(&:marked_for_destruction?).empty?
+      errors.add(:base, "イベント開催日時を設定してください")
+    end
   end
 
   def event_dates_limit3
