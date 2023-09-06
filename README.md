@@ -68,7 +68,7 @@ push時にRubocop,Rspecが自動で実行され、marge時にHerokuへの自動�
 
 地域検索機能(geocoder)
 
-Google Map表示機能(google map api)
+Google Map表示機能(google mapｓ api)
 
 イベント検索機能(フィルター機能、ソート機能)
 
