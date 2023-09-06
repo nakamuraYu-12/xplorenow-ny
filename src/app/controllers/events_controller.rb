@@ -47,7 +47,6 @@ class EventsController < ApplicationController
       return
     end
     event_params_with_coordinates = event_params.merge(latitude: @result["lat"], longitude: @result["lng"])
-
     if @event.update(event_params_with_coordinates)
       @event.save_event_tags(tag_list)
       flash[:success] = "イベントを編集しました"
