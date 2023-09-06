@@ -358,12 +358,12 @@ function currentEvent(eventDate, currentDateTime, endTime) {
 
 // 過去のイベントかどうかを判定する関数
 function pastEvent(eventDate, currentDateTime, endTime) {
-  return eventDate < currentDateTime || isSameDay(eventDate, currentDateTime) && isTimePast(endTime, currentDateTime);
+  return isPastDay(eventDate, currentDateTime) || isSameDay(eventDate, currentDateTime) && isTimePast(endTime, currentDateTime);
 }
 
 // 未来のイベントかどうかを判定する関数
 function featureEvent(eventDate, currentDateTime, endTime) {
-  return eventDate > currentDateTime || isSameDay(eventDate, currentDateTime) && isTimeFuture(endTime, currentDateTime);
+  return isFeatreDay(eventDate, currentDateTime)|| isSameDay(eventDate, currentDateTime) && isTimeFuture(endTime, currentDateTime);
 }
 
 // 同じ日付かどうかを比較する関数
@@ -372,6 +372,23 @@ function isSameDay(date1, date2) {
     date1.getFullYear() === date2.getFullYear() &&
     date1.getMonth() === date2.getMonth() &&
     date1.getDate() === date2.getDate()
+  );
+}
+// 日付が過去かどうかを比較する関数
+function isPastDay(date1, date2) {
+  return (
+    date1.getFullYear() < date2.getFullYear() ||
+    date1.getMonth() < date2.getMonth() ||
+    date1.getFullYear() === date2.getFullYear() && date1.getMonth() === date2.getMonth() &&  date1.getDate() < date2.getDate()
+  );
+}
+
+//
+function isFeatureDay(date1, date2) {
+  return (
+    date1.getFullYear() > date2.getFullYear() ||
+    date1.getMonth() > date2.getMonth() ||
+    date1.getFullYear() === date2.getFullYear() && date1.getMonth() === date2.getMonth() &&  date1.getDate() > date2.getDate()
   );
 }
 
