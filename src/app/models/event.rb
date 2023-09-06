@@ -24,6 +24,7 @@ class Event < ApplicationRecord
       errors.add(:base, "イベント開催日時を設定してください")
     end
   end
+
   def event_dates_limit3
     errors.add(:base, "イベント開催日の登録は３日までにしてください") if event_dates.size > 3
   end
