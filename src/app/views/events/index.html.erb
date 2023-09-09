@@ -84,9 +84,9 @@
                 <% end %>
               </ul>
               <p class="event-past-message text-danger ps-1">※開催済みのイベントです</p>
-              <div class="d-flex flex-warp event-tags">
+              <div class="d-flex flex-wrap event-tags justify-content-end">
                 <% event.tags.each do |tag| %>
-                  <a class="badge text-bg-primary ms-1 event-tag tag-list-item">#<%= tag.name %></a>
+                  <a class="badge text-bg-primary ms-1 mt-1 event-tag tag-list-item">#<%= tag.name %></a>
                 <% end %>
               </div>
             </div>
