@@ -20,6 +20,6 @@
     <%= render "shared/header" %>
     <%= render "shared/flashes"%>
     <%= yield %>
-    <%= render "shared/footer" %>
+    <%= render "shared/footer" unless @hide_footer %>
   </body>
 </html>

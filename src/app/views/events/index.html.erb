@@ -114,7 +114,7 @@
     </div>
   </div>
 </div>
-
+<%= render "shared/footer" %>
 <style>
   #map {
     width: 100%;
@@ -146,6 +146,7 @@
   const tagList = document.querySelectorAll(".tag-list-item");
 
 document.addEventListener("turbolinks:load", function() {
+
   updateEventMessages();
   initMap();
   tagList.forEach(function (tag) {
@@ -153,6 +154,19 @@ document.addEventListener("turbolinks:load", function() {
       handleTagClick(tag);
     });
   });
+
+  if (window.innerWidth < 800) {
+    var footer = document.querySelector('footer');
+    if (footer) {
+      footer.style.display = 'none';
+    }
+
+    var eventScroll = document.querySelector('.event-scroll');
+    if (eventScroll) {
+      var footerContent = document.querySelector('footer').innerHTML;
+      eventScroll.innerHTML += '<div class="custom-footer mt-4">' + footerContent + '</div>';
+    }
+  }
 });
 
 function updateEventMessages() {
