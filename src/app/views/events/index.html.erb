@@ -146,15 +146,6 @@
   const tagList = document.querySelectorAll(".tag-list-item");
 
 document.addEventListener("turbolinks:load", function() {
-
-  updateEventMessages();
-  initMap();
-  tagList.forEach(function (tag) {
-    tag.addEventListener("click", function () {
-      handleTagClick(tag);
-    });
-  });
-
   if (window.innerWidth < 800) {
     var footer = document.querySelector('footer');
     if (footer) {
@@ -167,6 +158,13 @@ document.addEventListener("turbolinks:load", function() {
       eventScroll.innerHTML += '<div class="custom-footer mt-4">' + footerContent + '</div>';
     }
   }
+  updateEventMessages();
+  initMap();
+  tagList.forEach(function (tag) {
+    tag.addEventListener("click", function () {
+      handleTagClick(tag);
+    });
+  });
 });
 
 function updateEventMessages() {
