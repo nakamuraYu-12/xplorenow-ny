@@ -26,6 +26,7 @@ class AccountsController < ApplicationController
   end
 
   def user
+    @hide_footer = true
     @user = User.includes(:events).find(params[:id])
     @events = @user.events.includes(:event_dates).order("events.created_at DESC")
   end

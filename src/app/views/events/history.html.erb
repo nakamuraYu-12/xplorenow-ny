@@ -77,11 +77,24 @@
     </div>
   </div>
 </div>
+<%= render "shared/footer" %>
 
 <script>
   const currentDateTime = new Date();
   document.addEventListener("turbolinks:load", function() {
     updateEventMessages()
+    if (window.innerWidth < 800) {
+      var footer = document.querySelector('footer');
+      if (footer) {
+        footer.style.display = 'none';
+      }
+
+      var eventScroll = document.querySelector('.card-container');
+      if (eventScroll) {
+        var footerContent = document.querySelector('footer').innerHTML;
+        eventScroll.innerHTML += '<div class="custom-footer mt-4">' + footerContent + '</div>';
+      }
+    }
   });
   function updateEventMessages() {
     const clickableCards = document.querySelectorAll(".clickable-card");

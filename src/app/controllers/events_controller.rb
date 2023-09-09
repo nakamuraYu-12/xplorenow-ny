@@ -58,6 +58,7 @@ class EventsController < ApplicationController
   end
 
   def index
+    @hide_footer = true
     @events = Event.includes(:event_dates, :tags).order("events.created_at DESC")
     @all_tags = Tag.where(id: EventTag.pluck(:tag_id).uniq)
     @event_dates = []
@@ -99,7 +100,7 @@ class EventsController < ApplicationController
 
   def history
     @events = Event.includes(:event_dates).where(user_id: current_user.id).order("events.created_at DESC")
-
+    @hide_footer = true
     if current_user
       @bookmark_events = current_user.bookmarks_events.includes(:user).order(created_at: :desc)
     else

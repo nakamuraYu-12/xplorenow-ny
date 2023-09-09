@@ -83,12 +83,12 @@
                   <li class="ps-2"><%= date.event_day.strftime('%Y-%m-%d') %> <%= date.start_time.strftime('%H:%M') %>〜<%= date.end_time.strftime('%H:%M') %></li>
                 <% end %>
               </ul>
+              <p class="event-past-message text-danger ps-1">※開催済みのイベントです</p>
               <div class="d-flex justify-content-end event-tags">
                 <% event.tags.each do |tag| %>
                   <a class="badge text-bg-primary ms-1 event-tag tag-list-item">#<%= tag.name %></a>
                 <% end %>
               </div>
-              <p class="event-past-message text-danger ps-1">※開催済みのイベントです</p>
             </div>
           </div>
         </div>
@@ -114,7 +114,7 @@
     </div>
   </div>
 </div>
-
+<%= render "shared/footer" %>
 <style>
   #map {
     width: 100%;
@@ -146,6 +146,7 @@
   const tagList = document.querySelectorAll(".tag-list-item");
 
 document.addEventListener("turbolinks:load", function() {
+
   updateEventMessages();
   initMap();
   tagList.forEach(function (tag) {
@@ -153,6 +154,19 @@ document.addEventListener("turbolinks:load", function() {
       handleTagClick(tag);
     });
   });
+
+  if (window.innerWidth < 800) {
+    var footer = document.querySelector('footer');
+    if (footer) {
+      footer.style.display = 'none';
+    }
+
+    var eventScroll = document.querySelector('.event-scroll');
+    if (eventScroll) {
+      var footerContent = document.querySelector('footer').innerHTML;
+      eventScroll.innerHTML += '<div class="custom-footer mt-4">' + footerContent + '</div>';
+    }
+  }
 });
 
 function updateEventMessages() {
