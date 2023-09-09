@@ -1,4 +1,4 @@
-<div class = "form-container container w-75">
+<div class = "form-container container w-75 my-5">
   <h2>プロフィール編集</h2>
   <%= form_with model:@user,url: accounts_profile_update_path , method: "patch" do |f| %>
     <div class = "field mt-3 mb-3">
@@ -18,5 +18,6 @@
     </div>
     <%= link_to "戻る", :back ,method: :get,class: "btn btn-secondary float-end" %>
   </form>
+  <% end %>
 </div>
-<% end %>
+
